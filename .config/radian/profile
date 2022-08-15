@@ -1,0 +1,4 @@
+options(radian.auto_match = FALSE)
+options(radian.editing_mode = "emacs")
+options(radian.indent_lines = FALSE)
+options(radian.prompt = crayon::yellow("R> "))
