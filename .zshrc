@@ -3,6 +3,9 @@ export PATH=$PATH:~/.local/bin
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 eval "$(oh-my-posh init zsh --config ~/.poshthemes/snitch_custom.omp.json)"
 
+# zoxide
+eval "$(zoxide init zsh)"
+
 # manをnvimで開く
 # export MANPAGER="nvim -c 'set ft=man' -"
 # export MANPAGER="nvim +'set ft=man' -"
@@ -16,14 +19,31 @@ alias zshconfig="vim ~/.zshrc"
 alias act="mamba activate"
 alias dact="mamba deactivate"
 alias vimconfig="vim ~/.config/nvim/init.vim"
-alias python="python3"
-alias pip="pip3"
+# alias python="python3"
+# alias pip="pip3"
 alias r="radian"
 alias reload="exec zsh"
-alias z="~/.local/bin/zellij"
-alias K="k -h"
-alias ka="k -ah"
+# alias z="~/.local/bin/zellij"
+# alias K="k -h"
+# alias ka="k -ah"
 alias lg="lazygit"
+alias sl="sqlite3"
+
+
+# alias exa
+if [[ $(command -v exa) ]]; then
+  alias e='exa --icons'
+  alias l=e
+  alias ls=e
+  alias ea='exa -a --icons'
+  alias la=ea
+  alias ee='exa -aal --icons'
+  alias ll=ee
+  alias et='exa -T -L 3 -a -I "node_modules|.git|.cache" --icons'
+  alias lt=et
+  alias eta='exa -T -a -I "node_modules|.git|.cache" --color=always --icons | less -r'
+  alias lta=eta
+fi
 
 # genie -i
 function startrstudio(){
@@ -52,7 +72,7 @@ setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
 ### auto correct ###
-setopt correct
+# setopt correct
 ### key binding ###
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
@@ -198,6 +218,7 @@ zinit blockf lucid light-mode for \
 # zinit ice depth=1
 # zinit light jeffreytse/zsh-vi-mode
 
+
 # autocomplete settings
 bindkey '^I'   complete-word       # tab          | complete
 # bindkey '^E' autosuggest-accept  # shift + tab  | autosuggest
@@ -228,3 +249,4 @@ if [ -f "/home/oodake/mambaforge/etc/profile.d/mamba.sh" ]; then
     . "/home/oodake/mambaforge/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
+#
