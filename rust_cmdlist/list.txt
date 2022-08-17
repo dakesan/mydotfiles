@@ -1,7 +1,11 @@
+bottom v0.6.8:
+    btm
 dua-cli v2.17.8:
     dua
 exa v0.10.1:
     exa
+fcp v0.2.1:
+    fcp
 fd-find v8.4.0:
     fd
 gitui v0.20.1:
@@ -16,8 +20,12 @@ pueue v2.1.0:
 ripgrep_all v0.9.6:
     rga
     rga-preproc
+rm-improved v0.13.1:
+    rip
 sd v0.7.6:
     sd
+sheldon v0.6.6:
+    sheldon
 tealdeer v1.5.0:
     tldr
 zellij v0.31.1:
