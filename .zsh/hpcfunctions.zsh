@@ -18,6 +18,8 @@ function killme () {
     ;;
   *)
     echo "You're going to stay on it. Understood."
+    ;;
+  esac
 }
 
 psucks () { ps aux | grep oodake | rg $1 }
