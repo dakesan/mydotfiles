@@ -161,7 +161,7 @@ require('packer').startup(function()
         end
     }
 
-    use { 'mizlan/iswap.nvim' }
+    -- use { 'mizlan/iswap.nvim' }
 
     use { 'gpanders/editorconfig.nvim' }
     -- use {'editorconfig/editorconfig-vim'}
