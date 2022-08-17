@@ -1,0 +1,33 @@
+# rossmacarthur/sheldon
+
+
+shell = 'zsh'
+[plugins.zsh-defer]
+github = 'romkatv/zsh-defer'
+apply = ['source']
+[templates]
+defer = { value = 'zsh-defer source "{{ file }}"', each = true }
+[plugins.history-search-multi-word]
+github = 'zdharma-continuum/history-search-multi-word'
+apply = ['defer']
+[plugins.zsh-autocomplete]
+github = 'marlonrichert/zsh-autocomplete'
+apply = ['defer']
+[plugins.zsh-autosuggestions]
+github = 'zsh-users/zsh-autosuggestions'
+apply = ['defer']
+[plugins.fast-syntax-highlighting]
+github = 'zdharma-continuum/fast-syntax-highlighting'
+apply = ['defer']
+[plugins.zsh-autopair]
+github = 'hlissner/zsh-autopair'
+apply = ['defer']
+[plugins.zsh-youshouduse]
+github = 'MichaelAquilina/zsh-you-should-use'
+apply = ['defer']
+[plugins.nvm]
+inline = 'zsh-defer source ~/dotfiles/.zsh/loadnvm.zsh'
+[plugins.compinit]
+inline = 'autoload -Uz compinit && zsh-defer compinit'
+[plugins.colors]
+inline = 'autoload -Uz colors && zsh-defer colors'
