@@ -1,236 +1,58 @@
-# oh-my-posh
-export PATH=$PATH:~/.local/bin
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-eval "$(oh-my-posh init zsh --config ~/.poshthemes/snitch_custom.omp.json)"
+#* zsh speed checker
+if [ "$ZSHRC_PROFILE" != "" ]; then
+  zmodload zsh/zprof && zprof > /dev/null
+fi
 
-# zoxide
+#* custom functions
+source $HOME/dotfiles/.zsh/.zshfunc
+# if hostname contains "DESKTOP" -> my home desktop
+# else if contains "hpc" -> hpc cluster machine
+# else -> WTH?
+if [[ "$HOST" =~ "^DESKTOP*" ]]; then
+  source ~/dotfiles/.zsh/.zshhome
+elif [[ "$HOST" =~ "^hpc*" ]]; then
+  source ~/dotfiles/.zsh/.zshwork
+else
+  eval 'echo "Unknown host"'
+fi
+
+#* Path configuration
+path_append "$HOME/.local/bin"
+path_append "/usr/local/bin"
+path_append "/usr/bin"
+path_append "$HOME/.cargo/bin"
+path_append "$HOME/go/bin"
+
+# Util command
+alias pwdc='pwd | tr -d "\n" | pbcopy'
+
+#* axel
+alias Axel="axel -n 10 --insecure"
+
+#* Zellij
+alias zl="zellij list-sessions"
+
+#* Prompt
+# disable showing conda environment on prompt
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+# posh theme
+eval "$(oh-my-posh init zsh --config $poshpath)"
+
+#* zoxide
 eval "$(zoxide init zsh)"
 
-# manをnvimで開く
-# export MANPAGER="nvim -c 'set ft=man' -"
-# export MANPAGER="nvim +'set ft=man' -"
-export MANPAGER='nvim +Man!'
-
+#* NeoVim
+# open man with vim
+export MANPAGER="nvim -c 'set ft=man' -"
 # alias
 alias vi="nvim"
 alias vim="nvim"
 alias view="nvim -R"
-alias zshconfig="vim ~/.zshrc"
+alias vimconfig="vim $HOME/dotfiles/.config/nvim/init.vim"
+
+#* Conda
 alias act="mamba activate"
 alias dact="mamba deactivate"
-alias vimconfig="vim ~/.config/nvim/init.vim"
-# alias python="python3"
-# alias pip="pip3"
-alias r="radian"
-alias reload="exec zsh"
-# alias z="~/.local/bin/zellij"
-# alias K="k -h"
-# alias ka="k -ah"
-alias lg="lazygit"
-alias sl="sqlite3"
-
-
-# alias exa
-if [[ $(command -v exa) ]]; then
-  alias e='exa --icons'
-  alias l=e
-  alias ls=e
-  alias ea='exa -a --icons'
-  alias la=ea
-  alias ee='exa -aal --icons'
-  alias ll=ee
-  alias et='exa -T -L 3 -a -I "node_modules|.git|.cache" --icons'
-  alias lt=et
-  alias eta='exa -T -a -I "node_modules|.git|.cache" --color=always --icons | less -r'
-  alias lta=eta
-fi
-
-# genie -i
-function startrstudio(){
-    sudo rstudio-server start
-    sudo genie -i
-}
-
-### bracket
-setopt auto_param_keys
-### color
-autoload -Uz colors
-colors
-### autocomplete
-autoload -Uz compinit; compinit -C
-setopt magic_equal_subst
-### share history
-setopt histignorealldups
-setopt sharehistory
-setopt hist_no_store
-setopt hist_ignore_space
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-### move without cd
-setopt auto_cd
-setopt auto_pushd
-setopt pushd_ignore_dups
-### auto correct ###
-# setopt correct
-### key binding ###
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-bindkey  "^[[H"   beginning-of-line
-bindkey  "^[[F"   end-of-line
-bindkey  "^[[3~"  delete-char
-### glob
-setopt extended_glob
-### wdchar
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-### snippets ###
-function peco-snippets() {
-
-    local line
-    if [ ! -e ~/.snippets ]; then
-        echo "~/.snippets is not found." >&2
-        return 1
-    fi
-
-    line=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
-    if [ -z "$line" ]; then
-        return 1
-    fi
-
-    snippet=$(echo "$line" | sed "s/^\[[^]]*\] *//g")
-    if [ -z "$snippet" ]; then
-        return 1
-    fi
-
-    BUFFER=$snippet
-    zle clear-screen
-}
-zle -N peco-snippets
-bindkey '^x^x' peco-snippets
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/root/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/root/miniconda3/etc/profile.d/conda.sh" ]; then
-    "/root/miniconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
-    else
-# export PATH="/root/miniconda3/bin:$PATH"  # commented out by conda initialize  # commented out by conda initialize
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<
-#
-
-# source ~/miniconda3/etc/profile.d/conda.sh  # commented out by conda initialize
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-
-# zstyle ':completion:*' auto-description 'specify: %d'
-# zstyle ':completion:*' completer _expand _complete _correct _approximate
-# zstyle ':completion:*' format 'Completing %d'
-# zstyle ':completion:*' group-name ''
-# zstyle ':completion:*' menu select=2
-# eval "$(dircolors -b)"
-# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-# zstyle ':completion:*' list-colors ''
-# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-# zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-# zstyle ':completion:*' menu select=long
-# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-# zstyle ':completion:*' use-compctl false
-# zstyle ':completion:*' verbose true
-
-# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-# zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-
-# source ~/desktop/enhancd/init.sh
-
-# path
-export PATH=$PATH:/mnt/c/Users/dakes/AppData/Local/Programs/Microsoft\ VS\ Code/bin
-export PATH=$PATH:$HOME/go/bin
-export PATH=$PATH:/home/oodake/.local/bin
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# git path
-function gitroot(){
-    export git_root=$(git rev-parse --show-toplevel)
-    echo $git_root
-}
-
-function gitMain() {
-  git config --global user.name "dakesan"
-  git config --global user.email dakesan@excel2rlang.com
-  git config --list
-}
-
-function gitPri() {
-  git config --global user.name "snitch0"
-  git config --global user.email snitch@excel2rlang.com
-  git config --list
-}
-
-# source /home/oodake/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-
-zinit light zdharma-continuum/zinit-annex-as-monitor
-zinit light zdharma-continuum/zinit-annex-bin-gem-node
-zinit light zdharma-continuum/zinit-annex-patch-dl
-zinit light zdharma-continuum/zinit-annex-rust
-zinit blockf lucid light-mode for \
-    zdharma/history-search-multi-word \
-    marlonrichert/zsh-autocomplete \
-    zsh-users/zsh-autosuggestions \
-    zdharma-continuum/fast-syntax-highlighting \
-    supercrabtree/k \
-    dakesan/git-use-ssh
-# zinit light-mode for \
-#     zdharma-continuum/zinit-annex-as-monitor \
-#     zdharma-continuum/zinit-annex-bin-gem-node \
-#     zdharma-continuum/zinit-annex-patch-dl \
-#     zdharma-continuum/zinit-annex-rust \
-#     zsh-users/zsh-syntax-highlighting \
-#     zdharma/history-search-multi-word \
-#     marlonrichert/zsh-autocomplete
-
-# zinit ice depth=1
-# zinit light jeffreytse/zsh-vi-mode
-
-
-# autocomplete settings
-bindkey '^I'   complete-word       # tab          | complete
-# bindkey '^E' autosuggest-accept  # shift + tab  | autosuggest
-bindkey '^E' end-of-line  # shift + tab  | autosuggest
-# python genzshcomp function
-funciton genpycomp() {
-    bn=$(basename $1)
-    python $1 --help > .tmp
-    genzshcomp .tmp > ~/.zsh/completion/_${bn}
-    rm .tmp
-}
-#
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/oodake/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -249,4 +71,145 @@ if [ -f "/home/oodake/mambaforge/etc/profile.d/mamba.sh" ]; then
     . "/home/oodake/mambaforge/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
+
+#* Zsh configuration
+# alias
+alias zshconfig="vim $HOME/dotfiles/.zshrc"
+alias reload="exec zsh"
+# settings
+### bracket
+setopt auto_param_keys
+### color
+#? colors has gone to sheldon
+# autoload -Uz colors && colors
+### autocomplete
+#? compinit has gone to sheldon
+# autoload -Uz compinit && compinit -C
+setopt magic_equal_subst
+### word select per slash
+autoload -U select-word-style
+select-word-style bash
+### share history
+setopt histignorealldups
+setopt sharehistory
+setopt hist_no_store
+setopt hist_ignore_space
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+### move without cd
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+### auto correct ###
+# setopt correct
+### key binding ###
+bindkey '^[[1;5C' forward-word #? Ctrl + ->
+bindkey '^[[1;5D' backward-word #? Crtl + <-
+bindkey  '^[[H'   beginning-of-line #? Home
+bindkey  '^[[F'   end-of-line #? End
+bindkey  '^[[3~'  delete-char #? Delete
+bindkey '^I'   complete-word #? tab complete
+bindkey '^E' end-of-line #? Ctrl + e = End
+### glob
+setopt extended_glob
+### wdchar
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+#* Git
+# lazygit
+alias lg='lazygit'
+# git path
+function gitroot(){
+  export git_root=$(git rev-parse --show-toplevel)
+  echo $git_root
+}
+
+function gitMain() {
+  git config --global user.name "dakesan"
+  git config --global user.email dakesan@excel2rlang.com
+  git config --list
+}
+
+function gitPri() {
+  git config --global user.name "snitch0"
+  git config --global user.email snitch@excel2rlang.com
+  git config --list
+}
+
+#* R/Python/SQL
+alias sl="sqlite3"
+
+#* exa
+alias e='exa --icons'
+alias l='e -l'
+alias k=l
+alias ls=e
+alias ea='exa -a --icons'
+alias la=ea
+alias ee='exa -aal --icons'
+alias ll=ee
+alias et='exa -T -L 3 -a -I "node_modules|.git|.cache" --icons'
+alias lt=et
+alias eta='lt -a'
+alias lta=eta
+
+#* fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#* sheldon
+eval "$(sheldon source)"
+
+#* zinit
+### Added by Zinit's installer
+# if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+#     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+#     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+#     command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+#         print -P "%F{33} %F{34}Installation successful.%f%b" || \
+#         print -P "%F{160} The clone has failed.%f%b"
+# fi
+#
+# source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+# autoload -Uz _zinit
+# (( ${+_comps} )) && _comps[zinit]=_zinit
+#
+# # Load a few important annexes, without Turbo
+# # (this is currently required for annexes)
+#
+# zinit light zdharma-continuum/zinit-annex-as-monitor
+# zinit light zdharma-continuum/zinit-annex-bin-gem-node
+# zinit light zdharma-continuum/zinit-annex-patch-dl
+# zinit light zdharma-continuum/zinit-annex-rust
+# zinit blockf lucid light-mode for \
+#     zdharma/history-search-multi-word \
+#     marlonrichert/zsh-autocomplete \
+#     zsh-users/zsh-autosuggestions \
+#     zdharma-continuum/fast-syntax-highlighting \
+#     supercrabtree/k \
+#     dakesan/git-use-ssh
+# # zinit light-mode for \
+# #     zdharma-continuum/zinit-annex-as-monitor \
+# #     zdharma-continuum/zinit-annex-bin-gem-node \
+# #     zdharma-continuum/zinit-annex-patch-dl \
+# #     zdharma-continuum/zinit-annex-rust \
+# #     zsh-users/zsh-syntax-highlighting \
+# #     zdharma/history-search-multi-word \
+# #     marlonrichert/zsh-autocomplete
+#
+# # zinit ice depth=1
+# # zinit light jeffreytse/zsh-vi-mode
+#
+
+# autocomplete settings
+bindkey '^I'   complete-word       # tab          | complete
+bindkey '^E' end-of-line  # shift + tab  | autosuggest
+# python genzshcomp function
+funciton genpycomp() {
+    bn=$(basename $1)
+    python $1 --help > .tmp
+    genzshcomp .tmp > ~/.zsh/completion/_${bn}
+    rm .tmp
+}
+#
 #

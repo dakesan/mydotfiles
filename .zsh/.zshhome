@@ -1,0 +1,9 @@
+export poshpath="$HOME/.poshthemes/snitch_custom.omp.json"
+
+# WSL function
+function startrstudio(){
+    sudo rstudio-server start
+    sudo genie -i
+}
+
+source $HOME/dotfiles/proxy/proxy_adress.zsh
