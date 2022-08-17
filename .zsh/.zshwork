@@ -6,6 +6,7 @@ export poshpath="$HOME/.poshthemes/montys_custom.omp.json"
 
 alias zsh="/usr/local/bin/zsh"
 alias cargo="$HOME/.cargo/bin/cargo"
+alias nvim="$HOME/.local/nvim-linux64/bin/nvim"
 
 source $HOME/dotfiles/.zsh/hpcfunctions.zsh
 
