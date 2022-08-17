@@ -200,16 +200,3 @@ eval "$(sheldon source)"
 # # zinit ice depth=1
 # # zinit light jeffreytse/zsh-vi-mode
 #
-
-# autocomplete settings
-bindkey '^I'   complete-word       # tab          | complete
-bindkey '^E' end-of-line  # shift + tab  | autosuggest
-# python genzshcomp function
-funciton genpycomp() {
-    bn=$(basename $1)
-    python $1 --help > .tmp
-    genzshcomp .tmp > ~/.zsh/completion/_${bn}
-    rm .tmp
-}
-#
-#
