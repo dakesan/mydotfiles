@@ -12,4 +12,5 @@ mkdir ~/.config/procs
 ln -svf ~/dotfiles/.config/procs/config.toml ~/.config/procs/config.toml
 
 mkdir ~/.sheldon
-ln ^svf ~/dotfiles/.sheldon/plugins.toml ~/.sheldon/plugins.toml
+ln -svf ~/dotfiles/.sheldon/plugins.toml ~/.sheldon/plugins.toml
+ln -svf ~/dotfiles/.sheldon/plugins.toml ~/.config/sheldon/plugins.toml
