@@ -8,16 +8,16 @@
 keybinds:
     unbind: true
     normal:
-        # - action: [SwitchToMode: Locked,]
-        #   key: [Ctrl: 'g',]
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'g',]
         - action: [SwitchToMode: Pane,]
-          key: [Alt: 'w',]
-        # - action: [SwitchToMode: Resize,]
-        #   key: [Ctrl: 'n',]
-        # - action: [SwitchToMode: Tab,]
-        #   key: [Ctrl: 't',]
+          key: [Ctrl: 'w',]
+        - action: [SwitchToMode: Resize,]
+          key: [Ctrl: 'n',]
+        - action: [SwitchToMode: Tab,]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Scroll,]
-          key: [Alt: 's',]
+          key: [Ctrl: 's',]
         - action: [SwitchToMode: Session,]
           key: [Ctrl: 'o',]
         - action: [SwitchToMode: Move,]
@@ -25,7 +25,7 @@ keybinds:
         - action: [SwitchToMode: Tmux,]
           key: [Ctrl: 'b',]
         - action: [Quit,]
-          key: [ Alt: 'Q',]
+          key: [Ctrl: 'q',]
         - action: [NewPane: ]
           key: [ Alt: 'n',]
         - action: [MoveFocusOrTab: Left,]
@@ -40,12 +40,12 @@ keybinds:
           key: [ Alt: '[',]
         - action: [FocusNextPane,]
           key: [ Alt: ']',]
-        # - action: [Resize: Increase,]
-        #   key: [ Alt: '=']
         - action: [Resize: Increase,]
-          key: [ Alt: 'B']
+          key: [ Alt: '=']
+        - action: [Resize: Increase,]
+          key: [ Alt: '+']
         - action: [Resize: Decrease,]
-          key: [ Alt: 'S']
+          key: [ Alt: '-']
     locked:
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 'g',]
@@ -611,3 +611,6 @@ themes:
     - 250
     - 227
     - 176
+
+
+

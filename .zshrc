@@ -31,6 +31,7 @@ alias Axel="axel -n 10 --insecure"
 
 #* Zellij
 alias zl="zellij list-sessions"
+alias zelij=zellij
 
 #* Prompt
 # disable showing conda environment on prompt
