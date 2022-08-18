@@ -21,3 +21,4 @@ mkdir -p $HOME/.config/zellij
 ln -svf $HOME/dotfiles/.config/zellij/config.yaml $HOME/.config/zellij/config.yaml
 
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom.omp.json
+ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom_home.omp.json

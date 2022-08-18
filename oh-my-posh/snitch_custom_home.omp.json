@@ -13,7 +13,7 @@
             "display_host": false
           },
           "style": "diamond",
-          "template": " \uf31a ",
+          "template": " {{ .HostName }}",
           "trailing_diamond": "\u2593\ue0c6",
           "type": "os"
         },

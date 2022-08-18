@@ -22,7 +22,7 @@ fi
 # <<< conda initialize <<<
 
 #* posh theme
-export poshpath="$HOME/.poshthemes/snitch_custom.omp.json"
+export poshpath="$HOME/.poshthemes/snitch_custom_home.omp.json"
 
 #* WSL function
 function startrstudio(){
