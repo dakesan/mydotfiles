@@ -3,14 +3,16 @@
 dotfiles=(.zshrc .condarc .zshenv .zshfunc)
 
 for file in "${dotfiles[@]}"; do
-	ln -svf ~/dotfiles/$file ~/
+	ln -svf $HOME/dotfiles/$file $HOME/
 done
 
-ln -svf ~/dotfiles/.config/nvim ~/.config/nvim
+rm -rf $HOME/.config/nvim
+unlink $HOME/.config/nvim
+ln -svf $HOME/dotfiles/.config/nvim $HOME/.config/nvim
 
-mkdir ~/.config/procs
-ln -svf ~/dotfiles/.config/procs/config.toml ~/.config/procs/config.toml
+mkdir $HOME/.config/procs
+ln -svf $HOME/dotfiles/.config/procs/config.toml $HOME/.config/procs/config.toml
 
-mkdir ~/.sheldon
-ln -svf ~/dotfiles/.sheldon/plugins.toml ~/.sheldon/plugins.toml
-ln -svf ~/dotfiles/.sheldon/plugins.toml ~/.config/sheldon/plugins.toml
+mkdir $HOME/.sheldon
+ln -svf $HOME/dotfiles/.sheldon/plugins.toml $HOME/.sheldon/plugins.toml
+ln -svf $HOME/dotfiles/.sheldon/plugins.toml $HOME/.config/sheldon/plugins.toml
