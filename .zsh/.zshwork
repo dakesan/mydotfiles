@@ -24,7 +24,7 @@ path_append "/usr/local/openlava/bin"
 path_append "/opt/ibutils/bin"
 
 # export poshpath="$HOME/.poshthemes/montys_custom.omp.json"
-export poshpath="$HOME/.poshthemes/snitch_custom.omp.json"
+export poshpath="$HOME/.poshthemes/snitch_custom_work.omp.json"
 
 alias zsh="/usr/local/bin/zsh"
 alias cargo="$HOME/.cargo/bin/cargo"
