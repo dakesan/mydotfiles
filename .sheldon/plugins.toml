@@ -25,6 +25,9 @@ apply = ['defer']
 [plugins.zsh-youshouduse]
 github = 'MichaelAquilina/zsh-you-should-use'
 apply = ['defer']
+[plugins.conda-zsh-completion]
+github = 'conda-incubator/conda-zsh-completion'
+apply = ['defer']
 [plugins.nvm]
 inline = 'zsh-defer source ~/dotfiles/.zsh/loadnvm.zsh'
 [plugins.compinit]
