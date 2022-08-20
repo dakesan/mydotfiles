@@ -15,6 +15,7 @@ utils.map('n', '<leader><leader>r', ':so %<CR>')
 
 -- terminal
 utils.map('n', '<leader>@', ':terminal<CR>')
+vim.api.nvim_set_keymap('n', '<leader>@', '<cmd>ToggleTerm<cr>', {})
 
 
 -- VSCode which key

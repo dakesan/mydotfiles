@@ -8,7 +8,7 @@ end
 if vim.fn.exists('g:vscode') ~= 0 then
     vim.cmd 'set t_Co=0'
     vim.cmd 'syntax off'
-    vim.cmd 'filetype off'
+    -- vim.cmd 'filetype off'
 end
 
 ---Disables built in matchparen plugin

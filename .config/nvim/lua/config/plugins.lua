@@ -53,7 +53,7 @@ return require('packer').startup(function(use)
         config = function ()
             require("config.treesitter")
         end,
-        cond = term,
+        -- cond = term,
     })
     --
     use ({
