@@ -1,83 +1,126 @@
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
-        install_path })
+    packer_bootstrap = vim.fn.system {
+        'git',
+        'clone',
+        '--depth',
+        '1',
+        'https://github.com/wbthomason/packer.nvim',
+        install_path
+    }
+    print "Installing packer and reopening Neovim!!"
+    vim.cmd [[packadd packer.nvim]]
 end
 
-local nocode = function()
-    return vim.fn.exists('g:vscode') == 0
+-- Automatically reload packer whenwver I save this plugins.lua file.
+vim.cmd [[
+    augroup pakcer_user_config
+        autocmd!
+        autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    augroup end
+]]
+
+-- Check if packer is installed
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+	return
 end
+
+-- Check if we are now in VSCode
 local utils = require('utils')
+packer.init({
+	display = {
+		open_fn = function()
+			return require("packer.util").float({ border = "rounded" })
+		end,
+	},
+})
 
-require('packer').startup(function()
-    use 'wbthomason/packer.nvim'
+return require('packer').startup(function(use)
     local vscode = "vim.fn.exists('g:vscode') ~= 0"
     local term = "vim.fn.exists('g:vscode') == 0"
-
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        config = function()
-            require 'nvim-treesitter.configs'.setup {
-                highlight = {
-                    enable = false,
-                    additional_vim_regex_highlighting = false
-                },
-                indent = {
-                    enable = true
-                },
-                matchup = {
-                    enable = true
-                }
-            }
-        end
-    }
-    use({
-        "nvim-lualine/lualine.nvim",
-        config = function()
-            require("lualine").setup()
+    use ({ 'wbthomason/packer.nvim' })
+    use ({ 'nvim-lua/plenary.nvim' })
+    use ({
+        "windwp/nvim-autopairs",
+        config = function ()
+            require("nvim-autopairs").setup({ map_cr = false})
         end,
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        cond = term
+    })
+    use ({
+        'nvim-treesitter/nvim-treesitter' ,
+        config = function ()
+            require("config.treesitter")
+        end,
         cond = term,
     })
-    use({
+    --
+    use ({
+        'David-Kunz/treesitter-unit',
+        after = 'nvim-treesitter',
+        cond = term,
+    })
+    --
+    use {
+        'mfussenegger/nvim-treehopper',
+        after = 'nvim-treesitter',
+        config = function()
+            vim.cmd([[omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>]])
+            vim.cmd([[vnoremap <silent> m :lua require('tsht').nodes()<CR>]])
+            require('tsht').config.hint_keys = { 'j', 'k', 'l', 'f', 'd', 's', 'h', 'g', 'm' }
+        end,
+        cond = term
+    }
+    use ({
+        "nvim-lualine/lualine.nvim",
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        config = function ()
+            require("config.lualine_setting")
+        end,
+        cond = term,
+    })
+    use ({
         "kylechui/nvim-surround",
         config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
+            require("nvim-surround").setup()
         end
     })
-    use {
+    use ({
         'unblevable/quick-scope',
-        setup = [[require('config.quickscope')]],
+        config = function ()
+            require("config.quickscope")
+        end,
         keys = { 'f', 'F', 't', 'T' }
-    }
-    -- use {"tpope/vim-bommentary"}
+    })
     use {
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
         end
     }
-    use {
-        "windwp/nvim-autopairs",
-        config = function()
-            require("nvim-autopairs").setup {}
-        end,
-        cond = term
-    }
-    -- use {'rhysd/clever-f.vim'}
-    -- use {"haya14busa/vim-edgemotion"}
     -- use {"yutkat/wb-only-current-line.vim"}
-    use { "kana/vim-niceblock" }
+    -- use { "kana/vim-niceblock" }
     use {
-        'kyazdani42/nvim-tree.lua',
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        tag = 'nightly',
-        config = [[require('config.nvim_tree')]],
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v2.x",
+        config = function()
+            require("config.neo-tree")
+        end,
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        },
+        setup = vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]]),
         cond = term
     }
+    -- use {
+    --     'kyazdani42/nvim-tree.lua',
+    --     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    --     config = [[require('config.nvim_tree')]],
+    --     cond = term
+    -- }
     use {
         'phaazon/hop.nvim',
         branch = 'v2', -- optional but strongly recommended
@@ -88,46 +131,27 @@ require('packer').startup(function()
             }
         end
     }
-    -- vim-expand-region
-    -- +で拡大, _で縮小
-    use { "terryma/vim-expand-region" }
-
-    -- substitute.nvim
-    -- yiw->gs"などで　ヤンク->置換
-    use({
-        "gbprod/substitute.nvim",
-        config = function()
-            require("substitute").setup({
-                on_substitute = nil,
-                yank_substitued_text = false,
-                range = {
-                    prefix = "s",
-                    prompt_current_text = false,
-                    confirm = false,
-                    complete_word = false,
-                    motion1 = false,
-                    motion2 = false
-                },
-                exchange = {
-                    motion = false
-                }
-            })
-        end
-    })
-
-    -- Lazy loading:
-    -- Load on specific commands
-    use {
-        'tpope/vim-dispatch',
-        opt = true,
-        cmd = { 'Dispatch', 'Make', 'Focus', 'Start' }
-    }
-
-    -- use {
-    --     'ojroques/nvim-osc52'
-    -- }
-
-    -- Plugins can have post-install/update hooks
+    use { "lewis6991/gitsigns.nvim",
+		cond = term
+	}
+    -- -- vim-expand-region
+    -- -- +で拡大, _で縮小
+    -- use { "terryma/vim-expand-region" }
+    --
+    -- -- substitute.nvim
+    -- -- yiw->gs"などで　ヤンク->置換
+    -- use({
+    --     "gbprod/substitute.nvim",
+    --     config = function()
+    --         require("substitute").setup({ })
+    --     end
+    -- })
+    --
+    -- -- use {
+    -- --     'ojroques/nvim-osc52'
+    -- -- }
+    --
+    -- -- Plugins can have post-install/update hooks
     use {
         'iamcco/markdown-preview.nvim',
         run = 'cd app && yarn install',
@@ -138,99 +162,123 @@ require('packer').startup(function()
         ft = { "markdown" },
         cond = term
     }
-
-    -- move
+    --
+    -- -- move
     use {
         'fedepujol/move.nvim',
-        cond = term
     }
-
+    --
+    use { 'catppuccin/nvim', as = 'catppucin' }
+    --
+    -- use { 'mizlan/iswap.nvim' }
+    --
+    use { 'gpanders/editorconfig.nvim' }
+    --
     use {
-        'catppuccin/nvim',
-        as = 'catppucin'
-    }
-
-    use { 'David-Kunz/treesitter-unit' }
-
-    use {
-        'mfussenegger/nvim-treehopper',
-        after = 'nvim-treesitter',
-        config = function()
-            vim.cmd([[omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>]])
-            vim.cmd([[vnoremap <silent> m :lua require('tsht').nodes()<CR>]])
-            require('tsht').config.hint_keys = { 'j', 'k', 'l', 'f', 'd', 's', 'h', 'g', 'm' }
+        "lukas-reineke/indent-blankline.nvim",
+        config = function ()
+            require("indent_blankline").setup {
+            -- for example, context is off by default, use this to turn it on
+                show_current_context = true,
+                show_current_context_start = true,
+                show_end_of_line = true,
+                char_highlight_list = {
+                    "IndentBlanklineIndent1",
+                    "IndentBlanklineIndent2",
+                    "IndentBlanklineIndent3",
+                    "IndentBlanklineIndent4",
+                    "IndentBlanklineIndent5",
+                    "IndentBlanklineIndent6",
+                },
+            }
         end
     }
-
-    use { 'mizlan/iswap.nvim' }
-
-    use { 'gpanders/editorconfig.nvim' }
-    -- use {'editorconfig/editorconfig-vim'}
-
     use { 'goerz/jupytext.vim' }
-
+    --
     use {
         'akinsho/nvim-bufferline.lua',
         cond = term,
         config = function ()
             require"bufferline".setup{}
-        end
+        end,
     }
-    --   use {
-    --    'bkad/CamelCaseMotion',
-    --    setup = function()
-    --     vim.cmd[[let g:camelcasemotion_key = '<leader>']]
-    -- end,
-    --   }
-
-    -- -- lsp
     use {
-        "neovim/nvim-lspconfig",
-        cond = term,
+        'lewis6991/impatient.nvim',
         config = function ()
-            local status, nvim_lsp = pcall(require, "lspconfig")
-                if (not status) then return end
-
-            local protocol = require('vim.lsp.protocol')
-
-            local on_attach = function(client, bufnr)
-              -- format on save
-              if client.server_capabilities.documentFormattingProvider then
-                vim.api.nvim_create_autocmd("BufWritePre", {
-                  group = vim.api.nvim_create_augroup("Format", { clear = true }),
-                  buffer = bufnr,
-                  callback = function() vim.lsp.buf.formatting_seq_sync() end
-                })
-              end
-            end
-
-            local lsp_flags = {
-                debounce_text_changes = 150,
-            }
-
-            require'lspconfig'["pyright"].setup{
-                on_attach = on_attach,
-                flags = lsp_flags
-            }
-        end
+            require("config.impatient")
+        end,
     }
-    use { 'onsails/lspkind-nvim', cond = term, }
-    use { 'hrsh7th/cmp-buffer', cond = term, }
-    use { 'hrsh7th/cmp-path', cond = term, }
-    use { 'hrsh7th/cmp-nvim-lsp', cond = term, }
-    use { 'hrsh7th/cmp-cmdline', cond = term }
-    use { 'hrsh7th/nvim-cmp' }
-    use { 'jose-elias-alvarez/null-ls.nvim', cond = term, }
-    use { 'MunifTanjim/prettier.nvim', cond = term, }
-    use { 'williamboman/mason.nvim', cond = term, }
-    use { 'williamboman/mason-lspconfig.nvim', cond = term, }
-    use { 'glepnir/lspsaga.nvim', cond = term, }
+    use {
+        'akinsho/toggleterm.nvim',
+        config = function ()
+            require("config.toggleterm")
+        end,
+        cond = term,
+    }
 
+    -- -- -- lsp
+  --   use ({
+  --       "L3MON4D3/LuaSnip"
+  --   })
+  --   use ({
+  --       'hrsh7th/nvim-cmp',
+  --       requires = {
+  --           { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
+		-- 	{ "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
+  --       },
+  --       after = { "LuaSnip", "nvim-autopairs" },
+		-- config = function()
+		-- 	require("config.nvim-cmp")
+		-- end,
+  --       cond = term
+  --   })
+ --    use({
+	-- 	"onsails/lspkind-nvim",
+	-- 	module = "lspkind",
+	-- 	config = function()
+	-- 		require("config.lspkind")
+	-- 	end,
+ --        cond = term
+	-- })
+    -- use {
+    --     "neovim/nvim-lspconfig",
+    --     cond = term,
+    --     config = function ()
+    --         local status, nvim_lsp = pcall(require, "lspconfig")
+    --             if (not status) then return end
+    --
+    --         local protocol = require('vim.lsp.protocol')
+    --
+    --         local on_attach = function(client, bufnr)
+    --           -- format on save
+    --           if client.server_capabilities.documentFormattingProvider then
+    --             vim.api.nvim_create_autocmd("BufWritePre", {
+    --               group = vim.api.nvim_create_augroup("Format", { clear = true }),
+    --               buffer = bufnr,
+    --               callback = function() vim.lsp.buf.formatting_seq_sync() end
+    --             })
+    --           end
+    --         end
+    --
+    --         local lsp_flags = {
+    --             debounce_text_changes = 150,
+    --         }
+    --
+    --         require'lspconfig'["pyright"].setup{
+    --             on_attach = on_attach,
+    --             flags = lsp_flags
+    --         }
+    --     end
+    -- }
+    -- use { 'onsails/lspkind-nvim', cond = term, }
+    -- use { 'hrsh7th/cmp-buffer', cond = term, }
+    -- use { 'hrsh7th/cmp-path', cond = term, }
+    -- use { 'hrsh7th/cmp-nvim-lsp', cond = term, }
+    -- use { 'hrsh7th/cmp-cmdline', cond = term }
+    -- use { 'jose-elias-alvarez/null-ls.nvim', cond = term, }
+    -- use { 'MunifTanjim/prettier.nvim', cond = term, }
+    -- use { 'williamboman/mason.nvim', cond = term, }
+    -- use { 'williamboman/mason-lspconfig.nvim', cond = term, }
+    -- use { 'glepnir/lspsaga.nvim', cond = term, }
 end)
 
-require('Comment').setup()
-require('config.quickscope')
--- require('config.osc52')
-require('config.lualine_setting')
-require('config.lspsettings')
-require('config.bufferline_settings')

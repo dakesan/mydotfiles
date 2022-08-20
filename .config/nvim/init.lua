@@ -1,9 +1,11 @@
 
 require('config.plugins')
+require('config.autopairs')
+-- require('config.treesitter')
+require('config.gitsigns')
 require('config.colorscheme')
 require('config.vimsettings')
 require('config.keysettings')
-require'config.quickscope'
 -- local vim = vim
 -- api.nvim_set_option('clipboard', 'unnamedplus')
 -- vim.o.clipboard = "unnamedplus"
@@ -36,3 +38,5 @@ vim.cmd[[
   augroup END
 endif"
 ]]
+
+
