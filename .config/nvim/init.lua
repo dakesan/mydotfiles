@@ -6,6 +6,7 @@ require('config.gitsigns')
 require('config.colorscheme')
 require('config.vimsettings')
 require('config.keysettings')
+require('config.vscodesetting')
 -- local vim = vim
 -- api.nvim_set_option('clipboard', 'unnamedplus')
 -- vim.o.clipboard = "unnamedplus"

@@ -97,7 +97,8 @@ return require('packer').startup(function(use)
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
-        end
+        end,
+        -- cond = term
     }
     -- use {"yutkat/wb-only-current-line.vim"}
     -- use { "kana/vim-niceblock" }
