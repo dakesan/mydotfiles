@@ -90,6 +90,8 @@ bindkey  '^[[F'   end-of-line #? End
 bindkey  '^[[3~'  delete-char #? Delete
 bindkey '^I'   complete-word #? tab complete
 bindkey '^E' end-of-line #? Ctrl + e = End
+bindkey '^q' push-line-or-edit
+bindkey '^x' push-line-or-edit
 ### glob
 setopt extended_glob
 ### wdchar

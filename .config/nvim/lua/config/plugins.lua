@@ -171,7 +171,7 @@ return require('packer').startup(function(use)
     --
     use { 'catppuccin/nvim', as = 'catppucin' }
     --
-    -- use { 'mizlan/iswap.nvim' }
+    use { 'mizlan/iswap.nvim' }
     --
     use { 'gpanders/editorconfig.nvim' }
     --

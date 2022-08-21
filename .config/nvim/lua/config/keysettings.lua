@@ -126,3 +126,9 @@ vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(tr
 --     vim.api.nvim_set_keymap('a', 'gc', '<Plug>VSCodeCommentary', {})
 --     vim.api.nvim_set_keymap('n', 'gcc', '<Plug>VSCodeCommentaryLine', {})
 -- end
+--
+
+-- iswap
+vim.api.nvim_set_keymap('n', '<leader>a', "<cmd>ISwap<cr>", {})
+vim.api.nvim_set_keymap('n', '<leader>A', "<cmd>ISwapNode<cr>", {})
+
