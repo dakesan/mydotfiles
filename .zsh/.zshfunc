@@ -37,7 +37,6 @@ function zsh-profiler() {
 
 #* zellij
 function zla () {
-  SESSION_ZLZ=$(zl | head -1)
-  zellij attach $SESSOIN_ZLZ
+  zellij attach $(zl | head -1)
 }
 
