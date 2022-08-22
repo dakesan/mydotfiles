@@ -45,6 +45,7 @@ eval "$(zoxide init zsh)"
 #* NeoVim
 # open man with vim
 export MANPAGER="nvim -c 'set ft=man' -"
+export EDITOR='nvim'
 # alias
 alias vi="nvim"
 alias vim="nvim"
