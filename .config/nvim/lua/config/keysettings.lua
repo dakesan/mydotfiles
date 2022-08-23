@@ -81,7 +81,7 @@ vim.api.nvim_set_keymap('n', '<leader>w', "<cmd>HopChar1<cr>", {})
 -- quickscope
 vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>QuickScopeToggle<cr>", {noremap = true})
 
-vim.api.nvim_set_keymap('n', '<leader><leader>s', "<cmd>ISwap<cr>", {})
+vim.api.nvim_set_keymap('n', '<leader>s', "<cmd>ISwap<cr>", {})
 -- Move around splits using Ctrl + {h,j,k,l}
 utils.map('n', '<C-h>', '<C-w>h')
 utils.map('n', '<C-j>', '<C-w>j')
