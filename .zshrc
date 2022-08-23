@@ -8,12 +8,14 @@ source $HOME/dotfiles/.zsh/.zshfunc
 # if hostname contains "DESKTOP" -> my home desktop
 # else if contains "hpc" -> hpc cluster machine
 # else -> WTH?
-if [[ "$HOST" =~ "^DESKTOP*" ]]; then
+if [[ "$HOST" =~ "^DESKTOP-DLL*" ]]; then
   source ~/dotfiles/.zsh/.zshhome
+  source $HOME/dotfiles/.zsh/hpcfunctions.zsh
+  useproxy
 elif [[ "$HOST" =~ "^hpc*" ]]; then
   source ~/dotfiles/.zsh/.zshwork
 else
-  eval 'echo "Unknown host"'
+  source ~/dotfiles/.zsh/.zshhome;
 fi
 
 #* Path configuration

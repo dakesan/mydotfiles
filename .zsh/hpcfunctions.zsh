@@ -27,21 +27,13 @@ ppurge () { psucks $1 | awk '{print $2}' | xargs -I% sudo kill % }
 
 #* proxy
 function useproxy () {
-  if [ -z ${PROXY_VAL+x} ]; then
     export http_proxy=$PROXY_VAL
     export https_proxy=$PROXY_VAL
     export ftp_proxy=$PROXY_VAL
-  else
-  :
-  fi
 }
 
 function noproxy () {
-  if [ -z ${PROXY_VAL+x} ]; then
     export http_proxy=
     export https_proxy=
     export ftp_proxy=
-  else
-  :
-  fi
 }
