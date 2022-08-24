@@ -22,6 +22,7 @@ path_append "/usr/local/bin"
 path_append "/usr/bin"
 path_append "$HOME/.cargo/bin"
 path_append "$HOME/go/bin"
+path_append "$HOME/.poetry/bin"
 
 # Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
@@ -38,7 +39,7 @@ alias zelij=zellij
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 # posh theme
 eval "$(oh-my-posh init zsh --config $poshpath)"
-
+# eval "$(starship init zsh)"
 #* zoxide
 eval "$(zoxide init zsh)"
 
@@ -186,3 +187,8 @@ eval "$(sheldon source)"
 # # zinit ice depth=1
 # # zinit light jeffreytse/zsh-vi-mode
 #
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="$HOME/.poetry/bin:$PATH"
