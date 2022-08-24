@@ -216,6 +216,23 @@ return require('packer').startup(function(use)
         end,
         cond = term,
     }
+    use {
+        'nguyenvukhang/nvim-toggler',
+        config = function ()
+            require('nvim-toggler').setup({
+                inverses = {
+                    ['True'] = 'False',
+                    ['TRUE'] = 'FALSE',
+                    ['!='] = '==',
+                },
+                -- remove_default_keybinds = true,
+            })
+            -- vim.keymap.set(
+            --     {'n', 'v'}, '<leader>cl',
+            --     require('nvim-toggler').toggle
+            --     )
+        end
+    }
 
     -- -- -- lsp
   --   use ({
