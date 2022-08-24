@@ -86,13 +86,13 @@ return require('packer').startup(function(use)
             require("nvim-surround").setup()
         end
     })
-    use ({
-        'unblevable/quick-scope',
-        config = function ()
-            require("config.quickscope")
-        end,
-        keys = { 'f', 'F', 't', 'T' }
-    })
+    -- use ({
+    --     'unblevable/quick-scope',
+    --     config = function ()
+    --         require("config.quickscope")
+    --     end,
+    --     keys = { 'f', 'F', 't', 'T' }
+    -- })
     use {
         'numToStr/Comment.nvim',
         config = function()
