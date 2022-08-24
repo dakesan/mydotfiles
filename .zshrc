@@ -99,6 +99,8 @@ setopt extended_glob
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 #* Git
+alias gp='git pull'
+alias gP='git push'
 # lazygit
 alias lg='lazygit'
 # git path
