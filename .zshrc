@@ -101,6 +101,8 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 #* Git
 alias gp='git pull'
 alias gP='git push'
+alias ga='git add .'
+alias gc='git commit -m'
 # lazygit
 alias lg='lazygit'
 # git path
@@ -131,11 +133,11 @@ alias k=l
 alias ls=e
 alias ea='exa -ag --icons'
 alias la=ea
-alias ee='exa -aal -g --icons'
+alias ee='exa -aal -g --git --icons'
 alias ll=ee
-alias et='exa -T -L -g 3 -a -I "node_modules|.git|.cache" --icons'
+alias et='exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
 alias lt=et
-alias eta='lt -a'
+alias eta='lt -l --git'
 alias lta=eta
 
 #* fzf
