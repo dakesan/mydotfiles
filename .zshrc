@@ -24,6 +24,7 @@ path_append "/usr/local/bin"
 path_append "/usr/bin"
 path_append "$HOME/.cargo/bin"
 path_append "$HOME/go/bin"
+path_append "$HOME/.poetry/bin"
 
 # Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
@@ -40,7 +41,7 @@ alias zelij=zellij
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 # posh theme
 eval "$(oh-my-posh init zsh --config $poshpath)"
-
+# eval "$(starship init zsh)"
 #* zoxide
 eval "$(zoxide init zsh)"
 
@@ -101,6 +102,10 @@ setopt extended_glob
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 #* Git
+alias gp='git pull'
+alias gP='git push'
+alias ga='git add .'
+alias gc='git commit -m'
 # lazygit
 alias lg='lazygit'
 # git path
@@ -129,13 +134,13 @@ alias e='exa --icons'
 alias l='e -l'
 alias k=l
 alias ls=e
-alias ea='exa -a --icons'
+alias ea='exa -ag --icons'
 alias la=ea
-alias ee='exa -aal --icons'
+alias ee='exa -aal -g --git --icons'
 alias ll=ee
-alias et='exa -T -L 3 -a -I "node_modules|.git|.cache" --icons'
+alias et='exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
 alias lt=et
-alias eta='lt -a'
+alias eta='lt -l --git'
 alias lta=eta
 
 #* fzf
@@ -184,3 +189,8 @@ eval "$(sheldon source)"
 # # zinit ice depth=1
 # # zinit light jeffreytse/zsh-vi-mode
 #
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="$HOME/.poetry/bin:$PATH"

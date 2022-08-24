@@ -36,7 +36,8 @@
           "powerline_symbol": "\ue0b0",
           "properties": {
             "folder_separator_icon": "\ue216",
-            "style": "agnoster_short",
+            "style": "letter",
+            "folder_icon": "\ue349",
             "home_icon": "\uf7db ",
             "max_depth": 2
           },
