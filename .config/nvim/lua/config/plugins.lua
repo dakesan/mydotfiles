@@ -251,6 +251,22 @@ return require('packer').startup(function(use)
             --     )
         end
     }
+    -- use {
+    --     'Decodetalkers/csv-tools.lua',
+    --     config = function ()
+    --         require("csvtools").setup({
+    --             before = 10,
+    --             after = 10,
+    --             clearafter = true,
+    --             showoverflow = true,
+    --             titleflow = true
+    --         })
+    --     end
+    -- }
+    use {
+        'mechatroner/rainbow_csv',
+        -- ft = {'csv', 'tsv'}
+    }
 
     -- -- -- lsp
   --   use ({

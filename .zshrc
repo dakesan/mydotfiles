@@ -63,6 +63,8 @@ alias vimconfig="vim $HOME/dotfiles/.config/nvim/init.vim"
 alias zshconfig="vim $HOME/dotfiles/.zshrc"
 alias reload="exec zsh"
 # settings
+### beep
+setopt no_beep
 ### bracket
 setopt auto_param_keys
 ### color
