@@ -4,6 +4,7 @@ local utils = require('utils')
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.api.nvim_set_keymap("n", "<leader>re", ":source ~/.config/nvim/init.lua<cr>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>n", "<cmd>noh<cr>", { noremap = true })
 
 -- keymappings
 vim.api.nvim_set_keymap('n', '<C-l>', '<cmd>noh<CR>', {noremap = true}) -- Clear highlights

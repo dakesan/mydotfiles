@@ -44,6 +44,9 @@ eval "$(oh-my-posh init zsh --config $poshpath)"
 # eval "$(starship init zsh)"
 #* zoxide
 eval "$(zoxide init zsh)"
+alias z="pushd ./ && z"
+alias ..="cd .."
+alias ...="cd ../.."
 
 #* NeoVim
 # open man with vim
