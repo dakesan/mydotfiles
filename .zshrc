@@ -111,6 +111,7 @@ alias gp='git pull'
 alias gP='git push'
 alias ga='git add .'
 alias gc='git commit -m'
+alias gs='git status'
 # lazygit
 alias lg='lazygit'
 # git path

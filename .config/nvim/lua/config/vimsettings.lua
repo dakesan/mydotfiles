@@ -17,6 +17,10 @@ vim.o.wildmode = 'list:longest'
 vim.wo.number = true
 vim.wo.relativenumber = true
 
+-- vim.cmd [[let g:python3_host_prog = expand("${HOME}/.pyenv/shims/python")]]
+-- vim.cmd [[let g:python_host_prog = expand("${HOME}/.pyenv/shims/python")]]
+vim.cmd [[let g:loaded_python3_provider = 0]]
+
 vim.o.mouse = "nvi"
 
 vim.opt.termguicolors = true
