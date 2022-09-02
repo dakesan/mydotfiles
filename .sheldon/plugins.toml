@@ -33,3 +33,5 @@ inline = 'autoload -Uz compinit && zsh-defer compinit'
 inline = 'fpath+=$HOME/.local/conda-zsh-completion && autoload -Uz compinit && zsh-defer compinit conda'
 [plugins.colors]
 inline = 'autoload -Uz colors && zsh-defer colors'
+[plugins.dircolors]
+inline = 'zsh-defer eval "$(dircolors ~/dotfiles/.dircolors)"'
