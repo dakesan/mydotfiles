@@ -34,11 +34,11 @@ export VIMRUNTIME=$HOME/.local/nvim-linux64/share/nvim/runtime
 source $HOME/dotfiles/.zsh/hpcfunctions.zsh
 
 HOSTNAME="$hostname"
-if [[ -v $HOSTNAME ]]; then
-  :
-else
-  export HOSTNAME=$HOST
-fi
+# if [[ -v $HOSTNAME ]]; then
+#   :
+# else
+#   export HOSTNAME=$HOST
+# fi
 
 if [[ "$HOST" =~ "^hpcfs*" ]]; then
   noproxy
