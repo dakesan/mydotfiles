@@ -27,6 +27,7 @@ ppurge () { psucks $1 | awk '{print $2}' | xargs -I% sudo kill % }
 
 #* proxy
 function useproxy () {
+    echo "proxy were setted to $PROXY_VAL."
     export http_proxy=$PROXY_VAL
     export https_proxy=$PROXY_VAL
     export ftp_proxy=$PROXY_VAL
