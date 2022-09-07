@@ -14,6 +14,8 @@ if [[ "$HOST" =~ "^DESKTOP-DLL*" ]]; then
   useproxy
 elif [[ "$HOST" =~ "^hpc*" ]]; then
   source ~/dotfiles/.zsh/.zshwork
+  source $HOME/dotfiles/proxy/proxy_adress.zsh
+  source $HOME/dotfiles/.zsh/hpcfunctions.zsh
 else
   source ~/dotfiles/.zsh/.zshhome;
 fi
