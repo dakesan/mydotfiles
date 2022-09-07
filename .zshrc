@@ -30,6 +30,8 @@ path_append "$HOME/.poetry/bin"
 
 # Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
+alias pi="pip install"
+alias ai="sudo apt install"
 
 #* axel
 alias Axel="axel -n 10 --insecure"
