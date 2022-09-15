@@ -53,6 +53,7 @@ vim.api.nvim_set_keymap("n", "c", '"_c', {noremap=true})
 vim.api.nvim_set_keymap("v", "c", '"_c', {noremap=true})
 vim.api.nvim_set_keymap("n", "C", '"_C', {noremap=true})
 vim.api.nvim_set_keymap("v", "C", '"_C', {noremap=true})
+vim.api.nvim_set_keymap("n", "<leader><p>", '"_dP', {noremap=true})
 
 
 local opts = {noremap = false, silent = true}
