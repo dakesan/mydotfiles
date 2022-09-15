@@ -6,7 +6,7 @@
       "alignment": "left",
       "segments": [
         {
-          "background": "p:yellow",
+          "background": "p:white",
           "foreground": "p:black",
           "leading_diamond": "\ue0b6",
           "properties": {

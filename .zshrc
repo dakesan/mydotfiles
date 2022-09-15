@@ -14,6 +14,8 @@ if [[ "$HOST" =~ "^DESKTOP-DLL*" ]]; then
   useproxy
 elif [[ "$HOST" =~ "^hpc*" ]]; then
   source ~/dotfiles/.zsh/.zshwork
+  source $HOME/dotfiles/proxy/proxy_adress.zsh
+  source $HOME/dotfiles/.zsh/hpcfunctions.zsh
 else
   source ~/dotfiles/.zsh/.zshhome;
 fi
@@ -28,6 +30,8 @@ path_append "$HOME/.poetry/bin"
 
 # Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
+alias pi="pip install"
+alias ai="sudo apt install"
 
 #* axel
 alias Axel="axel -n 10 --insecure"
