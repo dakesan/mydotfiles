@@ -123,13 +123,13 @@ function gitroot(){
 function gitMain() {
   git config --global user.name "dakesan"
   git config --global user.email dakesan@excel2rlang.com
-  git config --list
+  # git config --list
 }
 
 function gitPri() {
   git config --global user.name "snitch0"
   git config --global user.email snitch@excel2rlang.com
-  git config --list
+  # git config --list
 }
 
 #* R/Python/SQL
