@@ -50,6 +50,16 @@ return require('packer').startup(
             cond = term
         })
         use({
+            'rmagatti/auto-session',
+            config = function()
+                require("auto-session").setup {
+                    log_level = "error",
+                    auto_session_suppress_dirs = { "/" }
+                }
+                -- vim.keymap.set({ 'n', 'x', 'o' }, 'W', '<Plug>WordMotion_W')
+            end
+        })
+        use({
             'nvim-treesitter/nvim-treesitter',
             config = function()
                 require("config.treesitter")
