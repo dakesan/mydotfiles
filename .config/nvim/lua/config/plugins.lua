@@ -45,7 +45,19 @@ return require('packer').startup(
         use({
             "windwp/nvim-autopairs",
             config = function()
-                require("nvim-autopairs").setup({ map_cr = false })
+                require("nvim-autopairs").setup({})
+            end,
+            cond = term
+        })
+        use({
+            "petertriho/nvim-scrollbar",
+            config = function()
+                local colors = require("catppuccin").setup()
+                require("scrollbar").setup({
+                    handle = {
+                        color = "#CDD6F4",
+                    }
+                })
             end,
             cond = term
         })
@@ -57,14 +69,14 @@ return require('packer').startup(
                     auto_session_suppress_dirs = { "/" }
                 }
                 -- vim.keymap.set({ 'n', 'x', 'o' }, 'W', '<Plug>WordMotion_W')
-            end
+            end,
+            cond = term
         })
         use({
             'nvim-treesitter/nvim-treesitter',
             config = function()
                 require("config.treesitter")
             end,
-            -- cond = term,
         })
         use({
             'nvim-treesitter/playground',
@@ -89,7 +101,8 @@ return require('packer').startup(
                         },
                     }
                 }
-            end
+            end,
+            cond = term
         })
         use({
             'nvim-treesitter/nvim-treesitter-textobjects',
@@ -126,13 +139,11 @@ return require('packer').startup(
                 }
             end
         })
-        --
-        use({
-            'David-Kunz/treesitter-unit',
-            after = 'nvim-treesitter',
-            cond = term,
-        })
-        --
+        -- use({
+        --     'David-Kunz/treesitter-unit',
+        --     after = 'nvim-treesitter',
+        --     cond = term,
+        -- })
         use {
             'mfussenegger/nvim-treehopper',
             after = 'nvim-treesitter',
@@ -154,7 +165,20 @@ return require('packer').startup(
         use({
             "kylechui/nvim-surround",
             config = function()
-                require("nvim-surround").setup()
+                require("nvim-surround").setup({
+                    keymaps = {
+                        insert = "<C-g>s",
+                        insert_line = "<C-g>S",
+                        normal = "sa",
+                        normal_cur = "yss",
+                        normal_line = "yS",
+                        normal_cur_line = "ySS",
+                        visual = "s",
+                        visual_line = "gS",
+                        delete = "ds",
+                        change = "cs",
+                    }
+                })
             end
         })
         -- use ({
@@ -222,7 +246,10 @@ return require('packer').startup(
             end
         }
         use { "lewis6991/gitsigns.nvim",
-            cond = term
+            cond = term,
+            config = function()
+                require('gitsigns').setup()
+            end
         }
         -- -- vim-expand-region
         -- -- +で拡大, _で縮小
