@@ -214,8 +214,20 @@ return require('packer').startup(
         use ({
             "nvim-telescope/telescope.nvim", tag = "0.1.0",
             config = function()
-                require("telescope").setup{ }
-                vim.keymap.set({ 'n', 'x', 'o'}, '<C-p>', '<cmd>Telescope live_grep<cr>')
+                require("telescope").setup{
+                    pickers = {
+                        live_grep = {
+                            glob_pattern = "!.git/",
+                            additional_args = function(opts)
+                                return {"--hidden"}
+                            end
+                        }
+                    }
+                }
+                vim.keymap.set(
+                    { 'n' }, '<C-p>',
+                    "<cmd>Telescope live_grep<cr>"
+                    )
             end
         })
         use {
