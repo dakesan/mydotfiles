@@ -43,3 +43,8 @@ function zla () {
 function smv () {
   tar c $1 | pv | tar x -C $2
 }
+
+function saveimg () {
+  powershell.exe "(Get-Clipboard -Format Image).Save(\"$1\")"
+  return 1
+}
