@@ -134,6 +134,8 @@ vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(tr
 vim.api.nvim_set_keymap('n', '<leader>a', "<cmd>ISwap<cr>", {})
 vim.api.nvim_set_keymap('n', '<leader>A', "<cmd>ISwapNode<cr>", {})
 
+-- noremap ]] <Cmd>call search('[([{<]')<CR>
+vim.api.nvim_set_keymap('n', ']]', "<cmd>call search('[([{]')<cr>", {})
 
 vim.cmd[[
     :command ReplaceQuote %s/“\(.*\)”/"\1"/g
