@@ -211,12 +211,13 @@ return require('packer').startup(
             setup = vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]]),
             cond = term
         }
-        -- use {
-        --     'kyazdani42/nvim-tree.lua',
-        --     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        --     config = [[require('config.nvim_tree')]],
-        --     cond = term
-        -- }
+        use ({
+            "nvim-telescope/telescope.nvim", tag = "0.1.0",
+            config = function()
+                require("telescope").setup{ }
+                vim.keymap.set({ 'n', 'x', 'o'}, '<C-p>', '<cmd>Telescope live_grep<cr>')
+            end
+        })
         use {
             'chaoren/vim-wordmotion',
             config = function()
