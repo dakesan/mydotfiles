@@ -117,6 +117,7 @@ alias ga='git add .'
 alias gc='git commit -m'
 alias gs='git status'
 alias gb='git branch'
+alias gl='git clone'
 alias cout='git checkout'
 # lazygit
 alias lg='lazygit'
