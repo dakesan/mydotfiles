@@ -116,6 +116,8 @@ alias gP='git push'
 alias ga='git add .'
 alias gc='git commit -m'
 alias gs='git status'
+alias gb='git branch'
+alias cout='git checkout'
 # lazygit
 alias lg='lazygit'
 # git path
@@ -135,6 +137,12 @@ function gitPri() {
   git config --global user.email snitch@excel2rlang.com
   # git config --list
 }
+
+function gitReverse() {
+  git reset --hard HEAD\^
+}
+alias gr='gitReverse'
+
 
 #* R/Python/SQL
 alias sl="sqlite3"
