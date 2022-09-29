@@ -1,5 +1,4 @@
 local utils = require('utils')
-
 -- keys
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -36,10 +35,10 @@ vim.api.nvim_set_keymap('n', '<leader>@', '<cmd>ToggleTerm<cr>', {})
 -- vim.api.nvim_set_keymap("x", "<leader><leader>p", "<cmd>lua require('substitute').visual()<cr>", { noremap = true })
 
 -- visual移動
-vim.api.nvim_set_keymap("n", "j", 'gj', {noremap=false})
-vim.api.nvim_set_keymap("n", "k", 'gk', {noremap=false})
-vim.api.nvim_set_keymap("n", "<Down>", 'gj', {noremap=false})
-vim.api.nvim_set_keymap("n", "<Up>", 'gk', {noremap=false})
+-- vim.api.nvim_set_keymap("n", "j", 'gj', {noremap=false})
+-- vim.api.nvim_set_keymap("n", "k", 'gk', {noremap=false})
+-- vim.api.nvim_set_keymap("n", "<Down>", 'gj', {noremap=false})
+-- vim.api.nvim_set_keymap("n", "<Up>", 'gk', {noremap=false})
 
 
 -- レジスタを汚さないxやs
