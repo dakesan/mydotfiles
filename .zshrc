@@ -140,7 +140,7 @@ function gitPri() {
 }
 
 function gitReverse() {
-  git reset --hard HEAD\^
+  git reset --soft HEAD\^
 }
 alias gr='gitReverse'
 
