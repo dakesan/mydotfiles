@@ -165,17 +165,17 @@ alias lta=eta
 #* fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-zstyle ':autocomplete:*' insert-unambiguous yes
+# zstyle ':autocomplete:*' insert-unambiguous yes
 # no:  Tab inserts the top completion.
 # yes: Tab first inserts a substring common to all listed completions, if any.
 
-zstyle ':autocomplete:*' fzf-completion yes
+# zstyle ':autocomplete:*' fzf-completion yes
 # no:  Tab uses Zsh's completion system only.
 # yes: Tab first tries Fzf's completion, then falls back to Zsh's.
 # ⚠️ NOTE: This setting can NOT be changed at runtime and requires that you
 # have installed Fzf's shell extensions.
 
-zstyle ':autocomplete:recent-dirs' backend zoxide
+# zstyle ':autocomplete:recent-dirs' backend zoxide
 # cdr:  Use Zsh's `cdr` function to show recent directories as completions.
 # no:   Don't show recent directories.
 # zsh-z|zoxide|z.lua|z.sh|autojump|fasd: Use this instead (if installed).
