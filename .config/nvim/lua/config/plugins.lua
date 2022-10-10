@@ -61,6 +61,27 @@ return require('packer').startup(
             end,
             cond = term
         })
+        use({
+            "ibhagwan/smartyank.nvim",
+            config = function()
+                require("smartyank").setup{
+                    highlight = {
+                        enabled = true,
+                        higroup = "IncSearch",
+                        timeout = 100,
+                    },
+                    clipboard = {
+                        enabled = true
+                    },
+                    osc52 = {
+                        enabled = true,
+                        ssh_only = true,
+                        silent = false,
+                        echo_hl = "Directory"
+                    }
+                }
+            end
+        })
         -- use({
         --     "echasnovski/mini.nvim",
         --     config = function()
