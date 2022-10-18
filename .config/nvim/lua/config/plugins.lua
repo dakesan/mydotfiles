@@ -374,22 +374,33 @@ return require('packer').startup(
             end,
             cond = term,
         }
+        -- use {
+        --     'nguyenvukhang/nvim-toggler',
+        --     config = function()
+        --         require('nvim-toggler').setup({
+        --             inverses = {
+        --                 ['True'] = 'False',
+        --                 ['TRUE'] = 'FALSE',
+        --                 ['!='] = '==',
+        --             },
+        --             -- remove_default_keybinds = true,
+        --         })
+        --         -- default keymap is <leader>i
+        --         -- vim.keymap.set(
+        --         --     {'n', 'v'}, '<leader>cl',
+        --         --     require('nvim-toggler').toggle
+        --         --     )
+        --     end
+        -- }
         use {
-            'nguyenvukhang/nvim-toggler',
+            'nat-418/boole.nvim',
             config = function()
-                require('nvim-toggler').setup({
-                    inverses = {
-                        ['True'] = 'False',
-                        ['TRUE'] = 'FALSE',
-                        ['!='] = '==',
-                    },
-                    -- remove_default_keybinds = true,
+                require('boole').setup({
+                    mappings = {
+                        increment = '<leader><C-a>',
+                        decrement = '<leader><C-x>'
+                    }
                 })
-                -- default keymap is <leader>i
-                -- vim.keymap.set(
-                --     {'n', 'v'}, '<leader>cl',
-                --     require('nvim-toggler').toggle
-                --     )
             end
         }
         -- use {
