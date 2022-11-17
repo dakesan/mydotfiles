@@ -14,8 +14,8 @@ require('config.vscodesetting')
 -- ctrl+s save on insertmode
 vim.api.nvim_set_keymap("i", "<c-s>", "<esc>:w<cr>i", { noremap = true })
 vim.api.nvim_set_keymap("n", "<c-s>", ":w<cr>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-d><c-d>", ":q<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-d><c-d>", ":q<cr>", { noremap = true })
+-- vim.api.nvim_set_keymap("i", "<c-d><c-d>", ":q<cr>", { noremap = true })
+-- vim.api.nvim_set_keymap("n", "<c-d><c-d>", ":q<cr>", { noremap = true })
 
 -- if vim.fn.exists('g:vscode') == 0 then
 --     require('config.lsp-settings')
