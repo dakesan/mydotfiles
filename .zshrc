@@ -146,7 +146,7 @@ alias gr='gitReverse'
 
 
 #* R/Python/SQL
-alias sl="sqlite3"
+# alias sl="sqlite3"
 
 #* exa
 alias e='exa --icons'

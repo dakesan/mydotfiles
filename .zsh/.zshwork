@@ -48,3 +48,5 @@ if [[ "$HOST" =~ "^hpcfs*" ]]; then
 else
   useproxy
 fi
+
+path_append ${HOME}/.local/share/bob/nightly/nvim-linux64/bin/
