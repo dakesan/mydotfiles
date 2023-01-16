@@ -228,4 +228,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+#* poetry
 export PATH="$HOME/.poetry/bin:$PATH"
+#* golang
+export PATH=$PATH:/usr/local/go/bin

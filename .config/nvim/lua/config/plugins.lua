@@ -321,9 +321,9 @@ return require('packer').startup(
         }
         --
         -- -- move
-        use {
-            'fedepujol/move.nvim',
-        }
+        -- use {
+        --     'fedepujol/move.nvim',
+        -- }
         --
         use { 'catppuccin/nvim', as = 'catppucin' }
         --
@@ -614,4 +614,25 @@ return require('packer').startup(
             end,
             cond = term
         })
+        -- use { 'quarto-dev/quarto-nvim',
+        --     requires = {
+        --         'jmbuhr/otter.nvim',
+        --         'neovim/nvim-lspconfig'
+        --     },
+        --     config = function()
+        --         require 'quarto'.setup {
+        --             lspFeatures = {
+        --                 enabled = true,
+        --                 languages = { 'r', 'python', 'julia' },
+        --                 diagnostics = {
+        --                     enabled = true,
+        --                     triggers = { "BufWrite" }
+        --                 },
+        --                 completion = {
+        --                     enabled = true
+        --                 }
+        --             }
+        --         }
+        --     end
+        -- }
     end)

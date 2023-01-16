@@ -141,3 +141,6 @@ vim.api.nvim_set_keymap('n', ']]', "<cmd>call search('[([{]')<cr>", {})
 vim.cmd[[
     :command ReplaceQuote %s/“\(.*\)”/"\1"/g
 ]]
+--
+-- local quarto = require'quarto'
+-- vim.keymap.set('n', '<leader>qp', quarto.quartoPreview, {silent = true, noremap = true})
