@@ -49,6 +49,16 @@ return require('packer').startup(
             end,
             cond = term
         })
+        -- use({
+        --     "rktjmp/lush.nvim",
+
+        -- })
+        -- use({
+        --     "Dkendal/nvim-treeclimber",
+        --     config = function()
+        --         require("nvim-treeclimber").setup()
+        --     end
+        -- })
         use({
             "petertriho/nvim-scrollbar",
             config = function()
