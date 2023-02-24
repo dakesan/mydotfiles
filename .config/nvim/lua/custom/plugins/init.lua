@@ -15,7 +15,11 @@ return {
   },
   {
     'iamcco/markdown-preview.nvim',
-    build = function() vim.fn['mkdp#util#install']() end
+    run = function() vim.fn['mkdp#util#install']() end,
+    event = "BufRead",
+    keys = {
+      {"<leader>mp", "<Plug>MarkdownPreview", desc = "Markdown Preview"}
+    }
   },
   {
     'windwp/nvim-autopairs',
@@ -118,7 +122,7 @@ return {
       require('toggleterm').setup{ }
     end,
     keys = {
-      '<leader>;', "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal"
+      {'<leader>;', "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal"}
     },
   },
   {
@@ -142,5 +146,6 @@ return {
       vim.keymap.set("n", "<leader>lu", function()
         possession.update()
       end)
-    end,}
+    end,
+  },
 }
