@@ -38,8 +38,7 @@ packer.init({
 
 return require('packer').startup(
     function(use)
-        local vscode = "vim.fn.exists('g:vscode') ~= 0"
-        local term = "vim.fn.exists('g:vscode') == 0"
+        local term = vim.fn.exists('g:vscode') == 0
         use({ 'wbthomason/packer.nvim' })
         use({ 'nvim-lua/plenary.nvim' })
         use({

@@ -9,9 +9,11 @@ local neotree_keymaps = {
   }
 }
 
+local term = vim.fn.exists('g:vscode') == 0
+
 return {
   {
-    "catppuccin/nvim", as = 'catppucin',
+    "catppuccin/nvim", name = 'catppucin',
   },
   {
     'iamcco/markdown-preview.nvim',
@@ -19,13 +21,14 @@ return {
     event = "BufRead",
     keys = {
       {"<leader>mp", "<Plug>MarkdownPreview", desc = "Markdown Preview"}
-    }
+    },
   },
   {
     'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup({})
-    end
+    end,
+    cond = term
   },
   {
     'petertriho/nvim-scrollbar',
@@ -34,10 +37,13 @@ return {
       require('scrollbar').setup({
         handle = {color = '#CDD6F4'}
       })
-    end
+    end,
+    cond = term
   },
   {
     'kylechui/nvim-surround',
+    event = "VeryLazy",
+    tag = "v1.0.0",
     config = function()
       require("nvim-surround").setup({
         keymaps = {
@@ -53,7 +59,7 @@ return {
           change = "cs",
         }
       })
-    end
+    end,
   },
   {
     'abecodes/tabout.nvim',
@@ -114,6 +120,7 @@ return {
       [[ let g:neo_tree_remove_legacy_commands = 1 ]]
     ),
     keys = neotree_keymaps,
+    cond = term
   },
   {
     'akinsho/toggleterm.nvim',
@@ -124,6 +131,7 @@ return {
     keys = {
       {'<leader>;', "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal"}
     },
+    cond = term
   },
   {
     'mrjones2014/nvim-ts-rainbow',
