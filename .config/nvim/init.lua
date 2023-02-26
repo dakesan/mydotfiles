@@ -42,6 +42,7 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -89,15 +90,20 @@ require('lazy').setup({
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+    cond = term
   },
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    cond = term
   },
-
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  {
+    'folke/which-key.nvim',
+    opts = {},
+    cond = term
+  },
   { -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -110,6 +116,7 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+    cond = term
   },
 
   { -- Theme inspired by Atom
@@ -131,6 +138,7 @@ require('lazy').setup({
         section_separators = '',
       },
     },
+    cond = term
   },
 
   { -- Add indentation guides even on blank lines
@@ -141,13 +149,19 @@ require('lazy').setup({
       char = '┊',
       show_trailing_blankline_indent = false,
     },
+    cond = term
   },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  {
+    'nvim-telescope/telescope.nvim',
+    version = '*',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    cond = term
+  },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
@@ -160,6 +174,7 @@ require('lazy').setup({
     cond = function()
       return vim.fn.executable 'make' == 1
     end,
+    cond = term
   },
 
   { -- Highlight, edit, and navigate code
@@ -193,10 +208,11 @@ require('lazy').setup({
 -- See `:help vim.o`
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -267,22 +283,27 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
--- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = '[/] Fuzzily search in current buffer' })
+-- check if we are in vscode
+local term = vim.fn.exists('g:vscode') == 0
 
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+-- See `:help telescope.builtin`
+if term then
+  vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
+  vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+  vim.keymap.set('n', '<leader>/', function()
+    -- You can pass additional configuration to telescope to change theme, layout, etc.
+    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+      winblend = 10,
+      previewer = false,
+    })
+  end, { desc = '[/] Fuzzily search in current buffer' })
+
+  vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+  vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+  vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+  vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+  vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+end
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -293,8 +314,11 @@ require('nvim-treesitter.configs').setup {
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
 
-  highlight = { enable = true },
-  indent = { enable = true, disable = { 'python' } },
+  highlight = {
+    -- enable = true
+    enable = term
+  },
+  indent = { enable = term, disable = { 'python' } },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -350,10 +374,11 @@ require('nvim-treesitter.configs').setup {
   },
   -- custom rainbow
   rainbow = {
-    enable = true,
+    enable = term,
     extended_mode = true,
     max_file_lines = nil
-  }
+  },
+  matchup = { enable = term }
 }
 
 -- Diagnostic keymaps
