@@ -20,3 +20,7 @@ kmap({"n", "v"}, "C", '"_C')
 
 require("hodake.colorscheme")
 
+local hlset = vim.api.nvim_set_hl
+
+hlset(0, 'LineNr', {fg = '#FFFFFF'})
+hlset(0, 'CursorLineNr', {fg = '#e5ff00'})
