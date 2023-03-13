@@ -43,6 +43,8 @@ HOSTNAME="$hostname"
 #   export HOSTNAME=$HOST
 # fi
 
+source $HOME/dotfiles/proxy/proxy_adress.zsh
+
 if [[ "$HOST" =~ "^hpcfs*" ]]; then
   noproxy
 else
@@ -50,3 +52,4 @@ else
 fi
 
 path_append ${HOME}/.local/share/bob/nightly/nvim-linux64/bin/
+
