@@ -17,8 +17,9 @@ mkdir -p $HOME/.sheldon
 ln -svf $HOME/dotfiles/.sheldon/plugins.toml $HOME/.sheldon/plugins.toml
 ln -svf $HOME/dotfiles/.sheldon/plugins.toml $HOME/.config/sheldon/plugins.toml
 
-mkdir -p $HOME/.config/zellij
-ln -svf $HOME/dotfiles/.config/zellij/config.yaml $HOME/.config/zellij/config.yaml
+rm -rf $HOME/.config/zellij
+unlink $HOME/.config/zellij
+ln -svf $HOME/dotfiles/.config/zellij $HOME/.config/zellij
 
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom.omp.json
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_home.omp.json $HOME/.poshthemes/snitch_custom_home.omp.json

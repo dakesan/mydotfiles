@@ -89,6 +89,7 @@ setopt hist_ignore_space
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+LISTMAX=1000
 ### move without cd
 setopt auto_cd
 setopt auto_pushd

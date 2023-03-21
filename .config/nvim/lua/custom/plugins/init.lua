@@ -9,19 +9,26 @@ local neotree_keymaps = {
   }
 }
 
+local term = vim.fn.exists('g:vscode') == 0
+
 return {
   {
-    "catppuccin/nvim", as = 'catppucin',
+    "catppuccin/nvim", name = 'catppucin',
   },
   {
     'iamcco/markdown-preview.nvim',
-    build = function() vim.fn['mkdp#util#install']() end
+    run = function() vim.fn['mkdp#util#install']() end,
+    event = "BufRead",
+    keys = {
+      {"<leader>mp", "<Plug>MarkdownPreview", desc = "Markdown Preview"}
+    },
   },
   {
     'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup({})
-    end
+    end,
+    cond = term
   },
   {
     'petertriho/nvim-scrollbar',
@@ -30,10 +37,13 @@ return {
       require('scrollbar').setup({
         handle = {color = '#CDD6F4'}
       })
-    end
+    end,
+    cond = term
   },
   {
     'kylechui/nvim-surround',
+    event = "VeryLazy",
+    tag = "v1.0.0",
     config = function()
       require("nvim-surround").setup({
         keymaps = {
@@ -49,14 +59,14 @@ return {
           change = "cs",
         }
       })
-    end
+    end,
   },
   {
     'abecodes/tabout.nvim',
     config = function ()
       require('tabout').setup{
         tabkey = '<Tab>',
-        backwards_tabkey = 'S-<Tab>',
+        backwards_tabkey = '<S-Tab>',
         act_as_tab = true,
       }
     end
@@ -110,6 +120,7 @@ return {
       [[ let g:neo_tree_remove_legacy_commands = 1 ]]
     ),
     keys = neotree_keymaps,
+    cond = term
   },
   {
     'akinsho/toggleterm.nvim',
@@ -118,8 +129,9 @@ return {
       require('toggleterm').setup{ }
     end,
     keys = {
-      '<leader>;', "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal"
+      {'<leader>;', "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal"}
     },
+    cond = term
   },
   {
     'mrjones2014/nvim-ts-rainbow',
@@ -142,5 +154,25 @@ return {
       vim.keymap.set("n", "<leader>lu", function()
         possession.update()
       end)
-    end,}
+    end,
+  },
+
+  {
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    opts = {
+      load = {
+        ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+        ["core.norg.dirman"] = { -- Manages Neorg workspaces
+          config = {
+            workspaces = {
+              notes = "~/notes",
+            },
+          },
+        },
+      },
+    },
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+  }
 }
