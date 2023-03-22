@@ -175,6 +175,7 @@ require('lazy').setup({
     cond = function()
       return vim.fn.executable 'make' == 1
     end,
+    cond = term
   },
 
   { -- Highlight, edit, and navigate code
@@ -283,6 +284,8 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
+-- check if we are in vscode
+-- local term = vim.fn.exists('g:vscode') == 0
 
 -- See `:help telescope.builtin`
 if term then
