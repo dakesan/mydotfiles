@@ -28,7 +28,7 @@ path_append "$HOME/.cargo/bin"
 path_append "$HOME/go/bin"
 path_append "$HOME/.poetry/bin"
 
-# Util command
+#* Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
 alias pi="pip install"
 alias ai="sudo apt install"
@@ -61,6 +61,9 @@ alias vi="nvim"
 alias vim="nvim"
 alias view="nvim -R"
 alias vimconfig="vim $HOME/dotfiles/.config/nvim/init.vim"
+
+#* Python
+alias ipo="ipython"
 
 #* Zsh configuration
 # alias

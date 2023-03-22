@@ -43,7 +43,6 @@ return {
   {
     'kylechui/nvim-surround',
     event = "VeryLazy",
-    tag = "v1.0.0",
     config = function()
       require("nvim-surround").setup({
         keymaps = {
@@ -73,12 +72,20 @@ return {
   },
   {
     'chaoren/vim-wordmotion',
+    enable = false,
     config = function ()
       vim.g.wordmotion_nomap = true
     end,
     keys = {
       {"<leader>aw", "<Plug>WordMotion_aw", desc = "Camel case motion[a]"},
       {"<leader>iw", "<Plug>WordMotion_iw", desc = "Camel case motion[i]"},
+    }
+  },
+  {
+    'bkad/CamelCaseMotion',
+    keys = {
+      {"<leader>aw", "<Plug>CamelCaseMotion_iw", desc = "Camel case motion[a]"},
+      {"<leader>iw", "<Plug>CamelCaseMotion_aw", desc = "Camel case motion[i]"},
     }
   },
   {
@@ -113,7 +120,7 @@ return {
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
     },
     setup = vim.cmd(
@@ -156,4 +163,88 @@ return {
       end)
     end,
   },
+  {
+    "glepnir/lspsaga.nvim",
+    event = "BufRead",
+    config = function ()
+      require("lspsaga").setup({})
+    end,
+    dependencies = {
+      {"nvim-tree/nvim-web-devicons"}
+    },
+    keys = {
+      {"<leader>rn", "<cmd>Lspsaga rename<cr>", "[R]e[n]ame"},
+      {"K", "<cmd>Lspsaga hover_doc<cr>", "Hover documentation"},
+      {"<leader>ca", "<cmd>Lspsaga code_action<cr>", "[C]ode [A]ction"},
+      {"<leader>gd", "<cmd>Lspsaga goto_definition<cr>", "[G]oto [D]efinition"},
+      {"<leader>gr", "<cmd>Lspsaga lsp_finder<cr>", "[G]oto [R]eference"},
+      {"<leader>gt", "<cmd>Lspsaga goto_type_definition<cr>", "[G]oto [T]ype definition"},
+      {"<leader>so", "<cmd>Lspsaga outline<cr>", "[S]how [O]utline"}
+    }
+  },
+  {
+    'onsails/lspkind-nvim',
+    config = function ()
+      require('lspkind').init({
+        -- DEPRECATED (use mode instead): enables text annotations
+        --
+        -- default: true
+        -- with_text = true,
+
+        -- defines how annotations are shown
+        -- default: symbol
+        -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+        mode = 'symbol_text',
+
+        -- default symbol map
+        -- can be either 'default' (requires nerd-fonts font) or
+        -- 'codicons' for codicon preset (requires vscode-codicons font)
+        --
+        -- default: 'default'
+        preset = 'codicons',
+
+        -- override preset symbols
+        --
+        -- default: {}
+        symbol_map = {
+          Text = "",
+          Method = "",
+          Function = "",
+          Constructor = "",
+          Field = "ﰠ",
+          Variable = "",
+          Class = "ﴯ",
+          Interface = "",
+          Module = "",
+          Property = "ﰠ",
+          Unit = "塞",
+          Value = "",
+          Enum = "",
+          Keyword = "",
+          Snippet = "",
+          Color = "",
+          File = "",
+          Reference = "",
+          Folder = "",
+          EnumMember = "",
+          Constant = "",
+          Struct = "פּ",
+          Event = "",
+          Operator = "",
+          TypeParameter = ""
+        },
+      })
+    end
+  },
+  -- {
+  --   'jalvesaq/Nvim-R',
+  --   ft = { "R", "r", "Rmd", "rmd", "qmd" },
+  --   -- enabled = false,
+  --   branch = "stable",
+  --   config = function ()
+  --     vim.cmd(
+  --       [[ let R_external_term = 'radian']]
+  --     )
+  --   end
+  -- }
 }
