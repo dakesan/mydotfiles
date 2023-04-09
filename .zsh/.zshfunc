@@ -48,3 +48,8 @@ function saveimg () {
   powershell.exe "(Get-Clipboard -Format Image).Save(\"$1\")"
   return 1
 }
+
+function ignorelarge () {
+  find . -size +100M | sed -e 's/^\.\///' >> .gitignore
+  echo "+100MB files were added to .gitignore!"
+}
