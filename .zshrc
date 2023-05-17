@@ -16,6 +16,10 @@ elif [[ "$HOST" =~ "^hpc*" ]]; then
   source ~/dotfiles/.zsh/.zshwork
   source $HOME/dotfiles/proxy/proxy_adress.zsh
   source $HOME/dotfiles/.zsh/hpcfunctions.zsh
+elif [[ "$HOST" =~ "^ip*" ]]; then
+  source ~/dotfiles/.zsh/.zshaws
+elif [[ "$HOST" =~ "^hodake*" ]]; then
+  source ~/dotfiles/.zsh/.zshhome
 else
   source ~/dotfiles/.zsh/.zshhome;
 fi
