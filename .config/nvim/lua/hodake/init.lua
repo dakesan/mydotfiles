@@ -24,3 +24,22 @@ local hlset = vim.api.nvim_set_hl
 
 hlset(0, 'LineNr', {fg = '#FFFFFF'})
 hlset(0, 'CursorLineNr', {fg = '#e5ff00'})
+
+-- clipboard
+
+vim.cmd [[
+  set clipboard=unnamed
+  let g:clipboard = {
+        \   'name': 'myClipboard',
+        \   'copy': {
+        \      '+': 'win32yank.exe -i',
+        \      '*': 'win32yank.exe -i',
+        \    },
+        \   'paste': {
+        \      '+': 'win32yank.exe -o',
+        \      '*': 'win32yank.exe -o',
+        \   },
+        \   'cache_enabled': 1,
+        \ }
+
+]]

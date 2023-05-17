@@ -6,7 +6,7 @@ shell = 'zsh'
 github = 'romkatv/zsh-defer'
 apply = ['source']
 [templates]
-defer = { value = 'zsh-defer source "{{ file }}"', each = true }
+defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
 [plugins.history-search-multi-word]
 github = 'zdharma-continuum/history-search-multi-word'
 apply = ['defer']
