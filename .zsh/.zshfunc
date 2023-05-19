@@ -53,3 +53,9 @@ function ignorelarge () {
   find . -size +100M | sed -e 's/^\.\///' >> .gitignore
   echo "+100MB files were added to .gitignore!"
 }
+
+function saws () {
+  autoload bashcompinit && bashcompinit
+  autoload -Uz compinit && compinit
+  complete -C '/usr/local/bin/aws_completer' aws
+}

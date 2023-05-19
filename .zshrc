@@ -261,3 +261,8 @@ export PATH=$PATH:/usr/local/go/bin
 # # <<< conda initialize <<<
 #
 #
+
+# aws
+if type "aws" > /dev/null; then
+  complete -C '/usr/local/bin/aws_compiler' aws
+fi
