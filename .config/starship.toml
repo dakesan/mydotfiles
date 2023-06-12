@@ -196,7 +196,7 @@ disabled = false
 ## Languages & Tools
 ################################################################################
 [aws]
-format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+format = '\[[$symbol($profile)(\[$duration\])]($style)\]'
 symbol = ''
 style = "yellow"
 
