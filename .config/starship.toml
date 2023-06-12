@@ -146,10 +146,10 @@ show_always = false
 
 [hostname]
 ssh_only = false
-format = "<[$hostname]($style)>"
+format = "[$hostname]($style) ~ "
 trim_at = "-"
 style = "bold dimmed white"
-disabled = true
+disabled = false
 
 [directory]
 truncation_length = 5

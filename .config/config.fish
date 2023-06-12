@@ -5,7 +5,7 @@ set -gx PATH "/usr/bin:$PATH"
 set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
 set -gx PATH "$HOME/.poetry/bin:$PATH"
-
+set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
 # * alias
 # ? util command
 alias pi 'pip install'
