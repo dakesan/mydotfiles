@@ -43,3 +43,6 @@ vim.cmd [[
         \ }
 
 ]]
+
+-- nextflow
+vim.cmd [[autocmd BufNewFile.BufRead *.nf set filetype=groovy]]

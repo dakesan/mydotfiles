@@ -70,13 +70,15 @@ end
 alias gr 'gitreverse'
 
 # * exa
-alias la='exa -ag --icons'
-alias ll='exa -aal -g --git --icons'
-alias lt='exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
-alias lta='lt -l --git'
+alias la 'exa -ag --icons'
+alias ll 'exa -aal -g --git --icons'
+alias lt 'exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
+alias lta 'lt -l --git'
 
 # * fzf
 
+# * Neovim
+alias vim 'neovim'
 
 # * sheldon
 # sheldon source | source
