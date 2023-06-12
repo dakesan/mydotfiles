@@ -1,7 +1,7 @@
 # rossmacarthur/sheldon
 
 
-shell = 'zsh'
+shell = ''
 [plugins.zsh-defer]
 github = 'romkatv/zsh-defer'
 apply = ['source']
@@ -34,4 +34,4 @@ inline = 'fpath+=$HOME/.local/conda-zsh-completion && autoload -Uz compinit && z
 [plugins.colors]
 inline = 'autoload -Uz colors && zsh-defer colors'
 [plugins.dircolors]
-inline = 'zsh-defer eval "$(dircolors ~/dotfiles/.dircolors)"'
+inline = 'dircolors ~/dotfiles/.dircolors | zsh-defer eval'

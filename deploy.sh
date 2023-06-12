@@ -8,6 +8,10 @@ done
 
 mkdir $HOME/.config
 
+rm $HOME/.config/fish/config.fish
+ln -svf $HOME/dotfiles/.config/config.fish $HOME/.config/fish/
+ln -svf $HOME/dotfiles/.config/starship.toml $HOME/.config/
+
 rm -rf $HOME/.config/nvim
 unlink $HOME/.config/nvim
 ln -svf $HOME/dotfiles/.config/nvim $HOME/.config/nvim
