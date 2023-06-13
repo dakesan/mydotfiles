@@ -10,6 +10,7 @@ set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
 # ? util command
 alias pi 'pip install'
 alias ai 'sudo apt install'
+alias nf 'nextflow'
 # ? axel
 alias Axel 'axel -n 10 --insecure'
 # ? zellij
@@ -78,7 +79,7 @@ alias lta 'lt -l --git'
 # * fzf
 
 # * Neovim
-alias vim 'neovim'
+alias vim 'nvim'
 
 # * sheldon
 # sheldon source | source
