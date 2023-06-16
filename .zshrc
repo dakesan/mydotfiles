@@ -262,7 +262,12 @@ export PATH=$PATH:/usr/local/go/bin
 #
 #
 
-# aws
-if type "aws" > /dev/null; then
-  complete -C '/usr/local/bin/aws_compiler' aws
-fi
+# # aws
+# if type "aws" > /dev/null; then
+#   autoload
+#   complete -C '/usr/local/bin/aws_compiler' aws
+# fi
+#
+setopt autocd 
+autoload -Uz compinit
+compinit
