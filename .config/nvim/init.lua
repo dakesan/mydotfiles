@@ -81,12 +81,12 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
+      { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -94,9 +94,20 @@ require('lazy').setup({
     -- -- cond = term
   },
 
-  { -- Autocompletion
+  { 
+    -- Autocompletion
     'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    dependencies = {
+      -- Snippet Engine & its associated nvim-cmp source
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+
+      -- Adds LSP completion capabilities
+      'hrsh7th/cmp-nvim-lsp',
+
+      -- Adds a number of user-friendly snippets
+      'rafamadriz/friendly-snippets',
+    },
     -- cond = term
   },
   -- Useful plugin to show you pending keybinds.
@@ -116,11 +127,17 @@ require('lazy').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
       },
+      on_attach = function(bufnr)
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+      end,
     },
     -- cond = term
   },
 
-  { -- Theme inspired by Atom
+  { 
+    -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
@@ -128,7 +145,8 @@ require('lazy').setup({
     end,
   },
 
-  { -- Set lualine as statusline
+  { 
+    -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
@@ -142,7 +160,8 @@ require('lazy').setup({
     -- cond = term
   },
 
-  { -- Add indentation guides even on blank lines
+  { 
+    -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
@@ -157,12 +176,7 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim', opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
-  {
-    'nvim-telescope/telescope.nvim',
-    version = '*',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    -- -- cond = term
-  },
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
@@ -178,14 +192,13 @@ require('lazy').setup({
     cond = term
   },
 
-  { -- Highlight, edit, and navigate code
+  { 
+    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
-    config = function()
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
-    end,
+    build = ':TSUpdate',
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -467,9 +480,6 @@ require('neodev').setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Setup mason so it can manage external tooling
-require('mason').setup()
-
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 
@@ -487,10 +497,11 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
--- nvim-cmp setup
+-- [[ Configure nvim-cmp ]]
+-- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-
+require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
