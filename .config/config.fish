@@ -24,8 +24,8 @@ starship init fish | source
 
 # * python
 alias ipo 'ipython'
-set PYENV_ROOT "$HOME/.pyenv"
-command -v pyenv >/dev/null; or export PATH="$PYENV_ROOT/bin:$PATH"
+set -Ux PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
 pyenv init - | source
 
 # * fish configuration
