@@ -70,6 +70,11 @@ function gitreverse
 end
 alias gr 'gitreverse'
 
+function gitpub
+  eval (ssh-agent -c)
+  ssh-add ~/.ssh/github
+end
+
 # * aws
 function sshaws
   ssh -i "~/aws/rsa_awsssh.pem" ubuntu@$argv
