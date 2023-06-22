@@ -107,24 +107,83 @@ return {
       {"<leader>iw", "<Plug>CamelCaseMotion_aw", desc = "Camel case motion[i]"},
     }
   },
+  -- {
+  --   'phaazon/hop.nvim',
+  --   branch = 'v2',
+  --   config = function ()
+  --     require("hop").setup {
+  --       keys = 'etovxqpdygfblzhckisuran'
+  --     }
+  --   end,
+  --   keys = {
+  --     {"<leader>e", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", desc = "Hop hint words"},
+  --     {"<leader>hj", "<cmd>HopLineStartAC<cr>", desc = "Hop down"},
+  --     {"<leader>hk", "<cmd>HopLineStartBC<cr>", desc = "Hop up"},
+  --     {"<leader>hl", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
+  --     {"<leader>hh", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
+  --     {"<leader>he", "<cmd>HopWordAC<cr>", desc = "Hop forward"},
+  --     {"<leader>hb", "<cmd>HopWordBC<cr>", desc = "Hop backward"},
+  --     {"<leader>hw", "<cmd>HopChar1<cr>", desc = "Hop one char"},
+  --   }
+  -- },
   {
-    'phaazon/hop.nvim',
-    branch = 'v2',
-    config = function ()
-      require("hop").setup {
-        keys = 'etovxqpdygfblzhckisuran'
-      }
-    end,
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
     keys = {
-      {"<leader>e", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", desc = "Hop hint words"},
-      {"<leader>hj", "<cmd>HopLineStartAC<cr>", desc = "Hop down"},
-      {"<leader>hk", "<cmd>HopLineStartBC<cr>", desc = "Hop up"},
-      {"<leader>hl", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
-      {"<leader>hh", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
-      {"<leader>he", "<cmd>HopWordAC<cr>", desc = "Hop forward"},
-      {"<leader>hb", "<cmd>HopWordBC<cr>", desc = "Hop backward"},
-      {"<leader>hw", "<cmd>HopChar1<cr>", desc = "Hop one char"},
-    }
+      {
+        "<leader>s",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc="flash treesitter",
+      },
+    },
+  },
+  {
+    'quarto-dev/quarto-nvim',
+    dev = false,
+    dependencies = {
+      { 'hrsh7th/nvim-cmp' },
+      {
+        'jmbuhr/otter.nvim',
+        dev = false,
+        config = function()
+          require 'otter.config'.setup {
+            lsp = {
+              hover = {
+                border = require 'misc.style'.border
+              }
+            }
+          }
+        end,
+      },
+
+    },
+    config = function()
+      require 'quarto'.setup {
+        closePreviewOnExit = true,
+        lspFeatures = {
+          enabled = true,
+          chunks = 'curly',
+          languages = { 'r', 'python', 'julia', 'bash', 'lua', 'html' },
+          diagnostics = {
+            enabled = true,
+            triggers = { "BufWritePost" }
+          },
+          completion = {
+            enabled = true,
+          },
+        },
+        keymap = {
+          hover = 'K',
+          definition = 'gd',
+          rename = '<leader>lR',
+          references = 'gr',
+        },
+      }
+    end
   },
   {
     'nvim-neo-tree/neo-tree.nvim',
