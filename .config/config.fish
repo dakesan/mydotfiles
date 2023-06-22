@@ -79,6 +79,7 @@ end
 function sshaws
   ssh -i "~/aws/rsa_awsssh.pem" ubuntu@$argv
 end
+source hostnames.fish
 
 # * exa
 alias la 'exa -ag --icons'
