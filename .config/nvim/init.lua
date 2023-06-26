@@ -94,7 +94,7 @@ require('lazy').setup({
     -- -- cond = term
   },
 
-  { 
+  {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -136,7 +136,7 @@ require('lazy').setup({
     -- cond = term
   },
 
-  { 
+  {
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
@@ -145,7 +145,7 @@ require('lazy').setup({
     end,
   },
 
-  { 
+  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
@@ -160,7 +160,7 @@ require('lazy').setup({
     -- cond = term
   },
 
-  { 
+  {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
@@ -192,7 +192,7 @@ require('lazy').setup({
     cond = term
   },
 
-  { 
+  {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {

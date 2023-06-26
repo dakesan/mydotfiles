@@ -107,25 +107,27 @@ return {
       {"<leader>iw", "<Plug>CamelCaseMotion_aw", desc = "Camel case motion[i]"},
     }
   },
-  -- {
-  --   'phaazon/hop.nvim',
-  --   branch = 'v2',
-  --   config = function ()
-  --     require("hop").setup {
-  --       keys = 'etovxqpdygfblzhckisuran'
-  --     }
-  --   end,
-  --   keys = {
-  --     {"<leader>e", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", desc = "Hop hint words"},
-  --     {"<leader>hj", "<cmd>HopLineStartAC<cr>", desc = "Hop down"},
-  --     {"<leader>hk", "<cmd>HopLineStartBC<cr>", desc = "Hop up"},
-  --     {"<leader>hl", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
-  --     {"<leader>hh", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
-  --     {"<leader>he", "<cmd>HopWordAC<cr>", desc = "Hop forward"},
-  --     {"<leader>hb", "<cmd>HopWordBC<cr>", desc = "Hop backward"},
-  --     {"<leader>hw", "<cmd>HopChar1<cr>", desc = "Hop one char"},
-  --   }
-  -- },
+  {
+    'phaazon/hop.nvim',
+    branch = 'v2',
+    config = function ()
+      require("hop").setup {
+        keys = 'etovxqpdygfblzhckisuran'
+      }
+    end,
+    keys = {
+      {"<leader>e", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", desc = "Hop hint words"},
+      {"<leader>hj", "<cmd>HopLineStartAC<cr>", desc = "Hop down"},
+      {"<leader>hk", "<cmd>HopLineStartBC<cr>", desc = "Hop up"},
+      {"<leader>hl", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
+      -- {"S", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
+      {"<leader>hh", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
+      -- {"s", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
+      {"<leader>he", "<cmd>HopWordAC<cr>", desc = "Hop forward"},
+      {"<leader>hb", "<cmd>HopWordBC<cr>", desc = "Hop backward"},
+      {"<leader>hw", "<cmd>HopChar1<cr>", desc = "Hop one char"},
+    }
+  },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
