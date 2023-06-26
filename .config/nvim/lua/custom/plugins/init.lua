@@ -108,6 +108,13 @@ return {
     }
   },
   {
+    'ggandor/leap.nvim',
+    keys = {
+      {"<leader>s", "<Plug>(leap-forward-to)", desc = "leap forward"},
+      {"<leader>S", "<Plug>(leap-backward-to)", desc = "leap forward"},
+    }
+  },
+  {
     'phaazon/hop.nvim',
     branch = 'v2',
     config = function ()
