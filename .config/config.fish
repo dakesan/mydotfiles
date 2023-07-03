@@ -99,6 +99,11 @@ alias vim 'nvim'
 alias act 'mamba activate'
 alias dact 'mamba deactivate'
 
+# * BioInformatics
+function count-fastq
+  zcat $argv | awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'
+end
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if test -f $HOME/mambaforge/bin/conda

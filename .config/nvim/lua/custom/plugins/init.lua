@@ -112,10 +112,12 @@ return {
     keys = {
       {"<leader>s", "<Plug>(leap-forward-to)", desc = "leap forward"},
       {"<leader>S", "<Plug>(leap-backward-to)", desc = "leap forward"},
-    }
+    },
+    event = "VeryLazy",
   },
   {
     'phaazon/hop.nvim',
+    event = "VeryLazy",
     branch = 'v2',
     config = function ()
       require("hop").setup {
@@ -135,21 +137,21 @@ return {
       {"<leader>hw", "<cmd>HopChar1<cr>", desc = "Hop one char"},
     }
   },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = {},
-    keys = {
-      {
-        "<leader>s",
-        mode = { "o", "x" },
-        function()
-          require("flash").treesitter()
-        end,
-        desc="flash treesitter",
-      },
-    },
-  },
+  -- {
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   opts = {},
+  --   keys = {
+  --     {
+  --       "<leader>p",
+  --       mode = { "n", "o", "x" },
+  --       function()
+  --         require("flash").jump()
+  --       end,
+  --       desc="flash treesitter",
+  --     },
+  --   },
+  -- },
   {
     'quarto-dev/quarto-nvim',
     dev = false,
