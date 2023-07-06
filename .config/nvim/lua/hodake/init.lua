@@ -7,7 +7,7 @@ kmap("i", "<C-s>", "<Esc>:w<cr>i")
 kmap("n", "<C-d>", "<C-d>zz")
 kmap("n", "<C-u>", "<C-u>zz")
 
-
+kmap("n", "<leader><CR>", "a<CR><Esc>")
 kmap("i", "<C-z>", "<Esc>ua")
 
 -- レジスタを汚さないxやx
