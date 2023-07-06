@@ -75,6 +75,15 @@ function gitpub
   ssh-add ~/.ssh/github
 end
 
+# * zellij
+function zla
+  zellij attach (zl | head -1)
+end
+
+function fmv
+  tar c $argv[1] | pv | tar x -C $argv[2]
+end
+
 # * aws
 function sshaws
   ssh -i "~/aws/rsa_awsssh.pem" ubuntu@$argv
@@ -94,7 +103,6 @@ alias vim 'nvim'
 
 # * sheldon
 # sheldon source | source
-
 # * conda
 alias act 'mamba activate'
 alias dact 'mamba deactivate'
