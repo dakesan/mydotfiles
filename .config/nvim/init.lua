@@ -152,10 +152,18 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
+        theme = 'wombat',
+        -- component_separators = '|',
+        component_separators = { left = '', right = ''},
+        section_separators = { left = '', right = ''},
       },
+      tabline = {
+        lualine_a = {'buffers'},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+      }
     },
     -- cond = term
   },
