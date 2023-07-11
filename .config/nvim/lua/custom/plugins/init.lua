@@ -67,10 +67,10 @@ return {
         keymaps = {
           insert = "<C-g>s",
           insert_line = "<C-g>S",
-          normal = "sa",
-          normal_cur = "ys",
+          normal = "ys",
+          normal_cur = "yss",
           normal_line = "yS",
-          normal_cur_line = "yS",
+          normal_cur_line = "ySS",
           visual = "s",
           visual_line = "gS",
           delete = "ds",

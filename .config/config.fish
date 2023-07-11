@@ -75,6 +75,12 @@ function gitpub
   ssh-add ~/.ssh/github
 end
 
+# * quarto
+function html2pdf
+  set filename (string replace -r '.html$' '' $argv[1])
+  google-chrome-stable --headless --disable-gpu --print-to-pdf=$filename.pdf $argv[1]
+end
+
 # * zellij
 function zla
   zellij attach (zl | head -1)
