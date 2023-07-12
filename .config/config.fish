@@ -77,8 +77,10 @@ end
 
 # * quarto
 function html2pdf
-  set filename (string replace -r '.html$' '' $argv[1])
-  google-chrome-stable --headless --disable-gpu --print-to-pdf=$filename.pdf $argv[1]
+  for file in $argv
+    set filename (string replace -r '.html$' '' $file)
+    google-chrome-stable --headless --disable-gpu --print-to-pdf=$filename.pdf $file
+  end
 end
 
 # * zellij
