@@ -161,7 +161,7 @@ return {
         'jmbuhr/otter.nvim',
         dev = false,
         config = function()
-          require 'otter.config'.setup {
+          require 'otter'.setup {
             lsp = {
               hover = {
                 border = require 'misc.style'.border
