@@ -152,7 +152,8 @@ style = "bold dimmed white"
 disabled = false
 
 [directory]
-truncation_length = 5
+truncation_length = 100
+truncate_to_repo = false
 format = "[$path]($style)[$lock_symbol]($lock_style) "
 
 [directory.substitutions]
