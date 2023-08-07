@@ -57,7 +57,8 @@ return {
       'RainbowDelimSimple',
       'RainbowDelimQuoted',
       'RainbowMultiDelim'
-    }
+    },
+    cond  = term
   },
   {
     'kylechui/nvim-surround',
@@ -231,9 +232,6 @@ return {
   },
   {
     'mrjones2014/nvim-ts-rainbow',
-  },
-  {
-    'mechatroner/rainbow_csv'
   },
   {
     'gennaro-tedesco/nvim-possession',
