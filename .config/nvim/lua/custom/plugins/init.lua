@@ -108,14 +108,14 @@ return {
       {"<leader>iw", "<Plug>CamelCaseMotion_aw", desc = "Camel case motion[i]"},
     }
   },
-  {
-    'ggandor/leap.nvim',
-    keys = {
-      {"<leader>s", "<Plug>(leap-forward-to)", desc = "leap forward"},
-      {"<leader>S", "<Plug>(leap-backward-to)", desc = "leap forward"},
-    },
-    event = "VeryLazy",
-  },
+  -- {
+  --   'ggandor/leap.nvim',
+  --   keys = {
+  --     {"<leader>s", "<Plug>(leap-forward-to)", desc = "leap forward"},
+  --     {"<leader>S", "<Plug>(leap-backward-to)", desc = "leap forward"},
+  --   },
+  --   event = "VeryLazy",
+  -- },
   {
     'phaazon/hop.nvim',
     event = "VeryLazy",
@@ -127,14 +127,14 @@ return {
     end,
     keys = {
       {"<leader>e", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", desc = "Hop hint words"},
-      {"<leader>hj", "<cmd>HopLineStartAC<cr>", desc = "Hop down"},
-      {"<leader>hk", "<cmd>HopLineStartBC<cr>", desc = "Hop up"},
-      {"<leader>hl", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
+      {"<leader>j", "<cmd>HopLineStartAC<cr>", desc = "Hop down"},
+      {"<leader>k", "<cmd>HopLineStartBC<cr>", desc = "Hop up"},
+      {"<leader>s", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
       -- {"S", "<cmd>HopWordCurrentLineAC<cr>", desc = "Hop right"},
-      {"<leader>hh", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
+      {"<leader>S", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
       -- {"s", "<cmd>HopWordCurrentLineBC<cr>", desc = "Hop left"},
-      {"<leader>he", "<cmd>HopWordAC<cr>", desc = "Hop forward"},
-      {"<leader>hb", "<cmd>HopWordBC<cr>", desc = "Hop backward"},
+      {"<leader>e", "<cmd>HopWordAC<cr>", desc = "Hop forward"},
+      {"<leader>b", "<cmd>HopWordBC<cr>", desc = "Hop backward"},
       {"<leader>hw", "<cmd>HopChar1<cr>", desc = "Hop one char"},
     }
   },
