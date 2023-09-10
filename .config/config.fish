@@ -98,6 +98,12 @@ function sshaws
 end
 source $HOME/dotfiles/hostnames.fish
 
+# * blog
+function saveimg
+    powershell.exe "(Get-Clipboard -Format Image).Save(\"$argv[1]\")"
+    return 1
+end
+
 # * exa
 alias la 'exa -ag --icons'
 alias ll 'exa -aal -g --git --icons'
