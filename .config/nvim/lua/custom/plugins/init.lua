@@ -117,9 +117,8 @@ return {
   --   event = "VeryLazy",
   -- },
   {
-    'phaazon/hop.nvim',
+    'smoka7/hop.nvim',
     event = "VeryLazy",
-    branch = 'v2',
     config = function ()
       require("hop").setup {
         keys = 'etovxqpdygfblzhckisuran'
