@@ -361,5 +361,12 @@ return {
       {"b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" }},
       {"ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-ge" }}
     }
+  },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    config = function()
+      require("hlchunk").setup({})
+    end
   }
 }
