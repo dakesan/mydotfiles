@@ -145,6 +145,10 @@ if test -f "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
 end
 # <<< conda initialize <<<
 
+# Enable AWS CLI autocompletion: github.com/aws/aws-cli/issues/1079
+complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
+
+
 # theme
 set -U fish_color_normal normal
 set -U fish_color_command F8F8F2
