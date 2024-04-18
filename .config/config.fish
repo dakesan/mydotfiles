@@ -6,6 +6,10 @@ set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
 set -gx PATH "$HOME/.poetry/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
+set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
+set -gx FLYCTL_INSTALL "/home/oodake/.fly"
+set -gx PATH "/usr/local/cuda-12.3/bin:$PATH"
+set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH"
 # * alias
 # ? util command
 alias pi 'pip install'
@@ -104,6 +108,10 @@ function saveimg
     return 1
 end
 
+function ec2table
+  aws ec2 describe-instances --output=table --query 'Reservations[].Instances[].{InstanceId: InstanceId, PrivateIp: join(`, `, NetworkInterfaces[].PrivateIpAddress), GlobalIP: join(`, `, NetworkInterfaces[].Association
+.PublicIp), Platform:Platform, State: State.Name, SecurityGroupId: join(`, `, SecurityGroups[].GroupId) ,Name: Tags[?Key==`Name`].Value|[0]}'
+end
 # * exa
 alias la 'exa -ag --icons'
 alias ll 'exa -aal -g --git --icons'
