@@ -6,6 +6,10 @@ set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
 set -gx PATH "$HOME/.poetry/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
+set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
+set -gx FLYCTL_INSTALL "/home/oodake/.fly"
+set -gx PATH "/usr/local/cuda-12.3/bin:$PATH"
+set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH"
 # * alias
 # ? util command
 alias pi 'pip install'
@@ -108,6 +112,10 @@ function saveimg
     return 1
 end
 
+function ec2table
+  aws ec2 describe-instances --output=table --query 'Reservations[].Instances[].{InstanceId: InstanceId, PrivateIp: join(`, `, NetworkInterfaces[].PrivateIpAddress), GlobalIP: join(`, `, NetworkInterfaces[].Association.PublicIp), InstanceType: InstanceType, Platform:Platform, State: State.Name, SecurityGroupId: join(`, `, SecurityGroups[].GroupId) ,Name: Tags[?Key==`Name`].Value|[0]}'
+end
+
 # * exa
 alias la 'exa -ag --icons'
 alias ll 'exa -aal -g --git --icons'
@@ -140,6 +148,10 @@ if test -f "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
     source "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
 end
 # <<< conda initialize <<<
+
+# Enable AWS CLI autocompletion: github.com/aws/aws-cli/issues/1079
+complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
+
 
 # theme
 set -U fish_color_normal normal
