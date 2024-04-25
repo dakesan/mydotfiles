@@ -98,6 +98,10 @@ function sshaws
 end
 source $HOME/dotfiles/hostnames.fish
 
+function sshaws2
+  ssh -i "~/aws/rsa_awsssh.pem" ec2-user@$argv
+end
+
 # * blog
 function saveimg
     powershell.exe "(Get-Clipboard -Format Image).Save(\"$argv[1]\")"
