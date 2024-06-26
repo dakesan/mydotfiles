@@ -10,6 +10,10 @@ set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
 set -gx FLYCTL_INSTALL "/home/oodake/.fly"
 set -gx PATH "/usr/local/cuda-12.3/bin:$PATH"
 set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH"
+
+set -x PATH $HOME/.nodenv/bin $PATH
+status --is-interactive; and source (nodenv init -|psub)
+
 # * alias
 # ? util command
 alias pi 'pip install'
