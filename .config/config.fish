@@ -83,6 +83,24 @@ function gitpub
   ssh-add ~/.ssh/github
 end
 
+function start_agent
+    if not set -q SSH_AUTH_SOCK
+        eval (ssh-agent -c)
+        set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+        set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+    end
+end
+
+function add_identities
+    ssh-add -l > /dev/null 2>&1
+    if test $status -ne 0
+        ssh-add ~/.ssh/github >/dev/null 2>&1
+    end
+end
+
+start_agent
+add_identities
+
 # * quarto
 function html2pdf
   for file in $argv
