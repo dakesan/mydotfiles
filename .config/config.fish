@@ -160,6 +160,24 @@ function count-fastq
   zcat $argv | awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'
 end
 
+# * notify
+function notify
+    set duration (math (date +%s) - $argv[1])
+    if test $duration -gt 5
+        powershell.exe -File /path/to/notify.ps1 "コマンドが終了しました：$argv[2]"
+    end
+end
+
+function fish_prompt
+    set -g __start_time (date +%s)
+    echo -n (prompt_pwd)
+end
+
+function fish_right_prompt
+    notify $__start_time (history | head -n1 | string trim)
+end
+
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if test -f $HOME/mambaforge/bin/conda
