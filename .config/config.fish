@@ -100,6 +100,7 @@ end
 
 start_agent
 add_identities
+gitpub
 
 # * quarto
 function html2pdf
