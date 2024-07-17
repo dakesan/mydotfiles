@@ -14,7 +14,7 @@ ln -svf $HOME/dotfiles/.config/starship.toml $HOME/.config/
 
 rm -rf $HOME/.config/nvim
 unlink $HOME/.config/nvim
-ln -svf $HOME/dotfiles/.config/nvim $HOME/.config/nvim
+# ln -svf $HOME/dotfiles/.config/nvim $HOME/.config/nvim
 
 mkdir -p $HOME/.config/procs
 ln -svf $HOME/dotfiles/.config/procs/config.toml $HOME/.config/procs/config.toml
