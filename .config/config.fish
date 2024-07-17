@@ -98,8 +98,11 @@ function add_identities
     end
 end
 
-start_agent
-add_identities
+if status --is-interactive
+  start_agent
+  add_identities
+  gitpub
+end
 
 # * quarto
 function html2pdf
