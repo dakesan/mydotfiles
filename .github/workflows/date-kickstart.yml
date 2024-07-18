@@ -22,8 +22,11 @@ jobs:
           if [[ -n $(git status -s) ]]; then
             git add .config/nvim
             git commit -m "Update kickstart.nvim submodule"
-            git push
+            git push origin master
           fi
+        env:
+        GIT_TRACE: 1
+        GIT_CURL_VERBOSE: 1
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6  # Update to v6 if available
@@ -31,4 +34,4 @@ jobs:
           title: 'Update kickstart.nvim submodule'
           body: 'This PR updates the kickstart.nvim submodule to the latest version.'
           branch: update-kickstart-submodule
-          base: main
+          base: master
