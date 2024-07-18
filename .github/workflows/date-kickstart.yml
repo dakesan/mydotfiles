@@ -1,0 +1,34 @@
+name: Update kickstart.nvim
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # 毎週日曜日の午前0時に実行
+  workflow_dispatch:  # 手動実行用
+
+jobs:
+  update-kickstart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Update kickstart submodule
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git submodule update --remote .config/nvim/kickstart
+          if [[ -n $(git status -s) ]]; then
+            git add .config/nvim/kickstart
+            git commit -m "Update kickstart.nvim submodule"
+            git push
+          fi
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: 'Update kickstart.nvim submodule'
+          body: 'This PR updates the kickstart.nvim submodule to the latest version.'
+          branch: update-kickstart-submodule
+          base: main  # あなたのメインブランチ名に応じて変更してください
