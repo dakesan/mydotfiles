@@ -18,7 +18,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git submodule update --remote .config/nvim/kickstart
+          git submodule update --remote .config/nvim
           if [[ -n $(git status -s) ]]; then
             git add .config/nvim/kickstart
             git commit -m "Update kickstart.nvim submodule"
