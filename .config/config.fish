@@ -86,7 +86,7 @@ end
 
 function isWinDir
   switch $PW
-    case /mnt/*
+    case "/mnt/*"
       return 0
     case '*'
       return 1
