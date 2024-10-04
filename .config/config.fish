@@ -84,6 +84,24 @@ function gitpub
   ssh-add ~/.ssh/github
 end
 
+function isWinDir
+  switch $PW
+    case "/mnt/*"
+      return 0
+    case '*'
+      return 1
+  end
+end
+
+# wrap the git command to either run windows git or linux
+function git
+  if isWinDir
+    git.exe $argv
+  else
+    /usr/bin/git $argv
+  end
+end
+
 function start_agent
     if not set -q SSH_AUTH_SOCK
         eval (ssh-agent -c)

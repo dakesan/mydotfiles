@@ -28,6 +28,10 @@ rm -rf $HOME/.config/zellij
 unlink $HOME/.config/zellij
 ln -svf $HOME/dotfiles/.config/zellij $HOME/.config/zellij
 
+rm -rf $HOME/.config/yazi
+unlink $HOME/.config/yazi
+ln -svf $HOME/dotfiles/.config/yazi $HOME/.config/yazi
+
 mkdir $HOME/.poshthemes
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom.omp.json
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_home.omp.json $HOME/.poshthemes/snitch_custom_home.omp.json
