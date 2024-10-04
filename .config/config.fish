@@ -132,6 +132,10 @@ function sshaws2
   ssh -i "~/aws/rsa_awsssh.pem" ec2-user@$argv
 end
 
+function sshaws3
+  ssh -i "~/aws/uehara.pem" ubuntu@$argv
+end
+
 # * blog
 function saveimg
     powershell.exe "(Get-Clipboard -Format Image).Save(\"$argv[1]\")"
