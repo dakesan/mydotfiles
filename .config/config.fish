@@ -6,11 +6,13 @@ set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
 set -gx PATH "$HOME/.poetry/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
+set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
 set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
 set -gx PATH "$HOME/.deno/bin:$PATH"
 set -gx FLYCTL_INSTALL "/home/oodake/.fly"
-set -gx PATH "/usr/local/cuda-12.3/bin:$PATH"
-set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH"
+set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
+set -x BNB_CUDA_CERSION 128
+set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
 
 set -x PATH $HOME/.nodenv/bin $PATH
 status --is-interactive; and source (nodenv init -|psub)
@@ -195,6 +197,17 @@ end
 
 if test -f "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
     source "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
+end
+# <<< conda initialize <<<
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f $HOME/miniforge3/bin/conda
+    eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
+end
+
+if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
 end
 # <<< conda initialize <<<
 
