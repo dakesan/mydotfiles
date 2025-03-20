@@ -1,5 +1,8 @@
 # * Path configuration
 set -gx PATH "$HOME/.local/bin:$PATH"
+for dir in (find ~/.local/bin -type d)
+    set -gx PATH $dir $PATH
+end
 set -gx PATH "/usr/local/bin:$PATH"
 set -gx PATH "/usr/bin:$PATH"
 set -gx PATH "$HOME/.cargo/bin:$PATH"
@@ -167,9 +170,9 @@ function ec2table
 end
 
 # * exa
-alias la 'exa -ag --icons'
-alias ll 'exa -aal -g --git --icons'
-alias lt 'exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
+alias la 'eza -ag --icons'
+alias ll 'eza -aal -g --git --icons'
+alias lt 'eza -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
 alias lta 'lt -l --git'
 
 # * fzf
@@ -212,8 +215,9 @@ end
 # <<< conda initialize <<<
 
 # Enable AWS CLI autocompletion: github.com/aws/aws-cli/issues/1079
-complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
+complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); /usr/local/bin/aws_completer | sed \'s/ $//\'; end)'
 
+# eval "$(register-python-argcomplete s3util)"
 
 # Yazi
 function yy
