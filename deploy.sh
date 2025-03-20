@@ -32,6 +32,10 @@ rm -rf $HOME/.config/yazi
 unlink $HOME/.config/yazi
 ln -svf $HOME/dotfiles/.config/yazi $HOME/.config/yazi
 
+rm -rf $HOME/.config/bat
+unlink $HOME/.config/bat
+ln -svf $HOME/dotfiles/.config/bat $HOME/.config/bat
+
 mkdir $HOME/.poshthemes
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom.omp.json
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_home.omp.json $HOME/.poshthemes/snitch_custom_home.omp.json
