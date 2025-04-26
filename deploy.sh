@@ -40,3 +40,7 @@ mkdir $HOME/.poshthemes
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom.omp.json
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_home.omp.json $HOME/.poshthemes/snitch_custom_home.omp.json
 ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_work.omp.json $HOME/.poshthemes/snitch_custom_work.omp.json
+
+rm -rf $HOME/.config/tmux
+unlink $HOME/.config/tmux
+ln -svf $HOME/dotfiles/tmux $HOME/.config/tmux
