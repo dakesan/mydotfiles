@@ -59,11 +59,11 @@ set -g theme_hostname always
 alias gp='git pull'
 alias gP='git push'
 alias ga='git add .'
-alias gc='git commit -m'
+alias gc='git checkout'
 alias gs='git status'
 alias gb='git branch'
 alias gl='git clone'
-alias cout='git checkout'
+alias gC='git commit -m'
 # lazygit
 alias lg='lazygit'
 # git path
