@@ -55,6 +55,11 @@ set -g theme_display_user yes
 set -g theme_hide_hostname no
 set -g theme_hostname always
 
+# * Claude Code
+alias yolo="claude --dangerously-skip-permissions"
+alias yolor="claude --dangerously-skip-permissions --resume"
+alias clauder="claude --resume"
+
 # * git
 alias gp='git pull'
 alias gP='git push'
