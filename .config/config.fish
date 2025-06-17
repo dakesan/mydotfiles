@@ -21,7 +21,7 @@ set -x PATH $HOME/.nodenv/bin $PATH
 status --is-interactive; and source (nodenv init -|psub)
 
 # tmux
-alias tmux="tmux -f /home/oodake/.config/tmux/.tmux.conf"
+alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
 
 # * alias
 # ? util command

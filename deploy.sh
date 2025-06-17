@@ -47,4 +47,4 @@ ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_work.omp.json $HOME/.poshthemes/
 
 rm -rf $HOME/.config/tmux
 unlink $HOME/.config/tmux
-ln -svf $HOME/dotfiles/tmux $HOME/.config/tmux
+ln -svf $HOME/dotfiles/.config/tmux $HOME/.config/tmux
