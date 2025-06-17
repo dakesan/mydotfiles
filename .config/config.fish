@@ -62,8 +62,8 @@ else if test -f "$HOME/.claude/local/claude"
     alias claude="$HOME/.claude/local/claude"
 end
 alias yolo="claude --dangerously-skip-permissions"
-alias yolor="claude --dangerously-skip-permissions --resume"
-alias clauder="claude --resume"
+alias yolor="claude --dangerously-skip-permissions -c"
+alias clauder="claude -c"
 
 # * git
 alias gp='git pull'
