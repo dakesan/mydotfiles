@@ -22,6 +22,11 @@ status --is-interactive; and source (nodenv init -|psub)
 
 # tmux
 alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
+alias tm 'tmux-select'     # セッション選択・復帰
+alias tmn 'tmux-new'       # 新規セッション作成  
+alias tmk 'tmux-kill'      # セッション削除
+alias tmr 'tmux-rename'    # セッション名変更
+alias tmh 'tmux-help'      # ヘルプ表示
 
 # * alias
 # ? util command
@@ -152,6 +157,73 @@ end
 # * zellij
 function zla
   zellij attach (zl | head -1)
+end
+
+# * tmux session management
+function tmux-select
+    set sessions (tmux list-sessions -F "#{session_name}" 2>/dev/null)
+    if test (count $sessions) -eq 0
+        echo "No tmux sessions found"
+        return 1
+    end
+    set selected (printf '%s\n' $sessions | fzf --height=40% --border --prompt="Select tmux session: " --preview="tmux list-windows -t {}")
+    if test -n "$selected"
+        tmux attach-session -t "$selected"
+    end
+end
+
+function tmux-new
+    if test (count $argv) -eq 0
+        set session_name (basename (pwd))
+    else
+        set session_name $argv[1]
+    end
+    tmux new-session -s "$session_name"
+end
+
+function tmux-kill
+    set sessions (tmux list-sessions -F "#{session_name}" 2>/dev/null)
+    if test (count $sessions) -eq 0
+        echo "No tmux sessions found"
+        return 1
+    end
+    set selected (printf '%s\n' $sessions | fzf --height=40% --border --prompt="Kill tmux session: " --preview="tmux list-windows -t {}")
+    if test -n "$selected"
+        tmux kill-session -t "$selected"
+        echo "Killed session: $selected"
+    end
+end
+
+function tmux-rename
+    set current (tmux display-message -p "#{session_name}" 2>/dev/null)
+    if test -z "$current"
+        echo "Not in a tmux session"
+        return 1
+    end
+    echo "Current session: $current"
+    read -P "New name: " new_name
+    if test -n "$new_name"
+        tmux rename-session "$new_name"
+        echo "Renamed to: $new_name"
+    end
+end
+
+function tmux-help
+    echo "🚀 Modern tmux session manager"
+    echo ""
+    echo "Commands:"
+    echo "  tm / tmux-select    📋 Select and attach to session (fzf)"
+    echo "  tmn / tmux-new      ➕ Create new session (current dir name)"
+    echo "  tmk / tmux-kill     🗑️  Kill session (fzf)"
+    echo "  tmr / tmux-rename   ✏️  Rename current session"
+    echo "  tmh / tmux-help     ❓ Show this help"
+    echo ""
+    echo "Usage examples:"
+    echo "  tm                  # Select session interactively"
+    echo "  tmn myproject       # Create session named 'myproject'"
+    echo "  tmn                 # Create session with current directory name"
+    echo "  tmk                 # Kill session interactively"
+    echo "  tmr                 # Rename current session"
 end
 
 function fmv
