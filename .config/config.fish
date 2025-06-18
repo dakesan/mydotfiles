@@ -183,7 +183,20 @@ function tmux-new
     else
         set session_name $argv[1]
     end
-    tmux new-session -s "$session_name"
+    
+    # Check if we're inside tmux
+    if set -q TMUX
+        # Inside tmux: create detached session and optionally switch
+        tmux new-session -d -s "$session_name"
+        echo "Created detached session: $session_name"
+        read -P "Switch to new session? (y/n): " choice
+        if test "$choice" = "y" -o "$choice" = "Y"
+            tmux switch-client -t "$session_name"
+        end
+    else
+        # Outside tmux: create and attach normally
+        tmux new-session -s "$session_name"
+    end
 end
 
 function tmux-kill
