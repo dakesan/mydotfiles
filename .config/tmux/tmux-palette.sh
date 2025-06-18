@@ -31,10 +31,12 @@ Show Windows [INF]|list-windows
 Show Panes [INF]|list-panes
 Show Options [INF]|show-options -g"
 
-# Run fzf and execute selected command
-selected=$(echo "$commands" | fzf --prompt="🚀 Command Palette: " --height=100% --border --reverse --ansi --delimiter="|" --with-nth=1 --preview="echo 'Command: {2}'" --preview-window=down:3:wrap --header="Use arrows to navigate, Enter to execute, Esc to cancel")
+# fzfのオプションを全て削除して実行
+selected=$(echo "$commands" | fzf)
 
+# 選択後の処理はデバッグのため一旦そのままでOK
 if [ -n "$selected" ]; then
+    # この段階では delimiter を指定していないので、選択した行全体が command に入る
     command=$(echo "$selected" | cut -d'|' -f2)
-    tmux $command
+    tmux "$command"
 fi

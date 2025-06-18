@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[manager]
+[mgr]
 
 keymap = [
   # custom command
@@ -157,12 +157,12 @@ keymap = [
 	{ on = "<F1>", run = "help", desc = "Open help" },
 ]
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = [ "f","g" ]
 run  = "plugin fg"
 desc = "find file by content (fuzzy match)"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = [ "f","G" ]
 run  = "plugin fg --args='rg'"
 desc = "find file by content (ripgrep match)"

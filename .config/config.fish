@@ -23,7 +23,7 @@ status --is-interactive; and source (nodenv init -|psub)
 # tmux
 alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
 alias tm 'tmux-select'     # セッション選択・復帰
-alias tmn 'tmux-new'       # 新規セッション作成  
+alias tmn 'tmux-new'       # 新規セッション作成
 alias tmk 'tmux-kill'      # セッション削除
 alias tmr 'tmux-rename'    # セッション名変更
 alias tms 'tmux-switch'    # セッション切り替え
@@ -263,12 +263,12 @@ function tmux-switch
     tmux choose-session
 end
 
-function tmux-next  
+function tmux-next
     tmux switch-client -n
 end
 
 function tmux-prev
-    tmux switch-client -p  
+    tmux switch-client -p
 end
 
 # Window (tab) management functions
