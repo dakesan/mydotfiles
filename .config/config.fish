@@ -26,6 +26,11 @@ alias tm 'tmux-select'     # セッション選択・復帰
 alias tmn 'tmux-new'       # 新規セッション作成  
 alias tmk 'tmux-kill'      # セッション削除
 alias tmr 'tmux-rename'    # セッション名変更
+alias tms 'tmux-switch'    # セッション切り替え
+alias tmx 'tmux-next'      # 次のセッション
+alias tmz 'tmux-prev'      # 前のセッション
+alias tmw 'tmux-new-window'  # 新しいウィンドウ（タブ）
+alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
 
 # * alias
@@ -211,19 +216,72 @@ end
 function tmux-help
     echo "🚀 Modern tmux session manager"
     echo ""
-    echo "Commands:"
+    echo "Session Commands:"
     echo "  tm / tmux-select    📋 Select and attach to session (fzf)"
     echo "  tmn / tmux-new      ➕ Create new session (current dir name)"
     echo "  tmk / tmux-kill     🗑️  Kill session (fzf)"
     echo "  tmr / tmux-rename   ✏️  Rename current session"
-    echo "  tmh / tmux-help     ❓ Show this help"
+    echo "  tms / tmux-switch   🔄 Switch session (choose-session)"
+    echo "  tmx / tmux-next     ⏭️  Next session"
+    echo "  tmz / tmux-prev     ⏮️  Previous session"
+    echo ""
+    echo "Window (Tab) Commands:"
+    echo "  tmw / tmux-new-window  ➕ Create new window (tab)"
+    echo "  tml / tmux-window-list 📋 List windows"
+    echo "  tmh / tmux-help        ❓ Show this help"
+    echo ""
+    echo "Keybindings (inside tmux):"
+    echo "  Prefix + n/p        ⏭️⏮️  Next/Previous window (tab)"
+    echo "  Prefix + c          ➕ Create new window (tab)"
+    echo "  Prefix + 0-9        🔢 Direct window switch"
+    echo "  Prefix + w          📋 Choose window"
+    echo "  Prefix + s/Tab      📋 Choose session"
+    echo "  Prefix + )/( 	      ⏭️⏮️  Next/Previous session"
+    echo "  Prefix + F1-F8      🔢 Direct session switch (0-7)"
+    echo "  Prefix + Ctrl+s     ➕ Create new session with name"
+    echo ""
+    echo "Mouse Operations:"
+    echo "  Click on tab        🖱️  Select window (tab)"
+    echo "  Wheel on status     🖱️  Next/Previous window"
+    echo "  Right-click status  🖱️  Create new window"
+    echo ""
+    echo "Help & Reference:"
+    echo "  Prefix + Ctrl+P     🎯 tmux command palette (fzf)"
+    echo "  Prefix + ?          🎯 tmux command palette (alias)"
     echo ""
     echo "Usage examples:"
     echo "  tm                  # Select session interactively"
     echo "  tmn myproject       # Create session named 'myproject'"
-    echo "  tmn                 # Create session with current directory name"
-    echo "  tmk                 # Kill session interactively"
-    echo "  tmr                 # Rename current session"
+    echo "  tmw editor          # Create new window named 'editor'"
+    echo "  tmw                 # Create new window (default name)"
+    echo "  tml                 # List all windows in current session"
+    echo "  tmx / tmz           # Quick next/prev session switch"
+end
+
+# Quick session switching functions
+function tmux-switch
+    tmux choose-session
+end
+
+function tmux-next  
+    tmux switch-client -n
+end
+
+function tmux-prev
+    tmux switch-client -p  
+end
+
+# Window (tab) management functions
+function tmux-new-window
+    if test (count $argv) -eq 0
+        tmux new-window
+    else
+        tmux new-window -n "$argv[1]"
+    end
+end
+
+function tmux-window-list
+    tmux list-windows
 end
 
 function fmv
@@ -354,3 +412,4 @@ set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
+alias claude="/home/oodake/.claude/local/claude"
