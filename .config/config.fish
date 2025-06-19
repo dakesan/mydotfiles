@@ -1,8 +1,9 @@
-# * Path configuration
+# * Path configuration (optimized)
 set -gx PATH "$HOME/.local/bin:$PATH"
-for dir in (find ~/.local/bin -type d)
-    set -gx PATH $dir $PATH
-end
+# findコマンドによる動的PATH設定は重いためコメントアウト
+# for dir in (find ~/.local/bin -type d)
+#     set -gx PATH $dir $PATH
+# end
 set -gx PATH "/usr/local/bin:$PATH"
 set -gx PATH "/usr/bin:$PATH"
 set -gx PATH "$HOME/.cargo/bin:$PATH"
@@ -108,8 +109,11 @@ end
 alias gr 'gitreverse'
 
 function gitpub
-  eval (ssh-agent -c)
-  ssh-add ~/.ssh/github
+  # SSH Agent管理を軽量化
+  if not set -q SSH_AUTH_SOCK; or test ! -S "$SSH_AUTH_SOCK"
+    eval (ssh-agent -c) >/dev/null 2>&1
+    ssh-add ~/.ssh/github >/dev/null 2>&1
+  end
 end
 
 function isWinDir
@@ -145,10 +149,12 @@ function add_identities
     end
 end
 
+# SSH Agent起動を最適化（メッセージ抑制）
 if status --is-interactive
-  start_agent
-  add_identities
-  gitpub
+  # SSH configで自動読み込みされるため、明示的なssh-addは不要
+  # start_agent
+  # add_identities
+  # gitpub
 end
 
 # * quarto
