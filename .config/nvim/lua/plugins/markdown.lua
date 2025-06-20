@@ -1,5 +1,5 @@
 return {
-  -- Markdown Preview
+  -- Markdown Preview (external preview tool)
   {
     'iamcco/markdown-preview.nvim',
     run = function()
@@ -44,119 +44,49 @@ return {
     end,
   },
 
-  -- DISABLED: render-markdown.nvim (performance issues with syntax files)
-  --[[
+  -- Lightweight pattern highlighting
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 
-      'nvim-treesitter/nvim-treesitter', 
-      'echasnovski/mini.nvim',
-      'catppuccin/nvim', -- catppuccin統合のため追加
-    },
-    ft = { 'markdown' },
-    keys = {
-      { '<leader>mr', '<cmd>RenderMarkdown toggle<cr>', desc = 'Toggle Markdown Rendering' },
-    },
+    'echasnovski/mini.hipatterns',
+    version = '*',
+    ft = { 'markdown', 'text' },
     config = function()
-      require('render-markdown').setup({
-        enabled = true,
-        max_file_size = 10.0,
-        debounce = 100,
-        render_modes = { 'n', 'c' },
-        anti_conceal = {
-          enabled = true,
-        },
-        heading = {
-          enabled = true,
-          sign = false,
-          position = 'overlay',
-          icons = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
-          width = 'full',
-          left_pad = 0,
-          right_pad = 0,
-          min_width = 0,
-        },
-        code = {
-          enabled = true,
-          sign = false,
-          style = 'full',
-          position = 'left',
-          language_pad = 0,
-          disable_background = { 'diff' },
-          width = 'full',
-          left_pad = 0,
-          right_pad = 0,
-          min_width = 0,
-        },
-        dash = {
-          enabled = true,
-          icon = '─',
-          width = 'full',
-        },
-        bullet = {
-          enabled = true,
-          icons = { '●', '○', '◆', '◇' },
-          left_pad = 0,
-          right_pad = 0,
-        },
-        checkbox = {
-          enabled = true,
-          position = 'inline',
-          unchecked = {
-            icon = '󰄱 ',
-          },
-          checked = {
-            icon = '󰱒 ',
-          },
-          custom = {
-            todo = { raw = '[-]', rendered = '󰥔 ' },
-          },
-        },
-        quote = {
-          enabled = true,
-          icon = '▋',
-          repeat_linebreak = false,
-        },
-        pipe_table = {
-          enabled = true,
-          preset = 'none',
-          style = 'full',
-          cell = 'padded',
-          min_width = 0,
-          border = {
-            '┌', '┬', '┐',
-            '├', '┼', '┤',
-            '└', '┴', '┘',
-            '│', '─',
-          },
-          alignment_indicator = '━',
-        },
-        callout = {
-          note = { raw = '[!NOTE]', rendered = '󰋽 Note' },
-          tip = { raw = '[!TIP]', rendered = '󰌶 Tip' },
-          important = { raw = '[!IMPORTANT]', rendered = '󰅾 Important' },
-          warning = { raw = '[!WARNING]', rendered = '󰀪 Warning' },
-          caution = { raw = '[!CAUTION]', rendered = '󰳦 Caution' },
-        },
-        link = {
-          enabled = true,
-          image = '󰥶 ',
-          email = '󰀓 ',
-          hyperlink = '󰌹 ',
-        },
-        sign = {
-          enabled = false,
-        },
-        indent = {
-          enabled = false,
-          per_level = 2,
-          skip_level = 1,
-          skip_heading = false,
+      local hipatterns = require('mini.hipatterns')
+      hipatterns.setup({
+        highlighters = {
+          -- Highlight TODO, FIXME, NOTE, etc.
+          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+          hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+          todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+          note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+          
+          -- Highlight markdown headings with background
+          heading1 = { pattern = '^# .*', group = 'MiniHipatternsHeading1' },
+          heading2 = { pattern = '^## .*', group = 'MiniHipatternsHeading2' },
+          heading3 = { pattern = '^### .*', group = 'MiniHipatternsHeading3' },
+          
+          -- Highlight markdown code blocks
+          code_block = { pattern = '```.-```', group = 'MiniHipatternsCodeBlock' },
+          
+          -- Highlight hex color codes (useful in configs)
+          hex_color = hipatterns.gen_highlighter.hex_color(),
         },
       })
+      
+      -- Define custom highlight groups
+      vim.cmd [[
+        highlight MiniHipatternsFixme guibg=#ff6c6b guifg=#282828 gui=bold
+        highlight MiniHipatternsHack guibg=#ff9f1a guifg=#282828 gui=bold
+        highlight MiniHipatternsTodo guibg=#46d9ff guifg=#282828 gui=bold
+        highlight MiniHipatternsNote guibg=#10b981 guifg=#282828 gui=bold
+        
+        highlight MiniHipatternsHeading1 guibg=#2e3440 gui=bold
+        highlight MiniHipatternsHeading2 guibg=#3b4252
+        highlight MiniHipatternsHeading3 guibg=#434c5e
+        
+        highlight MiniHipatternsCodeBlock guibg=#1e1e1e
+      ]]
     end,
   },
-  --]]
 
   -- Auto bullet list completion
   {

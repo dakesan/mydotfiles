@@ -2,7 +2,14 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- 構文ハイライトは通常通り有効化（遅延は逆効果だった）
+-- Markdownではvim syntaxを無効化（Treesitterが自動的に有効になる）
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.cmd('syntax off')
+    -- Treesitterハイライトは自動的に有効になるため明示的な呼び出しは不要
+  end,
+})
 
 -- Markdown最適化: HTMLとその依存関係の読み込みを防ぐ
 vim.g.markdown_recommended_style = 0  -- デフォルトのスタイル設定を無効化
@@ -17,6 +24,10 @@ vim.g.markdown_fenced_languages = {
   'vim=vim',
   -- HTML, CSS, JavaScriptは除外して読み込みを防ぐ
 }
+
+-- Markdown関連の設定
+vim.g.markdown_recommended_style = 0  -- 推奨スタイルを無効化
+vim.g.vim_markdown_folding_disabled = 1  -- 折りたたみを無効化
 
 -- マークダウンファイルでHTML構文の読み込みを完全に無効化
 vim.api.nvim_create_autocmd("BufReadPre", {
