@@ -46,12 +46,113 @@ return {
 
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
+    dependencies = { 
+      'nvim-treesitter/nvim-treesitter', 
+      'echasnovski/mini.nvim',
+      'catppuccin/nvim', -- catppuccin統合のため追加
+    },
+    ft = { 'markdown' },
+    keys = {
+      { '<leader>mr', '<cmd>RenderMarkdown toggle<cr>', desc = 'Toggle Markdown Rendering' },
+    },
+    config = function()
+      require('render-markdown').setup({
+        enabled = true,
+        max_file_size = 10.0,
+        debounce = 100,
+        render_modes = { 'n', 'c' },
+        anti_conceal = {
+          enabled = true,
+        },
+        heading = {
+          enabled = true,
+          sign = false,
+          position = 'overlay',
+          icons = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
+          width = 'full',
+          left_pad = 0,
+          right_pad = 0,
+          min_width = 0,
+        },
+        code = {
+          enabled = true,
+          sign = false,
+          style = 'full',
+          position = 'left',
+          language_pad = 0,
+          disable_background = { 'diff' },
+          width = 'full',
+          left_pad = 0,
+          right_pad = 0,
+          min_width = 0,
+        },
+        dash = {
+          enabled = true,
+          icon = '─',
+          width = 'full',
+        },
+        bullet = {
+          enabled = true,
+          icons = { '●', '○', '◆', '◇' },
+          left_pad = 0,
+          right_pad = 0,
+        },
+        checkbox = {
+          enabled = true,
+          position = 'inline',
+          unchecked = {
+            icon = '󰄱 ',
+          },
+          checked = {
+            icon = '󰱒 ',
+          },
+          custom = {
+            todo = { raw = '[-]', rendered = '󰥔 ' },
+          },
+        },
+        quote = {
+          enabled = true,
+          icon = '▋',
+          repeat_linebreak = false,
+        },
+        pipe_table = {
+          enabled = true,
+          preset = 'none',
+          style = 'full',
+          cell = 'padded',
+          min_width = 0,
+          border = {
+            '┌', '┬', '┐',
+            '├', '┼', '┤',
+            '└', '┴', '┘',
+            '│', '─',
+          },
+          alignment_indicator = '━',
+        },
+        callout = {
+          note = { raw = '[!NOTE]', rendered = '󰋽 Note' },
+          tip = { raw = '[!TIP]', rendered = '󰌶 Tip' },
+          important = { raw = '[!IMPORTANT]', rendered = '󰅾 Important' },
+          warning = { raw = '[!WARNING]', rendered = '󰀪 Warning' },
+          caution = { raw = '[!CAUTION]', rendered = '󰳦 Caution' },
+        },
+        link = {
+          enabled = true,
+          image = '󰥶 ',
+          email = '󰀓 ',
+          hyperlink = '󰌹 ',
+        },
+        sign = {
+          enabled = false,
+        },
+        indent = {
+          enabled = false,
+          per_level = 2,
+          skip_level = 1,
+          skip_heading = false,
+        },
+      })
+    end,
   },
 
   -- Enhanced Markdown Rendering
