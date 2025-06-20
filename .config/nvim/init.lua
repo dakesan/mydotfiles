@@ -2,6 +2,33 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- 構文ハイライトは通常通り有効化（遅延は逆効果だった）
+
+-- Markdown最適化: HTMLとその依存関係の読み込みを防ぐ
+vim.g.markdown_recommended_style = 0  -- デフォルトのスタイル設定を無効化
+vim.g.markdown_enable_insert_mode_mappings = 0  -- 挿入モードマッピングを無効化
+vim.g.markdown_enable_spell_checking = 0  -- スペルチェックを無効化
+
+-- Markdownの不要な言語構文を無効化（高速化のため）
+vim.g.markdown_fenced_languages = {
+  'python=python',
+  'bash=sh',
+  'lua=lua',
+  'vim=vim',
+  -- HTML, CSS, JavaScriptは除外して読み込みを防ぐ
+}
+
+-- マークダウンファイルでHTML構文の読み込みを完全に無効化
+vim.api.nvim_create_autocmd("BufReadPre", {
+  pattern = "*.md,*.markdown",
+  callback = function()
+    -- HTML構文を読み込まないようにする
+    vim.b.html_no_rendering = 1
+    vim.g.html_no_rendering = 1
+    vim.b.markdown_includeHtml = 0
+  end,
+})
+
 -- 基本設定
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -51,6 +78,27 @@ vim.opt.rtp:prepend(lazypath)
 -- ここで、'lua/plugins'ディレクトリ以下にあるLuaファイル（プラグイン設定）を
 -- 自動で読み込むように設定します。
 require("lazy").setup("plugins", {
-  -- ここにオプションを記述できますが、まずは空でOK
+  -- パフォーマンス最適化設定
+  performance = {
+    cache = {
+      enabled = true,
+    },
+    reset_packpath = true, -- packpathをリセットして高速化
+    rtp = {
+      reset = true, -- runtimepathをリセット
+      paths = {}, -- 追加のruntimeパス
+      disabled_plugins = {
+        -- 必要なプラグインは残す
+        -- "gzip",
+        -- "matchit",
+        -- "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
 })
 
