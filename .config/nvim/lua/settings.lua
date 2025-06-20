@@ -45,7 +45,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
-vim.opt.clipboard:append('unnamedplus')
+-- vim.opt.clipboard:append('unnamedplus')
 vim.opt.signcolumn = 'no'  -- サインカラムを無効化
 vim.opt.list = false      -- 不可視文字を非表示
 

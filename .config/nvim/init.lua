@@ -1,5 +1,6 @@
 -- 基本設定を読み込み
 require("settings")
+require("keymaps")
 
 -- lazy.nvimをインストールする場所
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
