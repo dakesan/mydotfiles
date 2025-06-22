@@ -37,7 +37,7 @@ $character"""
 [username]
 show_always = true
 style_user = "bold #89b4fa" # Blue
-format = "[$user@$hostname]($style_user) "
+format = "[$user]($style_user) "
 
 # [ホスト名] - usernameモジュールで表示するため無効
 [hostname]
