@@ -1,372 +1,218 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
+################################################################################
+# ■■■ Catppuccin Mocha プロンプト (最終修正版) ■■■
+#
+# この設定は、すべての要素をCatppuccin Mochaパレットの色で統一し、
+# 一貫性のある美しいデザインを提供します。
+# https://github.com/catppuccin/catppuccin
+#
+# --- Catppuccin Mocha Palette ---
+# Rosewater: #f5e0dc   Red:      #f38ba8   Green:    #a6e3a1
+# Flamingo:  #f2cdcd   Maroon:   #eba0ac   Yellow:   #f9e2af
+# Pink:      #f5c2e7   Peach:    #fab387   Blue:     #89b4fa
+# Mauve:     #cba6f7   Lavender: #b4befe   Sapphire: #74c7ec
+# Text:      #cdd6f4   Sky:      #89dceb   Teal:     #94e2d5
+# Subtext0:  #a6adc8   Overlay2: #9399b2   Base:     #1e1e2e
+################################################################################
+
+add_newline = true
+
+# --- プロンプトのフォーマット定義 ★★★ ここを修正 ★★★ ---
+# 区切り線を削除し、$cmd_duration に表示を統合
 format = """
 $username\
-$hostname\
-$localip\
-$shlvl\
-$singularity\
-$kubernetes\
 $directory\
-$vcsh\
-$fossil_branch\
-${custom.git_server}\
 $git_branch\
-$git_commit\
-$git_state\
-$git_metrics\
 $git_status\
-$hg_branch\
-$pijul_channel\
-$docker_context\
-$package\
-$c\
-$cmake\
-$cobol\
-$daml\
-$dart\
-$deno\
-$dotnet\
-$elixir\
-$elm\
-$erlang\
-$fennel\
-$golang\
-$guix_shell\
-$haskell\
-$haxe\
-$helm\
-$java\
-$julia\
-$kotlin\
-$gradle\
-$lua\
-$nim\
-$nodejs\
-$ocaml\
-$opa\
-$perl\
-$php\
-$pulumi\
-$purescript\
-$python\
-$raku\
-$rlang\
-$red\
-$ruby\
-$rust\
-$scala\
-$swift\
-$terraform\
-$vlang\
-$vagrant\
-$zig\
-$buf\
-$nix_shell\
-$conda\
-$meson\
-$spack\
-$memory_usage\
-$aws\
-$gcloud\
-$openstack\
-$azure\
-$env_var\
-$crystal\
-$custom\
-$sudo\
+$git_commit\
 $cmd_duration\
 $line_break\
-$jobs\
-$battery\
-$time\
-$status\
-$os\
-$container\
-$shell\
 $character"""
 
-################################################################################
-## Custom Commands
-################################################################################
-[custom.ssh_no_keys]
-disabled = true
-description = "SSH missing keys"
-when = "ssh-add -l | grep -q 'no identities'"
-command = "echo 🚫"
-format = '\[$symbol[$output]($style)\]'
-shell = ["bash", "--noprofile", "--norc"]
-symbol = "🔑"
-style = "bold fg:red"
+# --- モジュール設定 (Catppuccin Mocha) ---
 
-[custom.ssh_keys]
-disabled = true
-description = "SSH key count"
-when = "ssh-add -l | grep -v -q 'no identities'"
-command = "ssh-add -l | grep -v 'no identities' | wc -l"
-format = '\[$symbol[$output]($style)\]'
-shell = ["bash", "--noprofile", "--norc"]
-symbol = "🔑"
-style = "bold fg:green"
-
-################################################################################
-## Shell
-################################################################################
-[battery]
-full_symbol = "🔋"
-charging_symbol = "🔌"
-discharging_symbol = "⚡"
-
-[[battery.display]]
-threshold = 30
-style = "bold red"
-
-[cmd_duration]
-min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
-format = '\[[⏱ $duration]($style)\]'
-style = 'yellow'
-
-[memory_usage]
-format = '\[$symbol[${ram}( | ${swap})]($style)\]'
-threshold = 70
-style = "bold dimmed white"
-disabled = false
-
-[time]
-time_format = "%T"
-format = "🕙 $time($style) "
-style = "bright-white"
-disabled = true
-
+# [ユーザー名@ホスト名]
 [username]
-format = '\[[$user]($style)\]'
-style_user = "bold dimmed blue"
-show_always = false
+show_always = true
+style_user = "bold #89b4fa" # Blue
+format = "[$user@$hostname]($style_user) "
 
+# [ホスト名] - usernameモジュールで表示するため無効
 [hostname]
-ssh_only = false
-format = "[$hostname]($style) ~ "
-trim_at = "-"
-style = "bold dimmed white"
-disabled = false
+disabled = true
 
+# [ディレクトリ]
 [directory]
-truncation_length = 100
-truncate_to_repo = false
-format = "[$path]($style)[$lock_symbol]($lock_style) "
-
+style = "bold #89dceb" # Sky
+truncation_length = 3
+truncate_to_repo = true
+format = "[ $path]($style)[$lock_symbol]($lock_style) "
 [directory.substitutions]
 "Documents" = " "
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
 
-################################################################################
-## GIT
-################################################################################
+# [Gitブランチ]
 [git_branch]
-symbol = " "
-style = "bold green"
+symbol = ""
+style = "bold #fab387" # Peach
+format = "[$symbol $branch]($style)"
 
-[git_state]
-format = '\[[\($state( $progress_current of $progress_total)\)]($style)\]'
-
+# [Gitステータス]
 [git_status]
-conflicted = "⚔️ "
-ahead = "💨${count}"
-behind = "🐢${count}"
-diverged = "🔱 💨${ahead_count} 🐢${behind_count}"
-untracked = "🛤️ ${count}"
-stashed = "📦"
-modified = "📝${count}"
-staged = "🗃️ ${count}"
-renamed = "📛${count}"
-deleted = "🗑️ ${count}"
-style = "bright-white"
-format = '\[$all_status$ahead_behind\]'
+conflicted = ""
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕${ahead_count}⇕${behind_count}"
+untracked = " ${count}"
+stashed = " ${count}"
+modified = " ${count}"
+staged = " ${count}"
+renamed = "󰑒 ${count}"
+deleted = " ${count}"
+style = "#f9e2af" # Yellow
+format = "([$all_status$ahead_behind]($style)) "
 
+# [Gitコミット]
 [git_commit]
 commit_hash_length = 8
-style = "bold white"
-tag_symbol = '🔖 '
+style = "bold #b4befe" # Lavender
+tag_symbol = " "
 disabled = false
 
-################################################################################
-## Languages & Tools
-################################################################################
-[aws]
+# [実行時間] ★★★ ここを修正 ★★★
+[cmd_duration]
+min_time = 2_000
+# 区切り線をこのモジュール内に移動し、実行時間が閾値を超えた時だけ表示されるようにする
+format = "[│ ](#a6adc8)[$duration ]($style) "
+style = '#f9e2af' # Yellow
+
+# [プロンプト記号]
+[character]
+success_symbol = "[❯](bold #a6e3a1)" # Green
+error_symbol = "[❯](bold #f38ba8)" # Red
+
+# [時間] - 無効
+[time]
 disabled = true
 
+
+################################################################################
+# ■■■ サービス/ツールごとの色設定 (Catppuccin Mocha準拠) ■■■
+################################################################################
+
+[aws]
+style = "bold #fab387" # Peach (AWS Orange)
+disabled = true
 [aws.region_aliases]
 ap-northeast-1 = "jp"
-
 [bun]
+style = 'bold #f9e2af' # Yellow (Bun Yellow)
 format = '\[[$symbol($version)]($style)\]'
-
 [c]
+style = "bold #a6adc8" # Subtext0
 format = '\[[$symbol($version(-$name))]($style)\]'
-
 [cmake]
+style = "bold #89b4fa" # Blue
 format = '\[[$symbol($version)]($style)\]'
-
-[cobol]
-format = '\[[$symbol($version)]($style)\]'
-
 [conda]
+style = "bold #a6e3a1" # Green
 format = '\[[$symbol$environment]($style)\]'
-
 [crystal]
+style = "bold #cdd6f4" # Text
 format = '\[[$symbol($version)]($style)\]'
-
-[daml]
-format = '\[[$symbol($version)]($style)\]'
-
 [dart]
+style = "bold #74c7ec" # Sapphire (Dart Blue)
 format = '\[[$symbol($version)]($style)\]'
-
 [deno]
+style = "bold #cdd6f4" # Text
 format = '\[[$symbol($version)]($style)\]'
-
 [docker_context]
+style = "bold #89b4fa" # Blue (Docker Blue)
 format = '\[[$symbol$context]($style)\]'
-
 [dotnet]
+style = "bold #cba6f7" # Mauve (.NET Purple)
 format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
-
 [elixir]
+style = "bold #cba6f7" # Mauve (Elixir Purple)
 format = '\[[$symbol($version \(OTP $otp_version\))]($style)\]'
-
 [elm]
+style = "bold #94e2d5" # Teal (Elm Teal)
 format = '\[[$symbol($version)]($style)\]'
-
 [erlang]
+style = "bold #f38ba8" # Red (Erlang Red)
 format = '\[[$symbol($version)]($style)\]'
-
-[fennel]
-format = '\[[$symbol($version)]($style)\]'
-
-[fossil_branch]
-format = '\[[$symbol$branch]($style)\]'
-
 [gcloud]
+style = "bold #89b4fa" # Blue (Google Blue)
 format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
-
 [golang]
+symbol = " "
+style = "bold #94e2d5" # Teal (Go Cyan)
 format = '\[[$symbol($version)]($style)\]'
-
-[gradle]
-format = '\[[$symbol($version)]($style)\]'
-
-[guix_shell]
-format = '\[[$symbol]($style)\]'
-
 [haskell]
+style = "bold #cba6f7" # Mauve (Haskell Purple)
 format = '\[[$symbol($version)]($style)\]'
-
-[haxe]
-format = '\[[$symbol($version)]($style)\]'
-
 [helm]
+style = "bold #74c7ec" # Sapphire (Helm Blue)
 format = '\[[$symbol($version)]($style)\]'
-
-[hg_branch]
-format = '\[[$symbol$branch]($style)\]'
-
 [java]
+style = "bold #fab387" # Peach (Java Orange)
 format = '\[[$symbol($version)]($style)\]'
-
 [julia]
+style = "bold #cba6f7" # Mauve (Julia Purple)
 format = '\[[$symbol($version)]($style)\]'
-
 [kotlin]
+style = "bold #cba6f7" # Mauve (Kotlin Purple)
 format = '\[[$symbol($version)]($style)\]'
-
 [kubernetes]
+style = "bold #89b4fa" # Blue (K8s Blue)
 format = '\[[$symbol$context( \($namespace\))]($style)\]'
-
 [lua]
+style = "bold #89b4fa" # Blue (Lua Blue)
 format = '\[[$symbol($version)]($style)\]'
-
-[meson]
-format = '\[[$symbol$project]($style)\]'
-
-[nim]
-format = '\[[$symbol($version)]($style)\]'
-
-[nix_shell]
-format = '\[[$symbol$state( \($name\))]($style)\]'
-
 [nodejs]
+symbol = " "
+style = "bold #a6e3a1" # Green (Node Green)
 format = '\[[$symbol($version)]($style)\]'
-
-[ocaml]
-format = '\[[$symbol($version)(\($switch_indicator$switch_name\))]($style)\]'
-
-[opa]
-format = '\[[$symbol($version)]($style)\]'
-
-[openstack]
-format = '\[[$symbol$cloud(\($project\))]($style)\]'
-
-[os]
-format = '\[[$symbol]($style)\]'
-
+[nix_shell]
+style = "bold #cba6f7" # Mauve (Nix Purple)
+format = '\[[$symbol$state( \($name\))]($style)\]'
 [package]
+style = "bold #f5c2e7" # Pink
 format = '\[[$symbol$version]($style)\]'
-
 [perl]
+style = "bold #74c7ec" # Sapphire (Perl Blue)
 format = '\[[$symbol($version)]($style)\]'
-
 [php]
+style = "bold #cba6f7" # Mauve (PHP Purple)
 format = '\[[$symbol($version)]($style)\]'
-
-[pijul_channel]
-format = '\[[$symbol$channel]($style)\]'
-
-[pulumi]
-format = '\[[$symbol$stack]($style)\]'
-
-[purescript]
-format = '\[[$symbol($version)]($style)\]'
-
 [python]
+symbol = " "
+style = "bold #89b4fa" # Blue (Python Blue)
 format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
-style = "bold green"
-
-[raku]
-format = '\[[$symbol($version-$vm_version)]($style)\]'
-
-[red]
-format = '\[[$symbol($version)]($style)\]'
-
 [ruby]
+style = "bold #f38ba8" # Red (Ruby Red)
 format = '\[[$symbol($version)]($style)\]'
-
 [rust]
+symbol = " "
+style = "bold #fab387" # Peach (Rust Orange)
 format = '\[[$symbol($version)]($style)\]'
-style = "bold green"
-
 [scala]
+style = "bold #f38ba8" # Red (Scala Red)
 format = '\[[$symbol($version)]($style)\]'
-
-[spack]
-format = '\[[$symbol$environment]($style)\]'
-
-[sudo]
-format = '\[[as $symbol]\]'
-
 [swift]
+style = "bold #fab387" # Peach (Swift Orange)
 format = '\[[$symbol($version)]($style)\]'
-
 [terraform]
+style = "bold #cba6f7" # Mauve (Terraform Purple)
 format = '\[[$symbol$workspace]($style)\]'
 
-[vagrant]
-format = '\[[$symbol($version)]($style)\]'
+# --- 元の設定で無効化されていたモジュール ---
+[memory_usage]
+disabled = true
+[battery]
+disabled = true
 
-[vlang]
-format = '\[[$symbol($version)]($style)\]'
-
-[zig]
-format = '\[[$symbol($version)]($style)\]'
