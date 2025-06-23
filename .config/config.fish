@@ -76,6 +76,8 @@ alias yolo="claude --dangerously-skip-permissions"
 alias yolor="claude --dangerously-skip-permissions -c"
 alias clauder="claude -c"
 
+set -g ENABLE_BACKGROUND_TASKS 1
+
 # * git
 alias gp='git pull'
 alias gP='git push'
@@ -189,7 +191,7 @@ function tmux-new
     else
         set session_name $argv[1]
     end
-    
+
     # Check if we're inside tmux
     if set -q TMUX
         # Inside tmux: create detached session and optionally switch
