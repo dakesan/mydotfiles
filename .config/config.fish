@@ -31,6 +31,9 @@ alias tmw 'tmux-new-window'  # 新しいウィンドウ（タブ）
 alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
 
+# fnm
+source /home/oodake/.config/fish/conf.d/fnm.fish
+
 # * alias
 # ? util command
 alias pi 'pip install'
