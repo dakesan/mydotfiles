@@ -18,9 +18,6 @@ set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
 set -x BNB_CUDA_CERSION 128
 set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
 
-# set -x PATH $HOME/.nodenv/bin $PATH
-# status --is-interactive; and source (nodenv init -|psub)
-
 # tmux
 alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
 alias tm 'tmux-select'     # セッション選択・復帰
