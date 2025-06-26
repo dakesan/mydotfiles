@@ -18,9 +18,6 @@ set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
 set -x BNB_CUDA_CERSION 128
 set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
 
-set -x PATH $HOME/.nodenv/bin $PATH
-status --is-interactive; and source (nodenv init -|psub)
-
 # tmux
 alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
 alias tm 'tmux-select'     # セッション選択・復帰
@@ -33,6 +30,9 @@ alias tmz 'tmux-prev'      # 前のセッション
 alias tmw 'tmux-new-window'  # 新しいウィンドウ（タブ）
 alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
+
+# fnm
+source /home/oodake/.config/fish/conf.d/fnm.fish
 
 # * alias
 # ? util command
