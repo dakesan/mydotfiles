@@ -68,9 +68,7 @@ set -g theme_hostname always
 
 # * Claude Code
 if test -f "$HOME/.bun/bin/claude"
-    alias claude="$HOME/.bun/bin/claude"
 else if test -f "$HOME/.claude/local/claude"
-    alias claude="$HOME/.claude/local/claude"
 end
 alias yolo="claude --dangerously-skip-permissions"
 alias yolor="claude --dangerously-skip-permissions -c"
@@ -433,4 +431,3 @@ set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
-alias claude="/home/oodake/.claude/local/claude"
