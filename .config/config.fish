@@ -32,7 +32,7 @@ alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
 
 # fnm
-source $HOME/.config/fish/conf.d/fnm.fish
+# source $HOME/.config/fish/conf.d/fnm.fish
 
 # * alias
 # ? util command
@@ -53,22 +53,9 @@ starship init fish | source
 
 # * python
 alias ipo 'ipython'
-set -Ux PYENV_ROOT $HOME/.pyenv
+# set -Ux PYENV_ROOT $HOME/.pyenv
 fish_add_path $PYENV_ROOT/bin
 # pyenv init - | source
-
-function pyenv
-    # 無限ループを防ぐため、一度pyenvの関数を無効化
-    functions -e pyenv
-
-    # pyenvの初期化
-    set -gx PYENV_ROOT "$HOME/.pyenv"
-    fish_add_path -p "$PYENV_ROOT/bin"
-    pyenv init - | source
-
-    # 本来のpyenvコマンドを実行
-    command pyenv $argv
-end
 
 # * fish configuration
 set fish_greeting ''
