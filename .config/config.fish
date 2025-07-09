@@ -13,13 +13,13 @@ set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
 set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
 set -gx PATH "$HOME/.deno/bin:$PATH"
-set -gx FLYCTL_INSTALL "/home/oodake/.fly"
+set -gx FLYCTL_INSTALL "$HOME/.fly"
 set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
 set -x BNB_CUDA_CERSION 128
 set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
 
 # tmux
-alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
+alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 alias tm 'tmux-select'     # セッション選択・復帰
 alias tmn 'tmux-new'       # 新規セッション作成
 alias tmk 'tmux-kill'      # セッション削除
@@ -32,7 +32,7 @@ alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
 
 # fnm
-source /home/oodake/.config/fish/conf.d/fnm.fish
+source $HOME/.config/fish/conf.d/fnm.fish
 
 # * alias
 # ? util command
@@ -46,7 +46,8 @@ alias zelij 'zellij'
 alias zl 'zellij list-sessions'
 # ? prompt
 alias z 'pushd ./ && z > /dev/null'
-zoxide init fish | source
+# zoxide init fish | source
+set --query ZOXIDE_INIT || zoxide init --cmd z fish | source
 alias reload 'fish'
 starship init fish | source
 
@@ -54,7 +55,20 @@ starship init fish | source
 alias ipo 'ipython'
 set -Ux PYENV_ROOT $HOME/.pyenv
 fish_add_path $PYENV_ROOT/bin
-pyenv init - | source
+# pyenv init - | source
+
+function pyenv
+    # 無限ループを防ぐため、一度pyenvの関数を無効化
+    functions -e pyenv
+
+    # pyenvの初期化
+    set -gx PYENV_ROOT "$HOME/.pyenv"
+    fish_add_path -p "$PYENV_ROOT/bin"
+    pyenv init - | source
+
+    # 本来のpyenvコマンドを実行
+    command pyenv $argv
+end
 
 # * fish configuration
 set fish_greeting ''
