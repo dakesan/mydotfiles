@@ -13,6 +13,7 @@ set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
 set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
 set -gx PATH "$HOME/.deno/bin:$PATH"
+set -gx PATH "$HOME/.claude/local:$PATH"
 set -gx FLYCTL_INSTALL "$HOME/.fly"
 set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
 set -x BNB_CUDA_CERSION 128
@@ -71,6 +72,7 @@ set -g theme_hostname always
 if test -f "$HOME/.bun/bin/claude"
 else if test -f "$HOME/.claude/local/claude"
 end
+
 alias yolo="claude --dangerously-skip-permissions"
 alias yolor="claude --dangerously-skip-permissions -c"
 alias clauder="claude -c"
@@ -433,3 +435,5 @@ set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
+
+alias claude="/Users/oodakemac/.claude/local/claude"
