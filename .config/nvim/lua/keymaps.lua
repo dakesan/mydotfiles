@@ -1,6 +1,7 @@
 local function setup_clipboard_on_demand()
   -- まだ設定されていなければ設定する
-  if vim.opt.clipboard:get() ~= "unnamedplus" then
+  local clipboard = vim.opt.clipboard:get()
+  if not vim.tbl_contains(clipboard, "unnamedplus") then
     vim.opt.clipboard:append('unnamedplus')
     vim.notify("Clipboard 'unnamedplus' has been enabled.", vim.log.levels.INFO, { title = "On-Demand Setup" })
   end
