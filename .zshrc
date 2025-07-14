@@ -30,7 +30,12 @@ path_append "/usr/local/bin"
 path_append "/usr/bin"
 path_append "$HOME/.cargo/bin"
 path_append "$HOME/go/bin"
-path_append "$HOME/.poetry/bin"
+path_append "$HOME/.local/share/pypoetry/venv/bin"
+path_append "$HOME/.local/share/bob/nvim-bin"
+path_append "$HOME/.fly/bin"
+path_append "$HOME/.deno/bin"
+path_append "$HOME/.config/claude/bin"
+path_append "/usr/local/cuda-12.4/bin"
 
 #* Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
@@ -157,18 +162,18 @@ alias gr='gitReverse'
 # alias sl="sqlite3"
 
 #* exa
-alias e='exa --icons'
-alias l='e -l'
-alias k=l
-alias ls=e
-alias ea='exa -ag --icons'
-alias la=ea
-alias ee='exa -aal -g --git --icons'
-alias ll=ee
-alias et='exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
-alias lt=et
-alias eta='lt -l --git'
-alias lta=eta
+# alias e='eza --icons'
+# alias l='e -l'
+# alias k=l
+# alias ls=e
+# alias ea='exa -ag --icons'
+# alias la=ea
+# alias ee='exa -aal -g --git --icons'
+# alias ll=ee
+# alias et='exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
+# alias lt=et
+# alias eta='lt -l --git'
+# alias lta=eta
 
 #* fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -232,14 +237,32 @@ eval "$(sheldon source)"
 # # zinit ice depth=1
 # # zinit light jeffreytse/zsh-vi-mode
 #
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# pyenv disabled - using mise instead
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
-#* poetry
-export PATH="$HOME/.poetry/bin:$PATH"
-#* golang
-export PATH=$PATH:/usr/local/go/bin
+#* Environment variables
+export FLYCTL_INSTALL="$HOME/.fly"
+export BNB_CUDA_VERSION=124
+export LD_LIBRARY_PATH="/usr/local/cuda-12.4/lib64:$LD_LIBRARY_PATH"
+
+#* pnpm
+if [ -d "$HOME/.local/share/pnpm" ]; then
+    export PNPM_HOME="$HOME/.local/share/pnpm"
+    path_append "$PNPM_HOME"
+fi
+
+#* bun
+if [ -d "$HOME/.bun" ]; then
+    export BUN_INSTALL="$HOME/.bun"
+    path_append "$BUN_INSTALL/bin"
+fi
+
+#* ghcup-env
+if [ -f "$HOME/.ghcup/env" ]; then
+    source "$HOME/.ghcup/env"
+fi
 
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
@@ -268,6 +291,36 @@ export PATH=$PATH:/usr/local/go/bin
 #   complete -C '/usr/local/bin/aws_compiler' aws
 # fi
 #
-setopt autocd 
+setopt autocd
 autoload -Uz compinit
 compinit
+
+#* Conda/Mamba initialization
+init_conda() {
+    local conda_paths=(
+        "$HOME/micromamba"
+        "$HOME/mambaforge"
+        "$HOME/.local/share/miniconda3"
+        "$HOME/miniconda3"
+        "$HOME/.pyenv/versions/miniconda3-latest"
+        "/opt/miniconda3"
+        "/opt/conda"
+    )
+    
+    for conda_path in $conda_paths; do
+        if [ -d "$conda_path" ]; then
+            if [ -f "$conda_path/etc/profile.d/conda.sh" ]; then
+                . "$conda_path/etc/profile.d/conda.sh"
+            elif [ -f "$conda_path/etc/profile.d/mamba.sh" ]; then
+                . "$conda_path/etc/profile.d/mamba.sh"
+            fi
+            
+            if [ -f "$conda_path/bin/conda" ]; then
+                eval "$("$conda_path/bin/conda" shell.zsh hook)"
+            fi
+            break
+        fi
+    done
+}
+
+init_conda
