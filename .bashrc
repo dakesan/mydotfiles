@@ -62,3 +62,5 @@ init_conda() {
 }
 
 init_conda
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
