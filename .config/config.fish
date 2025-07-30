@@ -51,6 +51,8 @@ alias z 'pushd ./ && z > /dev/null'
 set --query ZOXIDE_INIT || zoxide init --cmd z fish | source
 alias reload 'fish'
 starship init fish | source
+# muCommander (macOS only)
+alias mu 'open -a mucommander --args $(pwd)'
 
 # * python
 alias ipo 'ipython'
@@ -437,3 +439,5 @@ set --export PATH $BUN_INSTALL/bin $PATH
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
 
 alias claude="/Users/oodakemac/.claude/local/claude"
+
+string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
