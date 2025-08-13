@@ -14,6 +14,7 @@ set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
 set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
 set -gx PATH "$HOME/.deno/bin:$PATH"
 set -gx PATH "$HOME/.claude/local:$PATH"
+set -gx PATH "/opt/homebrew/opt/llvm/bin:$PATH"
 set -gx FLYCTL_INSTALL "$HOME/.fly"
 set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
 set -x BNB_CUDA_CERSION 128

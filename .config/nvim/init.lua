@@ -49,3 +49,5 @@ require("lazy").setup("plugins", {
   },
 })
 
+-- clipboard 設定
+vim.api.nvim_command('set t_BE=')
