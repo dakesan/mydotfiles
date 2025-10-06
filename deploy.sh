@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dotfiles=(.zshrc .condarc .zshenv .zshfunc)
+dotfiles=(.zshrc .bashrc .condarc .zshenv .zshfunc)
 
 for file in "${dotfiles[@]}"; do
 	ln -svf $HOME/dotfiles/$file $HOME/

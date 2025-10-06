@@ -30,7 +30,12 @@ path_append "/usr/local/bin"
 path_append "/usr/bin"
 path_append "$HOME/.cargo/bin"
 path_append "$HOME/go/bin"
-path_append "$HOME/.poetry/bin"
+path_append "$HOME/.local/share/pypoetry/venv/bin"
+path_append "$HOME/.local/share/bob/nvim-bin"
+path_append "$HOME/.fly/bin"
+path_append "$HOME/.deno/bin"
+path_append "$HOME/.config/claude/bin"
+path_append "/usr/local/cuda-12.4/bin"
 
 #* Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
@@ -64,7 +69,7 @@ export EDITOR='nvim'
 alias vi="nvim"
 alias vim="nvim"
 alias view="nvim -R"
-alias vimconfig="vim $HOME/dotfiles/.config/nvim/init.vim"
+alias vimconfig='cd ~/.config/nvim && $EDITOR .'
 
 #* Python
 alias ipo="ipython"
@@ -123,52 +128,106 @@ alias gp='git pull'
 alias gP='git push'
 alias ga='git add .'
 alias gc='git commit -m'
-alias gs='git status'
+alias gs='git status -sb'
 alias gb='git branch'
-alias gl='git clone'
-alias cout='git checkout'
+alias gl='git log --oneline --graph --decorate'
+alias gC='git checkout'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gr='git restore'
+alias grs='git restore --staged'
+alias gR='git reset'
+alias gRh='git reset --hard'
+alias gst='git stash'
+alias gstp='git stash pop'
+alias gf='git fetch'
+alias gm='git merge'
+alias grb='git rebase'
+alias gcl='git clone'
+alias gco='git checkout -b'
+alias gsh='git show'
+alias gbl='git blame'
+alias gcp='git cherry-pick'
+alias grv='git revert'
+alias gtag='git tag'
+alias gclean='git clean -fd'
+alias gwt='git worktree'
+alias gbs='git bisect'
+alias grm='git remote'
+alias grmv='git remote -v'
+alias glp='git log -p'
+alias glg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
+alias gsu='git submodule update --init --recursive'
 # lazygit
 alias lg='lazygit'
+
+#* tmux
+alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
+alias t="tmux"
+alias ta="tmux a"
+alias ts="tmux new -s"
+alias tl="tmux ls"
+alias tk="tmux kill-session -t"
+alias tka="tmux kill-server"
+
+#* Claude
+alias yolo='claude code -A -w -n'
+alias yolor='claude code --resume'
+alias clauder='claude code --resume'
+
+#* Other tools
+alias conda='micromamba'
+alias mamba='micromamba'
 # git path
 function gitroot(){
   export git_root=$(git rev-parse --show-toplevel)
   echo $git_root
 }
 
-function gitMain() {
-  git config --global user.name "dakesan"
-  git config --global user.email dakesan@excel2rlang.com
-  # git config --list
+function gitmain() {
+  git config --global user.email "naitomeaFunLIve@gmail.com"
+  git config --global user.name "oodakehideto"
+  echo "git email : naitomeaFunLIve@gmail.com"
+  echo "git name  : oodakehideto"
 }
 
-function gitPri() {
-  git config --global user.name "snitch0"
-  git config --global user.email snitch@excel2rlang.com
-  # git config --list
+function gitsub() {
+  git config --global user.email "hideto.odake@openlogi.com"
+  git config --global user.name "hodake-openlogi"
+  echo "git email : hideto.odake@openlogi.com"
+  echo "git name  : hodake-openlogi"
 }
 
-function gitReverse() {
-  git reset --soft HEAD\^
+function gitreverse() {
+  if [ -z "$1" ]; then
+    echo "Usage: gitreverse <commit-hash>"
+    return 1
+  fi
+  git diff "$1"^ "$1" | git apply
 }
-alias gr='gitReverse'
+
+function gitpub() {
+  local comment="$@"
+  git add . && git commit -m "$comment" && git push
+}
 
 
 #* R/Python/SQL
 # alias sl="sqlite3"
 
-#* exa
-alias e='exa --icons'
-alias l='e -l'
-alias k=l
-alias ls=e
-alias ea='exa -ag --icons'
-alias la=ea
-alias ee='exa -aal -g --git --icons'
-alias ll=ee
-alias et='exa -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
-alias lt=et
-alias eta='lt -l --git'
-alias lta=eta
+#* eza (modern ls replacement)
+if command -v eza &> /dev/null; then
+    alias ls='eza --icons'
+    alias ll='eza -lh --icons'
+    alias la='eza -a --icons'
+    alias lla='eza -lha --icons'
+    alias lt='eza --tree --level=2 --icons'
+    alias lta='eza --tree --level=2 -a --icons'
+else
+    alias ll='ls -lh'
+    alias la='ls -a'
+    alias lla='ls -lha'
+fi
 
 #* fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -232,14 +291,32 @@ eval "$(sheldon source)"
 # # zinit ice depth=1
 # # zinit light jeffreytse/zsh-vi-mode
 #
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# pyenv disabled - using mise instead
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
-#* poetry
-export PATH="$HOME/.poetry/bin:$PATH"
-#* golang
-export PATH=$PATH:/usr/local/go/bin
+#* Environment variables
+export FLYCTL_INSTALL="$HOME/.fly"
+export BNB_CUDA_VERSION=124
+export LD_LIBRARY_PATH="/usr/local/cuda-12.4/lib64:$LD_LIBRARY_PATH"
+
+#* pnpm
+if [ -d "$HOME/.local/share/pnpm" ]; then
+    export PNPM_HOME="$HOME/.local/share/pnpm"
+    path_append "$PNPM_HOME"
+fi
+
+#* bun
+if [ -d "$HOME/.bun" ]; then
+    export BUN_INSTALL="$HOME/.bun"
+    path_append "$BUN_INSTALL/bin"
+fi
+
+#* ghcup-env
+if [ -f "$HOME/.ghcup/env" ]; then
+    source "$HOME/.ghcup/env"
+fi
 
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
@@ -268,6 +345,38 @@ export PATH=$PATH:/usr/local/go/bin
 #   complete -C '/usr/local/bin/aws_compiler' aws
 # fi
 #
-setopt autocd 
+setopt autocd
 autoload -Uz compinit
 compinit
+
+#* Conda/Mamba initialization
+init_conda() {
+    local conda_paths=(
+        "$HOME/micromamba"
+        "$HOME/mambaforge"
+        "$HOME/.local/share/miniconda3"
+        "$HOME/miniconda3"
+        "$HOME/.pyenv/versions/miniconda3-latest"
+        "/opt/miniconda3"
+        "/opt/conda"
+    )
+    
+    for conda_path in $conda_paths; do
+        if [ -d "$conda_path" ]; then
+            if [ -f "$conda_path/etc/profile.d/conda.sh" ]; then
+                . "$conda_path/etc/profile.d/conda.sh"
+            elif [ -f "$conda_path/etc/profile.d/mamba.sh" ]; then
+                . "$conda_path/etc/profile.d/mamba.sh"
+            fi
+            
+            if [ -f "$conda_path/bin/conda" ]; then
+                eval "$("$conda_path/bin/conda" shell.zsh hook)"
+            fi
+            break
+        fi
+    done
+}
+
+init_conda
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"

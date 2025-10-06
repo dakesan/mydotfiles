@@ -1,6 +1,7 @@
 -- 基本設定を読み込み
 require("settings")
 require("keymaps")
+require("config.clipboard-fix") -- macOS clipboard fix
 
 -- lazy.nvimをインストールする場所
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -48,3 +49,5 @@ require("lazy").setup("plugins", {
   },
 })
 
+-- clipboard 設定
+vim.api.nvim_command('set t_BE=')

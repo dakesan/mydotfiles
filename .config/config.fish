@@ -1,3 +1,24 @@
+# * OS detection
+function is_macos
+    test (uname) = "Darwin"
+    set -gx PATH "$HOME/.npm-global/bin:$PATH"
+    set -gx FLYCTL_INSTALL "/home/oodake/.fly"
+    set -gx PATH "$HOME/.claude/local:$PATH"
+    set -gx PATH "/opt/homebrew/opt/llvm/bin:$PATH"
+    set -gx FLYCTL_INSTALL "$HOME/.fly"
+end
+
+function is_ubuntu
+    test (uname) = "Linux"; and test -f /etc/lsb-release
+    set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
+    set -x BNB_CUDA_CERSION 128
+    set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
+end
+
+function is_linux
+    test (uname) = "Linux"
+end
+
 # * Path configuration (optimized)
 set -gx PATH "$HOME/.local/bin:$PATH"
 # findコマンドによる動的PATH設定は重いためコメントアウト
@@ -13,14 +34,10 @@ set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
 set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
 set -gx PATH "$HOME/.deno/bin:$PATH"
-set -gx PATH "$HOME/.npm-global/bin:$PATH"
-set -gx FLYCTL_INSTALL "/home/oodake/.fly"
-set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
-set -x BNB_CUDA_CERSION 128
-set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
+
 
 # tmux
-alias tmux="tmux -f /home/oodake/.config/tmux/tmux.conf"
+alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 alias tm 'tmux-select'     # セッション選択・復帰
 alias tmn 'tmux-new'       # 新規セッション作成
 alias tmk 'tmux-kill'      # セッション削除
@@ -33,7 +50,7 @@ alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
 
 # fnm
-source /home/oodake/.config/fish/conf.d/fnm.fish
+# source $HOME/.config/fish/conf.d/fnm.fish
 
 # * alias
 # ? util command
@@ -47,15 +64,18 @@ alias zelij 'zellij'
 alias zl 'zellij list-sessions'
 # ? prompt
 alias z 'pushd ./ && z > /dev/null'
-zoxide init fish | source
+# zoxide init fish | source
+set --query ZOXIDE_INIT || zoxide init --cmd z fish | source
 alias reload 'fish'
 starship init fish | source
+# muCommander (macOS only)
+alias mu 'open -a mucommander --args $(pwd)'
 
 # * python
 alias ipo 'ipython'
-set -Ux PYENV_ROOT $HOME/.pyenv
+# set -Ux PYENV_ROOT $HOME/.pyenv
 fish_add_path $PYENV_ROOT/bin
-pyenv init - | source
+# pyenv init - | source
 
 # * fish configuration
 set fish_greeting ''
@@ -69,9 +89,10 @@ set -g theme_hostname always
 
 # * Claude Code
 if test -f "$HOME/.bun/bin/claude"
+    alias claude="$HOME/.bun/bin/claude"
 else if test -f "$HOME/.claude/local/claude"
+    alias claude="~/.claude/local/claude"
 end
-alias claude="~/.claude/local/claude"
 alias yolo="claude --dangerously-skip-permissions"
 alias yolor="claude --dangerously-skip-permissions -c"
 alias clauder="claude -c"
@@ -338,6 +359,7 @@ alias la 'eza -ag --icons'
 alias ll 'eza -aal -g --git --icons'
 alias lt 'eza -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
 alias lta 'lt -l --git'
+alias exa 'eza'
 
 # * fzf
 
@@ -433,3 +455,7 @@ set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
+
+alias claude="/Users/oodakemac/.claude/local/claude"
+
+string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
