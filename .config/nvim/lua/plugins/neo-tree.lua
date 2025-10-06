@@ -7,9 +7,9 @@ return {
     'MunifTanjim/nui.nvim',
   },
   keys = {
-    { '<C-S-d>', '<cmd>Neotree toggle<cr>', desc = 'Toggle NeoTree' },
+    { '<C-S-d>',    '<cmd>Neotree toggle<cr>', desc = 'Toggle NeoTree' },
     { '<leader>tt', '<cmd>Neotree toggle<cr>', desc = 'Toggle NeoTree' },
-    { '<leader>tf', '<cmd>Neotree focus<cr>', desc = 'Focus NeoTree' },
+    { '<leader>tf', '<cmd>Neotree focus<cr>',  desc = 'Focus NeoTree' },
     { '<leader>tr', '<cmd>Neotree reveal<cr>', desc = 'Reveal current file in NeoTree' },
   },
   config = function()
@@ -53,8 +53,8 @@ return {
         },
         git_status = {
           symbols = {
-            added     = '', 
-            modified  = '', 
+            added     = '',
+            modified  = '',
             deleted   = '✖',
             renamed   = '',
             untracked = '',
@@ -73,8 +73,8 @@ return {
           nowait = true,
         },
         mappings = {
-          ['<space>'] = { 
-            'toggle_node', 
+          ['<space>'] = {
+            'toggle_node',
             nowait = false,
           },
           ['<2-LeftMouse>'] = 'open',
@@ -88,7 +88,7 @@ return {
           ['w'] = 'open_with_window_picker',
           ['C'] = 'close_node',
           ['z'] = 'close_all_nodes',
-          ['a'] = { 
+          ['a'] = {
             'add',
             config = {
               show_path = 'none'
@@ -139,7 +139,9 @@ return {
           leave_dirs_open = false,
         },
         group_empty_dirs = false,
-        hijack_netrw_behavior = 'open_default',
+        -- Do not hijack netrw so that :Ex and :Sex (netrw) continue to work.
+        -- Options: "open_default", "open_split", "disabled"
+        hijack_netrw_behavior = 'disabled',
         use_libuv_file_watcher = false,
         window = {
           mappings = {

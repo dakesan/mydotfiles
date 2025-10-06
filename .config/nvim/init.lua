@@ -32,14 +32,12 @@ require("lazy").setup("plugins", {
     },
     reset_packpath = true, -- packpathをリセットして高速化
     rtp = {
-      reset = true, -- runtimepathをリセット
-      paths = {}, -- 追加のruntimeパス
+      reset = true,        -- runtimepathをリセット
+      paths = {},          -- 追加runtimeパス
       disabled_plugins = {
-        -- 必要なプラグインは残す
         -- "gzip",
         -- "matchit",
         -- "matchparen",
-        "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",
