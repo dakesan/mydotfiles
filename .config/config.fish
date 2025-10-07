@@ -2,11 +2,8 @@
 function is_macos
     if test (uname) = "Darwin"
         set -gx PATH "$HOME/.npm-global/bin:$PATH"
-        set -gx FLYCTL_INSTALL "/home/oodake/.fly"
         set -gx PATH "$HOME/.claude/local:$PATH"
         set -gx PATH "/opt/homebrew/opt/llvm/bin:$PATH"
-        set -gx FLYCTL_INSTALL "$HOME/.fly"
-        alias claude="/Users/oodakemac/.claude/local/claude"
     end
 end
 
@@ -451,6 +448,12 @@ set -U fish_pager_color_description B3A06D yellow
 set -U fish_pager_color_prefix normal --bold --underline
 set -U fish_pager_color_progress brwhite --background=cyan
 uv generate-shell-completion fish | source
+
+# claude code
+set -gx PATH "$HOME/.claude/local:$PATH"
+
+# mise
+/home/oodake/.local/bin/mise activate fish | source
 
 # pnpm
 set -gx PNPM_HOME "/home/ubuntu/.local/share/pnpm"
