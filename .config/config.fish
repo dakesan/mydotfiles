@@ -1,18 +1,19 @@
 # * OS detection
-function is_macos
-    if test (uname) = "Darwin"
-        set -gx PATH "$HOME/.npm-global/bin:$PATH"
-        set -gx PATH "$HOME/.claude/local:$PATH"
-        set -gx PATH "/opt/homebrew/opt/llvm/bin:$PATH"
-    end
-end
-
 function is_ubuntu
     if test (uname) = "Linux"; and test -f /etc/lsb-release
+        # cuda
         set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
         set -x BNB_CUDA_CERSION 128
-        set -gx PATH "$HOME/.npm-global/bin:$PATH"
         set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
+
+        # miniforge3
+        if test -f $HOME/miniforge3/bin/conda
+            eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
+        end
+
+        if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+            source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+end
     end
 end
 
@@ -21,7 +22,6 @@ function is_linux
     end
 end
 
-is_macos
 is_ubuntu
 is_linux
 
@@ -35,12 +35,7 @@ set -gx PATH "/usr/local/bin:$PATH"
 set -gx PATH "/usr/bin:$PATH"
 set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
-set -gx PATH "$HOME/.poetry/bin:$PATH"
-set -gx PATH "$HOME/.local/share/bob/nightly/nvim-linux64/bin:$PATH"
 set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
-set -gx PATH "$FLYCTL_INSTALL/bin:$PATH"
-set -gx PATH "$HOME/.deno/bin:$PATH"
-
 
 # tmux
 alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
@@ -55,33 +50,23 @@ alias tmw 'tmux-new-window'  # 新しいウィンドウ（タブ）
 alias tml 'tmux-window-list' # ウィンドウ一覧
 alias tmh 'tmux-help'      # ヘルプ表示
 
-# fnm
-# source $HOME/.config/fish/conf.d/fnm.fish
-
 # * alias
 # ? util command
 alias pi 'pip install'
-alias ai 'sudo apt install'
-alias nf 'nextflow'
 # ? axel
 alias Axel 'axel -n 10 --insecure'
-# ? zellij
-alias zelij 'zellij'
-alias zl 'zellij list-sessions'
 # ? prompt
 alias z 'pushd ./ && z > /dev/null'
 # zoxide init fish | source
 set --query ZOXIDE_INIT || zoxide init --cmd z fish | source
 alias reload 'fish'
+# Starship
 starship init fish | source
 # muCommander (macOS only)
 alias mu 'open -a mucommander --args $(pwd)'
 
 # * python
 alias ipo 'ipython'
-# set -Ux PYENV_ROOT $HOME/.pyenv
-fish_add_path $PYENV_ROOT/bin
-# pyenv init - | source
 
 # * fish configuration
 set fish_greeting ''
@@ -94,11 +79,7 @@ set -g theme_hide_hostname no
 set -g theme_hostname always
 
 # * Claude Code
-if test -f "$HOME/.bun/bin/claude"
-    alias claude="$HOME/.bun/bin/claude"
-else if test -f "$HOME/.claude/local/claude"
-    alias claude="~/.claude/local/claude"
-end
+set -gx PATH "$HOME/.claude/local:$PATH"
 alias yolo="claude --dangerously-skip-permissions"
 alias yolor="claude --dangerously-skip-permissions -c"
 alias clauder="claude -c"
@@ -116,11 +97,6 @@ alias gl='git clone'
 alias gC='git commit -m'
 # lazygit
 alias lg='lazygit'
-# git path
-# function gitroot
-#   set -x git_root (git rev-parse --show-toplevel)
-#   echo $git_root
-# end
 
 function gitmain
   git config --global user.name "dakesan"
@@ -163,28 +139,6 @@ function git
   end
 end
 
-function start_agent
-    if not set -q SSH_AUTH_SOCK
-        eval (ssh-agent -c)
-        set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
-        set -Ux SSH_AGENT_PID $SSH_AGENT_PID
-    end
-end
-
-function add_identities
-    ssh-add -l > /dev/null 2>&1
-    if test $status -ne 0
-        ssh-add ~/.ssh/github >/dev/null 2>&1
-    end
-end
-
-# SSH Agent起動を最適化（メッセージ抑制）
-if status --is-interactive
-  # SSH configで自動読み込みされるため、明示的なssh-addは不要
-  # start_agent
-  # add_identities
-  # gitpub
-end
 
 # * quarto
 function html2pdf
@@ -194,10 +148,6 @@ function html2pdf
   end
 end
 
-# * zellij
-function zla
-  zellij attach (zl | head -1)
-end
 
 # * tmux session management
 function tmux-select
@@ -336,20 +286,6 @@ function fmv
   tar c $argv[1] | pv | tar x -C $argv[2]
 end
 
-# * aws
-function sshaws
-  ssh -i "~/aws/rsa_awsssh.pem" ubuntu@$argv
-end
-source $HOME/dotfiles/hostnames.fish
-
-function sshaws2
-  ssh -i "~/aws/rsa_awsssh.pem" ec2-user@$argv
-end
-
-function sshaws3
-  ssh -i "~/aws/uehara.pem" ubuntu@$argv
-end
-
 # * blog
 function saveimg
     powershell.exe "(Get-Clipboard -Format Image).Save(\"$argv[1]\")"
@@ -368,12 +304,8 @@ alias lta 'lt -l --git'
 alias exa 'eza'
 
 # * fzf
+fzf --fish | source
 
-# * Neovim
-alias vim 'nvim'
-
-# * sheldon
-# sheldon source | source
 # * conda
 alias act 'mamba activate'
 alias dact 'mamba deactivate'
@@ -382,29 +314,6 @@ alias dact 'mamba deactivate'
 function count-fastq
   zcat $argv | awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'
 end
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f $HOME/mambaforge/bin/conda
-    eval $HOME/mambaforge/bin/conda "shell.fish" "hook" $argv | source
-end
-
-if test -f "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
-    source "$HOME/mambaforge/etc/fish/conf.d/mamba.fish"
-end
-# <<< conda initialize <<<
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f $HOME/miniforge3/bin/conda
-    eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
-end
-
-if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-end
-# <<< conda initialize <<<
 
 # Enable AWS CLI autocompletion: github.com/aws/aws-cli/issues/1079
 complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); /usr/local/bin/aws_completer | sed \'s/ $//\'; end)'
@@ -449,23 +358,21 @@ set -U fish_pager_color_prefix normal --bold --underline
 set -U fish_pager_color_progress brwhite --background=cyan
 uv generate-shell-completion fish | source
 
-# claude code
-set -gx PATH "$HOME/.claude/local:$PATH"
 
 # mise
-/home/oodake/.local/bin/mise activate fish | source
+$HOME/.local/bin/mise activate fish | source
+
+# npm
+set -gx PATH "$HOME/.npm-global/bin:$PATH"
 
 # pnpm
 set -gx PNPM_HOME "/home/ubuntu/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-
-set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
 
 
