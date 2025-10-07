@@ -1,23 +1,32 @@
 # * OS detection
 function is_macos
-    test (uname) = "Darwin"
-    set -gx PATH "$HOME/.npm-global/bin:$PATH"
-    set -gx FLYCTL_INSTALL "/home/oodake/.fly"
-    set -gx PATH "$HOME/.claude/local:$PATH"
-    set -gx PATH "/opt/homebrew/opt/llvm/bin:$PATH"
-    set -gx FLYCTL_INSTALL "$HOME/.fly"
+    if test (uname) = "Darwin"
+        set -gx PATH "$HOME/.npm-global/bin:$PATH"
+        set -gx FLYCTL_INSTALL "/home/oodake/.fly"
+        set -gx PATH "$HOME/.claude/local:$PATH"
+        set -gx PATH "/opt/homebrew/opt/llvm/bin:$PATH"
+        set -gx FLYCTL_INSTALL "$HOME/.fly"
+        alias claude="/Users/oodakemac/.claude/local/claude"
+    end
 end
 
 function is_ubuntu
-    test (uname) = "Linux"; and test -f /etc/lsb-release
-    set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
-    set -x BNB_CUDA_CERSION 128
-    set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
+    if test (uname) = "Linux"; and test -f /etc/lsb-release
+        set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
+        set -x BNB_CUDA_CERSION 128
+        set -gx PATH "$HOME/.npm-global/bin:$PATH"
+        set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
+    end
 end
 
 function is_linux
-    test (uname) = "Linux"
+    if test (uname) = "Linux"
+    end
 end
+
+is_macos
+is_ubuntu
+is_linux
 
 # * Path configuration (optimized)
 set -gx PATH "$HOME/.local/bin:$PATH"
@@ -456,5 +465,4 @@ set --export PATH $BUN_INSTALL/bin $PATH
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/ubuntu/.ghcup/bin $PATH # ghcup-env
 
-alias claude="/Users/oodakemac/.claude/local/claude"
 
