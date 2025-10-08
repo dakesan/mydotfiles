@@ -10,6 +10,8 @@ mkdir $HOME/.config
 
 rm $HOME/.config/fish/config.fish
 ln -svf $HOME/dotfiles/.config/config.fish $HOME/.config/fish/
+ln -svf $HOME/dotfiles/.config/tmux.fish $HOME/.config/fish/
+ln -svf $HOME/dotfiles/.config/dotenv.fish $HOME/.config/fish/
 ln -svf $HOME/dotfiles/.config/starship.toml $HOME/.config/
 
 rm -rf $HOME/.config/nvim
