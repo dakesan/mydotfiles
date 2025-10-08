@@ -22,6 +22,20 @@ function is_linux
     end
 end
 
+# * dotenv
+source $HOME/dotfiles/.config/dotenv.fish
+
+# グローバル共有用 .env を読み込む
+# 例: ~/.env.global に KEY=VALUE を列挙
+if test -f ~/.env.global
+    load_dotenv ~/.env.global
+end
+
+# 必要ならプロファイルごとに別ファイルをロード
+# if test -f ~/.env.(hostname)
+#     load_dotenv ~/.env.(hostname)
+# end
+
 is_ubuntu
 is_linux
 
@@ -228,5 +242,3 @@ end
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-
-
