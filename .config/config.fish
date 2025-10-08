@@ -159,8 +159,6 @@ alias lt 'eza -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
 alias lta 'lt -l --git'
 alias exa 'eza'
 
-# * fzf
-fzf --fish | source
 
 # * conda
 alias act 'mamba activate'
