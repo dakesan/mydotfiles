@@ -4,3 +4,5 @@ proxy/proxy_adress.zsh
 .config/nvim/plugin/packer_compiled.lua
 
 hostnames.fish
+
+.serena
