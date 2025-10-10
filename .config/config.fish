@@ -17,11 +17,6 @@ end
     end
 end
 
-function is_linux
-    if test (uname) = "Linux"
-    end
-end
-
 # * dotenv
 source $HOME/dotfiles/.config/dotenv.fish
 
@@ -31,13 +26,7 @@ if test -f ~/.env.global
     load_dotenv ~/.env.global
 end
 
-# 必要ならプロファイルごとに別ファイルをロード
-# if test -f ~/.env.(hostname)
-#     load_dotenv ~/.env.(hostname)
-# end
-
 is_ubuntu
-is_linux
 
 # * Path configuration (optimized)
 set -gx PATH "$HOME/.local/bin:$PATH"
