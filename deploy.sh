@@ -1,52 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Always resolve the repository root relative to this script so we can run it from anywhere.
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+link() {
+	local src_relative="$1"
+	local dst_relative="$2"
+	local src_path="$DOTFILES_DIR/$src_relative"
+	local dst_path="$HOME/$dst_relative"
+
+	if [[ ! -e "$src_path" && ! -L "$src_path" ]]; then
+		printf 'missing source: %s\n' "$src_path" >&2
+		return 1
+	fi
+
+	mkdir -p "$(dirname "$dst_path")"
+	ln -snfv "$src_path" "$dst_path"
+}
 
 dotfiles=(.zshrc .bashrc .condarc .zshenv .zshfunc)
-
-for file in "${dotfiles[@]}"; do
-	ln -svf $HOME/dotfiles/$file $HOME/
+for path in "${dotfiles[@]}"; do
+	link "$path" "$path"
 done
 
-mkdir $HOME/.config
-
-rm $HOME/.config/fish/config.fish
-ln -svf $HOME/dotfiles/.config/config.fish $HOME/.config/fish/
-ln -svf $HOME/dotfiles/.config/tmux.fish $HOME/.config/fish/
-ln -svf $HOME/dotfiles/.config/dotenv.fish $HOME/.config/fish/
-ln -svf $HOME/dotfiles/.config/starship.toml $HOME/.config/
-
-rm -rf $HOME/.config/nvim
-unlink $HOME/.config/nvim
-ln -svf $HOME/dotfiles/.config/nvim $HOME/.config/nvim
-
-rm -rf $HOME/.config/vim
-unlink $HOME/.config/vim
-ln -svf $HOME/dotfiles/.config/vim $HOME/.config/vim
-
-mkdir -p $HOME/.config/procs
-ln -svf $HOME/dotfiles/.config/procs/config.toml $HOME/.config/procs/config.toml
-
-mkdir -p $HOME/.sheldon
-mkdir -p $HOME/.config/sheldon
-ln -svf $HOME/dotfiles/.sheldon/plugins.toml $HOME/.sheldon/plugins.toml
-ln -svf $HOME/dotfiles/.sheldon/plugins.toml $HOME/.config/sheldon/plugins.toml
-
-rm -rf $HOME/.config/zellij
-unlink $HOME/.config/zellij
-ln -svf $HOME/dotfiles/.config/zellij $HOME/.config/zellij
-
-rm -rf $HOME/.config/yazi
-unlink $HOME/.config/yazi
-ln -svf $HOME/dotfiles/.config/yazi $HOME/.config/yazi
-
-rm -rf $HOME/.config/bat
-unlink $HOME/.config/bat
-ln -svf $HOME/dotfiles/.config/bat $HOME/.config/bat
-
-mkdir $HOME/.poshthemes
-ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom.omp.json $HOME/.poshthemes/snitch_custom.omp.json
-ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_home.omp.json $HOME/.poshthemes/snitch_custom_home.omp.json
-ln -svf $HOME/dotfiles/oh-my-posh/snitch_custom_work.omp.json $HOME/.poshthemes/snitch_custom_work.omp.json
-
-rm -rf $HOME/.config/tmux
-unlink $HOME/.config/tmux
-ln -svf $HOME/dotfiles/.config/tmux $HOME/.config/tmux
+while IFS=: read -r src dst; do
+	[[ -z "$src" ]] && continue
+	link "$src" "$dst"
+done <<'EOF'
+.config/config.fish:.config/fish/config.fish
+.config/tmux.fish:.config/fish/tmux.fish
+.config/dotenv.fish:.config/fish/dotenv.fish
+.config/starship.toml:.config/starship.toml
+.config/procs/config.toml:.config/procs/config.toml
+.config/mise/config.toml:.config/mise/config.toml
+.sheldon/plugins.toml:.sheldon/plugins.toml
+.sheldon/plugins.toml:.config/sheldon/plugins.toml
+.config/nvim:.config/nvim
+.config/vim:.config/vim
+.config/zellij:.config/zellij
+.config/yazi:.config/yazi
+.config/bat:.config/bat
+.config/tmux:.config/tmux
+oh-my-posh/snitch_custom.omp.json:.poshthemes/snitch_custom.omp.json
+oh-my-posh/snitch_custom_home.omp.json:.poshthemes/snitch_custom_home.omp.json
+oh-my-posh/snitch_custom_work.omp.json:.poshthemes/snitch_custom_work.omp.json
+EOF

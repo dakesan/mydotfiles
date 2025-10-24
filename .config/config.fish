@@ -29,6 +29,7 @@ end
 is_ubuntu
 
 # * Path configuration (optimized)
+set -gx PATH "$HOME/.local/share/mise/shims:$PATH"
 set -gx PATH "$HOME/.local/bin:$PATH"
 # findコマンドによる動的PATH設定は重いためコメントアウト
 # for dir in (find ~/.local/bin -type d)
@@ -38,7 +39,6 @@ set -gx PATH "/usr/local/bin:$PATH"
 set -gx PATH "/usr/bin:$PATH"
 set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
-set -gx PATH "$HOME/.local/share/bob/nvim-bin:$PATH"
 
 # * tmux
 source $HOME/dotfiles/.config/tmux.fish
@@ -213,11 +213,12 @@ set -U fish_pager_color_completion normal
 set -U fish_pager_color_description B3A06D yellow
 set -U fish_pager_color_prefix normal --bold --underline
 set -U fish_pager_color_progress brwhite --background=cyan
-uv generate-shell-completion fish | source
-
 
 # mise
 $HOME/.local/bin/mise activate fish | source
+
+
+uv generate-shell-completion fish | source
 
 # npm
 set -gx PATH "$HOME/.npm-global/bin:$PATH"

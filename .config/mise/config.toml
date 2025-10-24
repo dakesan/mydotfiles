@@ -1,0 +1,22 @@
+[tools]
+node = "lts"
+python = "3.12"
+neovim = "nightly"
+uv = "latest"
+
+"npm:@openai/codex" = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
+
+fzf = "latest"
+ripgrep = "latest"
+fd = "latest"
+bat = "latest"
+eza = "latest"
+jq = "latest"
+yq = "latest"
+direnv = "latest"
+just = "latest"
+gh = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["python"]

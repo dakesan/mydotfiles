@@ -2,10 +2,10 @@
 
 # PATH configuration
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/share/pypoetry/venv/bin:$PATH"
-export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export PATH="$HOME/.fly/bin:$PATH"
 export PATH="$HOME/.deno/bin:$PATH"
 export PATH="$HOME/.config/claude/bin:$PATH"

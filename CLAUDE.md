@@ -13,6 +13,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # 全dotfilesをホームディレクトリにシンボリックリンクで配置
 ./deploy.sh
 
+# miseが管理するツールをインストール（初回のみ）
+mise install
+
 # RStudio用フォントのインストール
 ./rstudio-fonts.sh
 ```
@@ -55,6 +58,7 @@ dotfiles/
 ```
 
 ### 依存関係
+- mise（Node/Python/Neovim/nightlyなどのバージョン管理）
 - Neovimとyaziはgitサブモジュールとして管理
 - 多数のRust製CLIツール（bat、zoxide、sheldon等）を使用
 - oh-my-poshでプロンプトをカスタマイズ

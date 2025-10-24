@@ -32,5 +32,4 @@ function startrstudio(){
 
 # source $HOME/dotfiles/proxy/proxy_adress.zsh
 
-path_append $HOME/.local/share/neovim/bin
-path_append ${HOME}/.local/share/bob/nightly/nvim-linux64/bin/
+# Neovim via mise shims (bob no longer required)

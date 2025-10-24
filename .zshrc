@@ -5,6 +5,71 @@ fi
 
 #* custom functions
 source $HOME/dotfiles/.zsh/.zshfunc
+
+#* dotenv loader
+# Load KEY=VALUE lines from a .env-style file
+function load_dotenv() {
+    local file="$1"
+    if [ -z "$file" ]; then
+        echo "Usage: load_dotenv /path/to/.env" >&2
+        return 1
+    fi
+    if [ ! -f "$file" ]; then
+        return 0
+    fi
+
+    while IFS= read -r line; do
+        # Trim whitespace
+        line="${line#"${line%%[![:space:]]*}"}"
+        line="${line%"${line##*[![:space:]]}"}"
+
+        # Skip empty lines and comments
+        [[ -z "$line" || "$line" =~ ^# ]] && continue
+
+        # Split on first '='
+        local key="${line%%=*}"
+        local val="${line#*=}"
+
+        # Skip invalid lines
+        [[ -z "$key" || -z "$val" ]] && continue
+
+        # Remove surrounding quotes
+        val="${val%\"}"
+        val="${val#\"}"
+        val="${val%\'}"
+        val="${val#\'}"
+
+        # Export variable
+        export "$key=$val"
+    done < "$file"
+}
+
+# Load global .env if exists
+if [ -f ~/.env.global ]; then
+    load_dotenv ~/.env.global
+fi
+
+#* OS detection and environment setup
+function is_ubuntu() {
+    if [[ "$(uname)" == "Linux" && -f /etc/lsb-release ]]; then
+        # CUDA
+        export PATH="/usr/local/cuda-12.8/bin:$PATH"
+        export BNB_CUDA_VERSION=128
+        export LD_LIBRARY_PATH="/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH"
+
+        # miniforge3
+        if [ -f "$HOME/miniforge3/bin/conda" ]; then
+            eval "$("$HOME/miniforge3/bin/conda" shell.zsh hook)"
+        fi
+
+        if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
+            source "$HOME/miniforge3/etc/profile.d/mamba.sh"
+        fi
+    fi
+}
+
+is_ubuntu
+
 # if hostname contains "DESKTOP" -> my home desktop
 # else if contains "hpc" -> hpc cluster machine
 # else -> WTH?
@@ -25,16 +90,18 @@ else
 fi
 
 #* Path configuration
+# Claude bin should be at the front for priority (matching fish config)
+path_prepend "$HOME/.config/claude/bin"
+
+path_prepend "$HOME/.local/share/mise/shims"
 path_append "$HOME/.local/bin"
 path_append "/usr/local/bin"
 path_append "/usr/bin"
 path_append "$HOME/.cargo/bin"
 path_append "$HOME/go/bin"
 path_append "$HOME/.local/share/pypoetry/venv/bin"
-path_append "$HOME/.local/share/bob/nvim-bin"
 path_append "$HOME/.fly/bin"
 path_append "$HOME/.deno/bin"
-path_append "$HOME/.config/claude/bin"
 path_append "/usr/local/cuda-12.4/bin"
 
 #* Util command
@@ -44,6 +111,11 @@ alias ai="sudo apt install"
 
 #* axel
 alias Axel="axel -n 10 --insecure"
+
+#* muCommander (macOS only)
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias mu='open -a mucommander --args $(pwd)'
+fi
 
 #* Zellij
 alias zl="zellij list-sessions"
@@ -161,14 +233,153 @@ alias gsu='git submodule update --init --recursive'
 # lazygit
 alias lg='lazygit'
 
-#* tmux
+#* tmux configuration and session management
 alias tmux="tmux -f $HOME/.config/tmux/tmux.conf"
 alias t="tmux"
 alias ta="tmux a"
-alias ts="tmux new -s"
-alias tl="tmux ls"
-alias tk="tmux kill-session -t"
+alias tm='tmux-select'     # Select/attach session
+alias tmn='tmux-new'       # New session
+alias tmk='tmux-kill'      # Kill session
+alias tmr='tmux-rename'    # Rename session
+alias tms='tmux-switch'    # Switch session
+alias tmx='tmux-next'      # Next session
+alias tmz='tmux-prev'      # Previous session
+alias tmw='tmux-new-window'  # New window (tab)
+alias tml='tmux-window-list' # Window list
+alias tmh='tmux-help'      # Show help
 alias tka="tmux kill-server"
+
+# tmux session management functions
+function tmux-select() {
+    local sessions=($(tmux list-sessions -F "#{session_name}" 2>/dev/null))
+    if [ ${#sessions[@]} -eq 0 ]; then
+        echo "No tmux sessions found"
+        return 1
+    fi
+    local selected=$(printf '%s\n' "${sessions[@]}" | fzf --height=40% --border --prompt="Select tmux session: " --preview="tmux list-windows -t {}")
+    if [ -n "$selected" ]; then
+        tmux attach-session -t "$selected"
+    fi
+}
+
+function tmux-new() {
+    local session_name
+    if [ $# -eq 0 ]; then
+        session_name=$(basename $(pwd))
+    else
+        session_name="$1"
+    fi
+
+    # Check if we're inside tmux
+    if [ -n "$TMUX" ]; then
+        # Inside tmux: create detached session and optionally switch
+        tmux new-session -d -s "$session_name"
+        echo "Created detached session: $session_name"
+        read "choice?Switch to new session? (y/n): "
+        if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+            tmux switch-client -t "$session_name"
+        fi
+    else
+        # Outside tmux: create and attach normally
+        tmux new-session -s "$session_name"
+    fi
+}
+
+function tmux-kill() {
+    local sessions=($(tmux list-sessions -F "#{session_name}" 2>/dev/null))
+    if [ ${#sessions[@]} -eq 0 ]; then
+        echo "No tmux sessions found"
+        return 1
+    fi
+    local selected=$(printf '%s\n' "${sessions[@]}" | fzf --height=40% --border --prompt="Kill tmux session: " --preview="tmux list-windows -t {}")
+    if [ -n "$selected" ]; then
+        tmux kill-session -t "$selected"
+        echo "Killed session: $selected"
+    fi
+}
+
+function tmux-rename() {
+    local current=$(tmux display-message -p "#{session_name}" 2>/dev/null)
+    if [ -z "$current" ]; then
+        echo "Not in a tmux session"
+        return 1
+    fi
+    echo "Current session: $current"
+    read "new_name?New name: "
+    if [ -n "$new_name" ]; then
+        tmux rename-session "$new_name"
+        echo "Renamed to: $new_name"
+    fi
+}
+
+function tmux-help() {
+    echo "🚀 Modern tmux session manager"
+    echo ""
+    echo "Session Commands:"
+    echo "  tm / tmux-select    📋 Select and attach to session (fzf)"
+    echo "  tmn / tmux-new      ➕ Create new session (current dir name)"
+    echo "  tmk / tmux-kill     🗑️  Kill session (fzf)"
+    echo "  tmr / tmux-rename   ✏️  Rename current session"
+    echo "  tms / tmux-switch   🔄 Switch session (choose-session)"
+    echo "  tmx / tmux-next     ⏭️  Next session"
+    echo "  tmz / tmux-prev     ⏮️  Previous session"
+    echo ""
+    echo "Window (Tab) Commands:"
+    echo "  tmw / tmux-new-window  ➕ Create new window (tab)"
+    echo "  tml / tmux-window-list 📋 List windows"
+    echo "  tmh / tmux-help        ❓ Show this help"
+    echo ""
+    echo "Keybindings (inside tmux):"
+    echo "  Prefix + n/p        ⏭️⏮️  Next/Previous window (tab)"
+    echo "  Prefix + c          ➕ Create new window (tab)"
+    echo "  Prefix + 0-9        🔢 Direct window switch"
+    echo "  Prefix + w          📋 Choose window"
+    echo "  Prefix + s/Tab      📋 Choose session"
+    echo "  Prefix + )/( 	      ⏭️⏮️  Next/Previous session"
+    echo "  Prefix + F1-F8      🔢 Direct session switch (0-7)"
+    echo "  Prefix + Ctrl+s     ➕ Create new session with name"
+    echo ""
+    echo "Mouse Operations:"
+    echo "  Click on tab        🖱️  Select window (tab)"
+    echo "  Wheel on status     🖱️  Next/Previous window"
+    echo "  Right-click status  🖱️  Create new window"
+    echo ""
+    echo "Help & Reference:"
+    echo "  Prefix + Ctrl+P     🎯 tmux command palette (fzf)"
+    echo "  Prefix + ?          🎯 tmux command palette (alias)"
+    echo ""
+    echo "Usage examples:"
+    echo "  tm                  # Select session interactively"
+    echo "  tmn myproject       # Create session named 'myproject'"
+    echo "  tmw editor          # Create new window named 'editor'"
+    echo "  tmw                 # Create new window (default name)"
+    echo "  tml                 # List all windows in current session"
+    echo "  tmx / tmz           # Quick next/prev session switch"
+}
+
+function tmux-switch() {
+    tmux choose-session
+}
+
+function tmux-next() {
+    tmux switch-client -n
+}
+
+function tmux-prev() {
+    tmux switch-client -p
+}
+
+function tmux-new-window() {
+    if [ $# -eq 0 ]; then
+        tmux new-window
+    else
+        tmux new-window -n "$1"
+    fi
+}
+
+function tmux-window-list() {
+    tmux list-windows
+}
 
 #* Claude
 alias yolo='claude code -A -w -n'
@@ -178,10 +389,64 @@ alias clauder='claude code --resume'
 #* Other tools
 alias conda='micromamba'
 alias mamba='micromamba'
+alias act='mamba activate'
+alias dact='mamba deactivate'
+
 # git path
 function gitroot(){
   export git_root=$(git rev-parse --show-toplevel)
   echo $git_root
+}
+
+#* Utility functions
+# Convert HTML to PDF using Chrome headless
+function html2pdf() {
+    for file in "$@"; do
+        local filename="${file%.html}"
+        google-chrome-stable --headless --disable-gpu --print-to-pdf="${filename}.pdf" "$file"
+    done
+}
+
+# Fast move with progress bar
+function fmv() {
+    if [ $# -ne 2 ]; then
+        echo "Usage: fmv <source> <destination>"
+        return 1
+    fi
+    tar c "$1" | pv | tar x -C "$2"
+}
+
+# Save image from clipboard (Windows PowerShell)
+function saveimg() {
+    if [ $# -ne 1 ]; then
+        echo "Usage: saveimg <filename>"
+        return 1
+    fi
+    powershell.exe "(Get-Clipboard -Format Image).Save(\"$1\")"
+}
+
+# AWS EC2 instance list in table format
+function ec2table() {
+    aws ec2 describe-instances --output=table --query 'Reservations[].Instances[].{InstanceId: InstanceId, PrivateIp: join(`, `, NetworkInterfaces[].PrivateIpAddress), GlobalIP: join(`, `, NetworkInterfaces[].Association.PublicIp), InstanceType: InstanceType, Platform:Platform, State: State.Name, SecurityGroupId: join(`, `, SecurityGroups[].GroupId) ,Name: Tags[?Key==`Name`].Value|[0]}'
+}
+
+# Count bases in FASTQ file
+function count-fastq() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: count-fastq <fastq.gz>"
+        return 1
+    fi
+    zcat "$1" | awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'
+}
+
+# Yazi with automatic cd
+function yy() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if local cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
 }
 
 function gitmain() {
@@ -211,6 +476,32 @@ function gitpub() {
   git add . && git commit -m "$comment" && git push
 }
 
+#* WSL git wrapper
+# Check if current directory is Windows directory in WSL
+function isWinDir() {
+    case "$PWD" in
+        /mnt/*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# Git wrapper for WSL - use git.exe for Windows paths
+function git() {
+    if isWinDir; then
+        git.exe "$@"
+    else
+        command git "$@"
+    fi
+}
+
+# SSH agent management for git publishing
+function gitpub-ssh() {
+    if [ -z "$SSH_AUTH_SOCK" ] || [ ! -S "$SSH_AUTH_SOCK" ]; then
+        eval "$(ssh-agent -s)" >/dev/null 2>&1
+        ssh-add ~/.ssh/github >/dev/null 2>&1
+    fi
+}
+
 
 #* R/Python/SQL
 # alias sl="sqlite3"
@@ -231,6 +522,18 @@ fi
 
 #* fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#* uv shell completion
+if command -v uv &> /dev/null; then
+    eval "$(uv generate-shell-completion zsh)"
+fi
+
+#* mise shell completion and activation
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+elif [ -f "$HOME/.local/bin/mise" ]; then
+    eval "$("$HOME/.local/bin/mise" activate zsh)"
+fi
 
 # zstyle ':autocomplete:*' insert-unambiguous yes
 # no:  Tab inserts the top completion.
@@ -300,6 +603,17 @@ eval "$(sheldon source)"
 export FLYCTL_INSTALL="$HOME/.fly"
 export BNB_CUDA_VERSION=124
 export LD_LIBRARY_PATH="/usr/local/cuda-12.4/lib64:$LD_LIBRARY_PATH"
+export TERM=xterm-256color
+
+#* npm global packages
+if [ -d "$HOME/.npm-global" ]; then
+    path_append "$HOME/.npm-global/bin"
+fi
+
+#* AWS CLI autocompletion
+if command -v aws_completer &> /dev/null; then
+    complete -C "$(which aws_completer)" aws
+fi
 
 #* pnpm
 if [ -d "$HOME/.local/share/pnpm" ]; then

@@ -31,9 +31,7 @@ export poshpath="$HOME/.poshthemes/snitch_custom_work.omp.json"
 
 alias zsh="/usr/local/bin/zsh"
 alias cargo="$HOME/.cargo/bin/cargo"
-alias nvim="$HOME/.local/nvim-linux64/bin/nvim"
-export VIMRUNTIME=$HOME/.local/nvim-linux64/share/nvim/runtime
-
+# Neovim via mise shims (bob no longer required)
 source $HOME/dotfiles/.zsh/hpcfunctions.zsh
 
 HOSTNAME="$hostname"
@@ -50,6 +48,3 @@ if [[ "$HOST" =~ "^hpcfs*" ]]; then
 else
   useproxy
 fi
-
-path_append ${HOME}/.local/share/bob/nightly/nvim-linux64/bin/
-
