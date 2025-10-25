@@ -7,7 +7,7 @@ return {
     'MunifTanjim/nui.nvim',
   },
   keys = {
-    { '<C-S-d>',    '<cmd>Neotree toggle<cr>', desc = 'Toggle NeoTree' },
+    { '<C-n>',      '<cmd>Neotree toggle<cr>', desc = 'Toggle NeoTree' },
     { '<leader>tt', '<cmd>Neotree toggle<cr>', desc = 'Toggle NeoTree' },
     { '<leader>tf', '<cmd>Neotree focus<cr>',  desc = 'Focus NeoTree' },
     { '<leader>tr', '<cmd>Neotree reveal<cr>', desc = 'Reveal current file in NeoTree' },
@@ -77,8 +77,28 @@ return {
             'toggle_node',
             nowait = false,
           },
-          ['<2-LeftMouse>'] = 'open',
-          ['<cr>'] = 'open',
+          ['<2-LeftMouse>'] = function(state)
+            local node = state.tree:get_node()
+            if node.type == "file" then
+              require("neo-tree.sources.filesystem.commands").open(state)
+              vim.defer_fn(function()
+                vim.cmd("Neotree focus")
+              end, 10)
+            else
+              require("neo-tree.sources.filesystem.commands").toggle_node(state)
+            end
+          end,
+          ['<cr>'] = function(state)
+            local node = state.tree:get_node()
+            if node.type == "file" then
+              require("neo-tree.sources.filesystem.commands").open(state)
+              vim.defer_fn(function()
+                vim.cmd("Neotree focus")
+              end, 10)
+            else
+              require("neo-tree.sources.filesystem.commands").toggle_node(state)
+            end
+          end,
           ['<esc>'] = 'cancel',
           ['P'] = { 'toggle_preview', config = { use_float = true } },
           ['l'] = 'focus_preview',
@@ -112,10 +132,10 @@ return {
       nesting_rules = {},
       filesystem = {
         filtered_items = {
-          visible = false,
-          hide_dotfiles = true,
-          hide_gitignored = true,
-          hide_hidden = true,
+          visible = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          hide_hidden = false,
           hide_by_name = {
             'node_modules'
           },
