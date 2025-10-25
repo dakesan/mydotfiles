@@ -156,6 +156,7 @@ function ec2table
 end
 
 # * exa
+alias ls /bin/ls
 alias la 'eza -ag --icons'
 alias ll 'eza -aal -g --git --icons'
 alias lt 'eza -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
