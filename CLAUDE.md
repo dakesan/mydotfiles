@@ -16,6 +16,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # miseが管理するツールをインストール（初回のみ）
 mise install
 
+# miseのshimを再構築（バイナリ差し替え時に必要）
+mise reshim
+
 # RStudio用フォントのインストール
 ./rstudio-fonts.sh
 ```
