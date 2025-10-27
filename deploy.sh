@@ -1,48 +1,52 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Always resolve the repository root relative to this script so we can run it from anywhere.
+# Resolve repository root relative to this script so it works from anywhere
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-link() {
-	local src_relative="$1"
-	local dst_relative="$2"
-	local src_path="$DOTFILES_DIR/$src_relative"
-	local dst_path="$HOME/$dst_relative"
+# Home-level files
+mkdir -p "$HOME"
+ln -sfnv "$DOTFILES_DIR/.zshrc"   "$HOME/.zshrc"
+ln -sfnv "$DOTFILES_DIR/.bashrc"  "$HOME/.bashrc"
+ln -sfnv "$DOTFILES_DIR/.condarc" "$HOME/.condarc"
+ln -sfnv "$DOTFILES_DIR/.zshenv"  "$HOME/.zshenv"
+ln -sfnv "$DOTFILES_DIR/.zshfunc" "$HOME/.zshfunc"
 
-	if [[ ! -e "$src_path" && ! -L "$src_path" ]]; then
-		printf 'missing source: %s\n' "$src_path" >&2
-		return 1
-	fi
+# fish shell configs
+mkdir -p "$HOME/.config/fish"
+ln -sfnv "$DOTFILES_DIR/.config/config.fish" "$HOME/.config/fish/config.fish"
+ln -sfnv "$DOTFILES_DIR/.config/tmux.fish"   "$HOME/.config/fish/tmux.fish"
+ln -sfnv "$DOTFILES_DIR/.config/dotenv.fish" "$HOME/.config/fish/dotenv.fish"
 
-	mkdir -p "$(dirname "$dst_path")"
-	ln -snfv "$src_path" "$dst_path"
-}
+# starship and other configs
+mkdir -p "$HOME/.config"
+ln -sfnv "$DOTFILES_DIR/.config/starship.toml"       "$HOME/.config/starship.toml"
 
-dotfiles=(.zshrc .bashrc .condarc .zshenv .zshfunc)
-for path in "${dotfiles[@]}"; do
-	link "$path" "$path"
-done
+# procs
+mkdir -p "$HOME/.config/procs"
+ln -sfnv "$DOTFILES_DIR/.config/procs/config.toml"    "$HOME/.config/procs/config.toml"
 
-while IFS=: read -r src dst; do
-	[[ -z "$src" ]] && continue
-	link "$src" "$dst"
-done <<'EOF'
-.config/config.fish:.config/fish/config.fish
-.config/tmux.fish:.config/fish/tmux.fish
-.config/dotenv.fish:.config/fish/dotenv.fish
-.config/starship.toml:.config/starship.toml
-.config/procs/config.toml:.config/procs/config.toml
-.config/mise/config.toml:.config/mise/config.toml
-.sheldon/plugins.toml:.sheldon/plugins.toml
-.sheldon/plugins.toml:.config/sheldon/plugins.toml
-.config/nvim:.config/nvim
-.config/vim:.config/vim
-.config/zellij:.config/zellij
-.config/yazi:.config/yazi
-.config/bat:.config/bat
-.config/tmux:.config/tmux
-oh-my-posh/snitch_custom.omp.json:.poshthemes/snitch_custom.omp.json
-oh-my-posh/snitch_custom_home.omp.json:.poshthemes/snitch_custom_home.omp.json
-oh-my-posh/snitch_custom_work.omp.json:.poshthemes/snitch_custom_work.omp.json
-EOF
+# mise
+mkdir -p "$HOME/.config/mise"
+ln -sfnv "$DOTFILES_DIR/.config/mise/config.toml"     "$HOME/.config/mise/config.toml"
+
+# sheldon
+mkdir -p "$HOME/.sheldon"
+ln -sfnv "$DOTFILES_DIR/.sheldon/plugins.toml"        "$HOME/.sheldon/plugins.toml"
+mkdir -p "$HOME/.config/sheldon"
+ln -sfnv "$DOTFILES_DIR/.sheldon/plugins.toml"        "$HOME/.config/sheldon/plugins.toml"
+
+# app configs
+mkdir -p "$HOME/.config"
+ln -sfnv "$DOTFILES_DIR/.config/nvim"   "$HOME/.config/nvim"
+ln -sfnv "$DOTFILES_DIR/.config/vim"    "$HOME/.config/vim"
+ln -sfnv "$DOTFILES_DIR/.config/zellij" "$HOME/.config/zellij"
+ln -sfnv "$DOTFILES_DIR/.config/yazi"   "$HOME/.config/yazi"
+ln -sfnv "$DOTFILES_DIR/.config/bat"    "$HOME/.config/bat"
+ln -sfnv "$DOTFILES_DIR/.config/tmux"   "$HOME/.config/tmux"
+
+# oh-my-posh themes
+mkdir -p "$HOME/.poshthemes"
+ln -sfnv "$DOTFILES_DIR/oh-my-posh/snitch_custom.omp.json"       "$HOME/.poshthemes/snitch_custom.omp.json"
+ln -sfnv "$DOTFILES_DIR/oh-my-posh/snitch_custom_home.omp.json"  "$HOME/.poshthemes/snitch_custom_home.omp.json"
+ln -sfnv "$DOTFILES_DIR/oh-my-posh/snitch_custom_work.omp.json"  "$HOME/.poshthemes/snitch_custom_work.omp.json"
