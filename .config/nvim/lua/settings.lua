@@ -45,6 +45,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
+vim.opt.autoread = true
 -- vim.opt.clipboard:append('unnamedplus')
 vim.opt.signcolumn = 'auto'  -- サインがある時だけサインカラムを表示
 vim.opt.list = false      -- 不可視文字を非表示
@@ -64,5 +65,14 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 2
     vim.opt_local.softtabstop = 2
     vim.opt_local.shiftwidth = 2
+  end,
+})
+
+-- 外部でファイルが変更されたときの自動リロード
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHoldI"}, {
+  callback = function()
+    if vim.fn.mode() ~= "c" then
+      vim.cmd("checktime")
+    end
   end,
 })
