@@ -3,12 +3,13 @@ neovim = 'asdf:https://github.com/richin13/asdf-neovim.git'
 
 [tools]
 node = "lts"
+bun = "latest"
 python = "3.12"
 neovim = "nightly"
 uv = "latest"
 
 "npm:@openai/codex" = "latest"
-"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@google/gemini-cli" = "latest"
 
 fzf = "latest"
 ripgrep = "latest"
