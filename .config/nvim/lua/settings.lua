@@ -2,15 +2,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Markdownではvim syntaxを無効化（Treesitterが自動的に有効になる）
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
-  callback = function()
-    vim.cmd('syntax off')
-    -- Treesitterハイライトは自動的に有効になるため明示的な呼び出しは不要
-  end,
-})
-
 -- Markdown最適化: HTMLとその依存関係の読み込みを防ぐ
 vim.g.markdown_recommended_style = 0  -- デフォルトのスタイル設定を無効化
 vim.g.markdown_enable_insert_mode_mappings = 0  -- 挿入モードマッピングを無効化
@@ -39,6 +30,9 @@ vim.api.nvim_create_autocmd("BufReadPre", {
     vim.b.markdown_includeHtml = 0
   end,
 })
+
+-- Obsidian.nvimの構文表示のためにconceallevelを設定
+vim.opt.conceallevel = 1
 
 -- 基本設定
 vim.opt.number = true

@@ -17,11 +17,13 @@ return {
       end,
     })
     
-    -- 500行以上のファイルでもTreesitterを無効化
+    -- 大きなファイルでTreesitterを無効化（パフォーマンス対策）
     vim.api.nvim_create_autocmd({ 'BufReadPost' }, {
       callback = function()
         local line_count = vim.api.nvim_buf_line_count(0)
-        if line_count > 500 then
+        -- Markdownファイルは1000行まで許可、他は500行まで
+        local max_lines = vim.bo.filetype == 'markdown' and 1000 or 500
+        if line_count > max_lines then
           vim.cmd('TSBufDisable highlight')
           vim.notify('Treesitter disabled for file with ' .. line_count .. ' lines', vim.log.levels.INFO)
         end
@@ -45,8 +47,8 @@ return {
       auto_install = true,
       highlight = {
         enable = true,
-        -- vim syntaxを無効化（Markdownで特に重要）
-        additional_vim_regex_highlighting = false,
+        -- Obsidian構文のためにMarkdownでは追加のハイライトを有効化
+        additional_vim_regex_highlighting = { 'markdown' },
         -- パフォーマンスのために無効化するファイルタイプ
         disable = function(lang, buf)
           -- 大きなファイルでは無効化
@@ -55,13 +57,14 @@ return {
           if ok and stats and stats.size > max_filesize then
             return true
           end
-          
-          -- 500行以上のファイルでも無効化
+
+          -- 行数による無効化（Markdownは1000行、他は500行）
           local line_count = vim.api.nvim_buf_line_count(buf)
-          if line_count > 500 then
+          local max_lines = lang == 'markdown' and 1000 or 500
+          if line_count > max_lines then
             return true
           end
-          
+
           return false
         end,
       },

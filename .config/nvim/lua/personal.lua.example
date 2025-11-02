@@ -1,0 +1,18 @@
+-- Personal configuration (not tracked by git)
+-- Copy this file to personal.lua and customize it
+
+return {
+  obsidian = {
+    workspaces = {
+      {
+        name = "notes",
+        path = "~/Documents/Hiro",  -- Update this to your vault path
+      },
+      -- You can add multiple workspaces:
+      -- {
+      --   name = "work",
+      --   path = "~/Documents/WorkVault",
+      -- },
+    },
+  },
+}
