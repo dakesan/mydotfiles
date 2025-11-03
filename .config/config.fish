@@ -73,8 +73,7 @@ set -g theme_hostname always
 
 # * Claude Code
 set -gx PATH "$HOME/.claude/local:$PATH"
-alias yolo="claude --dangerously-skip-permissions"
-alias yolor="claude --dangerously-skip-permissions -c"
+set -g DISABLE_AUTOUPDATER 1
 alias clauder="claude -c"
 
 set -g ENABLE_BACKGROUND_TASKS 1
