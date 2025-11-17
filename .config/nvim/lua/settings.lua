@@ -31,6 +31,18 @@ vim.api.nvim_create_autocmd("BufReadPre", {
   end,
 })
 
+-- MDXファイルをMarkdownとして扱う
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.mdx",
+  callback = function()
+    vim.bo.filetype = "markdown"
+    -- Markdownと同様にHTMLレンダリングを無効化
+    vim.b.html_no_rendering = 1
+    vim.g.html_no_rendering = 1
+    vim.b.markdown_includeHtml = 0
+  end,
+})
+
 -- Obsidian.nvimの構文表示のためにconceallevelを設定
 vim.opt.conceallevel = 1
 
