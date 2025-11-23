@@ -81,8 +81,12 @@ chezmoi add --template ~/.config/secret/config.yml
 ### Update from repository
 
 ```bash
-# Pull latest changes and apply
+# Pull latest changes and apply (recommended)
 chezmoi update
+
+# Or use chezmoi git wrapper
+chezmoi git pull
+chezmoi apply
 
 # Or manually
 cd ~/.local/share/chezmoi
@@ -93,17 +97,17 @@ chezmoi apply
 ### Push changes to repository
 
 ```bash
-# Navigate to chezmoi source directory
+# Using chezmoi git wrapper (recommended)
+chezmoi git status                    # Check status
+chezmoi git add .                     # Stage changes
+chezmoi git commit -m "Description"   # Commit changes
+chezmoi git push                      # Push to remote
+
+# Or manually navigate to source directory
 cd ~/.local/share/chezmoi
-
-# Check status
 git status
-
-# Stage and commit changes
 git add .
 git commit -m "Description of changes"
-
-# Push to remote
 git push
 ```
 
