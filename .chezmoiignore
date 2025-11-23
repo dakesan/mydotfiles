@@ -2,4 +2,3 @@
 .claude/commands/
 .claude/skills/
 .codex/AGENTS.md
-.config/nvim/lua/personal.lua
