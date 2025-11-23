@@ -1,0 +1,4 @@
+WRN 2025-11-17T16:30:35.225 ?.59199    server_start:193: Failed to start server: operation not permitted: /var/folders/wg/8x6_fzwn0_7cs3bgscnvc4940000gn/T/nvim.oodakemac/xKeqRr/nvim.59199.0
+WRN 2025-11-17T16:30:51.067 ?.59240    server_start:193: Failed to start server: operation not permitted: /var/folders/wg/8x6_fzwn0_7cs3bgscnvc4940000gn/T/nvim.oodakemac/MeUz7Z/nvim.59240.0
+WRN 2025-11-17T16:32:20.113 ?.59577    server_start:193: Failed to start server: operation not permitted: /var/folders/wg/8x6_fzwn0_7cs3bgscnvc4940000gn/T/nvim.oodakemac/LpKneG/nvim.59577.0
+WRN 2025-11-17T16:32:51.421 ?.59740    server_start:193: Failed to start server: operation not permitted: /var/folders/wg/8x6_fzwn0_7cs3bgscnvc4940000gn/T/nvim.oodakemac/vloNAk/nvim.59740.0

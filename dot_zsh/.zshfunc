@@ -1,0 +1,61 @@
+#* Path function
+path_append ()  { export PATH="$PATH:$1"; }
+path_prepend () { export PATH="$1:$PATH"; }
+# path_append ()  { path_remove $1; export PATH="$PATH:$1"; }
+# path_prepend () { path_remove $1; export PATH="$1:$PATH"; }
+path_remove ()  { export PATH=`echo -n $PATH | awk -v RS=: -v ORS=: '$0 != "'$1'"' | sed 's/:$//'`; }
+
+#* peco snippets
+function peco-snippets() {
+
+    local line
+    if [ ! -e ~/.snippets ]; then
+        echo "~/.snippets is not found." >&2
+        return 1
+    fi
+
+    line=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
+    if [ -z "$line" ]; then
+        return 1
+    fi
+
+    snippet=$(echo "$line" | sed "s/^\[[^]]*\] *//g")
+    if [ -z "$snippet" ]; then
+        return 1
+    fi
+
+    BUFFER=$snippet
+    zle clear-screen
+}
+zle -N peco-snippets
+
+bindkey '^x^x' peco-snippets
+
+function zsh-profiler() {
+  ZSHRC_PROFILE=1 zsh -i -c zprof
+}
+
+#* zellij
+function zla () {
+  zellij attach $(zl | head -1)
+}
+
+function smv () {
+  tar c $1 | pv | tar x -C $2
+}
+
+function saveimg () {
+  powershell.exe "(Get-Clipboard -Format Image).Save(\"$1\")"
+  return 1
+}
+
+function ignorelarge () {
+  find . -size +100M | sed -e 's/^\.\///' >> .gitignore
+  echo "+100MB files were added to .gitignore!"
+}
+
+function saws () {
+  autoload bashcompinit && bashcompinit
+  autoload -Uz compinit && compinit
+  complete -C '/usr/local/bin/aws_completer' aws
+}

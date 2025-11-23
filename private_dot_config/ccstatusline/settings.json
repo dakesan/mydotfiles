@@ -1,0 +1,46 @@
+{
+  "version": 3,
+  "lines": [
+    [
+      {
+        "id": "3",
+        "type": "current-working-dir",
+        "color": "brightBlack"
+      },
+      {
+        "id": "5",
+        "type": "git-branch",
+        "color": "magenta"
+      },
+      {
+        "id": "6929b059-2228-4e69-9b83-6ed691c6c12a",
+        "type": "session-clock",
+        "backgroundColor": "bgBrightGreen"
+      },
+      {
+        "id": "df051dee-3a9f-4ef0-9570-f4a3f20b2d3f",
+        "type": "context-percentage-usable",
+        "backgroundColor": "bgYellow"
+      }
+    ]
+  ],
+  "flexMode": "full",
+  "compactThreshold": 60,
+  "colorLevel": 2,
+  "defaultPadding": " ",
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "powerline": {
+    "enabled": true,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [],
+    "endCaps": [],
+    "theme": "onedark",
+    "autoAlign": false
+  }
+}

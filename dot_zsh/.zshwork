@@ -1,0 +1,50 @@
+#* Conda
+alias act="mamba activate"
+alias dact="mamba deactivate"
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/work1/oodake/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/work1/oodake/mambaforge/etc/profile.d/conda.sh" ]; then
+        . "/work1/oodake/mambaforge/etc/profile.d/conda.sh"
+    else
+        export PATH="/work1/oodake/mambaforge/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [ -f "/work1/oodake/mambaforge/etc/profile.d/mamba.sh" ]; then
+    . "/work1/oodake/mambaforge/etc/profile.d/mamba.sh"
+fi
+
+path_append "/usr/lib64/qt-3.3/bin"
+path_append "/usr/local/openlava/bin"
+path_append "/opt/ibutils/bin"
+
+# docker config for docker compose command
+DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+
+# export poshpath="$HOME/.poshthemes/montys_custom.omp.json"
+export poshpath="$HOME/.poshthemes/snitch_custom_work.omp.json"
+
+alias zsh="/usr/local/bin/zsh"
+alias cargo="$HOME/.cargo/bin/cargo"
+# Neovim via mise shims (bob no longer required)
+source $HOME/dotfiles/.zsh/hpcfunctions.zsh
+
+HOSTNAME="$hostname"
+# if [[ -v $HOSTNAME ]]; then
+#   :
+# else
+#   export HOSTNAME=$HOST
+# fi
+
+source $HOME/dotfiles/proxy/proxy_adress.zsh
+
+if [[ "$HOST" =~ "^hpcfs*" ]]; then
+  noproxy
+else
+  useproxy
+fi

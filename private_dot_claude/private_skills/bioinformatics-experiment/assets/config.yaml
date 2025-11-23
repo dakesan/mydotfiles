@@ -1,0 +1,19 @@
+# Experiment Configuration Template
+# Save as: config/YYYYMMDD_Exp##_description.yaml
+
+experiment:
+  id: "Exp##"
+  date: "YYYY-MM-DD"
+  description: "Brief description"
+
+parameters:
+  threads: 16
+  memory_gb: 64
+
+paths:
+  input: "data/raw/"
+  output: "results/Exp##_description"
+
+tools:
+  tool_name:
+    version: "x.y.z"

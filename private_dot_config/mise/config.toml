@@ -1,0 +1,27 @@
+[alias]
+neovim = 'asdf:https://github.com/richin13/asdf-neovim.git'
+
+[tools]
+node = "lts"
+bun = "latest"
+python = "3.12"
+neovim = "0.11.3"
+uv = "latest"
+
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@openai/codex" = "latest"
+"npm:@google/gemini-cli" = "latest"
+
+fzf = "latest"
+ripgrep = "latest"
+fd = "latest"
+bat = "latest"
+eza = "latest"
+jq = "latest"
+yq = "latest"
+direnv = "latest"
+just = "latest"
+gh = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["python"]
