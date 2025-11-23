@@ -10,6 +10,16 @@ This repository manages dotfiles using [chezmoi](https://www.chezmoi.io/).
 # macOS
 brew install chezmoi
 
+# Ubuntu/Debian
+sudo apt update
+sudo apt install -y chezmoi
+
+# Ubuntu (snap)
+sudo snap install chezmoi --classic
+
+# Or install from binary (all Linux distributions)
+sh -c "$(curl -fsLS get.chezmoi.io)"
+
 # Other platforms: https://www.chezmoi.io/install/
 ```
 
