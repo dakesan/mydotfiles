@@ -1,1 +1,4 @@
 .codex/config.toml
+.claude/commands/
+.claude/skills/
+.codex/AGENTS.md
