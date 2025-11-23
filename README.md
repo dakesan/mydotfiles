@@ -27,7 +27,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)"
 
 ```bash
 # Clone and apply dotfiles
-chezmoi init --apply https://github.com/YOUR_USERNAME/dotfiles.git
+chezmoi init --apply https://github.com/dakesan/mydotfiles.git
 ```
 
 ### Configure machine-specific variables
