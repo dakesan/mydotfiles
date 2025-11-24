@@ -78,6 +78,9 @@ alias clauder="claude -c"
 
 set -g ENABLE_BACKGROUND_TASKS 1
 
+# * chezmoi
+alias cm='chezmoi'
+
 # * git
 alias gp='git pull'
 alias gP='git push'
