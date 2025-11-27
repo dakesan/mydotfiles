@@ -33,3 +33,6 @@ font-thicken = true
 window-padding-balance = true
 cursor-style=block
 keybind = shift+enter=text:\x1b\r
+
+copy-on-select = clipboard
+shell-integration-features = cursor,sudo,no-title,ssh-env
