@@ -18,10 +18,8 @@ end
 end
 
 # * dotenv
-source $HOME/dotfiles/.config/dotenv.fish
+source $HOME/.config/dotenv.fish
 
-# グローバル共有用 .env を読み込む
-# 例: ~/.env.global に KEY=VALUE を列挙
 if test -f ~/.env.global
     load_dotenv ~/.env.global
 end
@@ -41,7 +39,7 @@ set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
 
 # * tmux
-source $HOME/dotfiles/.config/tmux.fish
+source $HOME/.config/tmux.fish
 
 # * alias
 # ? util command
@@ -217,25 +215,28 @@ set -U fish_pager_color_description B3A06D yellow
 set -U fish_pager_color_prefix normal --bold --underline
 set -U fish_pager_color_progress brwhite --background=cyan
 
-# mise
-$HOME/.local/bin/mise activate fish | source
+# * mise
+# miseが ~/.local/bin にあるか、PATHに通っているか確認して実行
+if test -x "$HOME/.local/bin/mise"
+    "$HOME/.local/bin/mise" activate fish | source
+else if type -q mise
+    mise activate fish | source
+end
 
-mise activate --shims fish | source
-
-# npm
+# * npm / pnpm / bun (順序はこのままでOK)
 set -gx PATH "$HOME/.npm-global/bin:$PATH"
-
-# pnpm
 set -gx PNPM_HOME "/home/ubuntu/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
-
-# bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
-uv generate-shell-completion fish | source
+# * uv
+# uvコマンドが存在する場合のみ補完を読み込む
+if type -q uv
+    uv generate-shell-completion fish | source
+end
 
 # Added by Antigravity
 fish_add_path /Users/oodakemac/.antigravity/antigravity/bin
