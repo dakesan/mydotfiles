@@ -7,6 +7,7 @@ bun = "latest"
 python = "3.12"
 neovim = "0.11.3"
 uv = "latest"
+chezmoi = "2.68.0"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@openai/codex" = "latest"
