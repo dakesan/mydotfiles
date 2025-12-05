@@ -43,7 +43,7 @@ textlint {file path}
 
 自動修正
 ```bash
-textlint:fix {file path}
+textlint --fix -c ~/.local/share/textlint/.textlintrc.json {file path}
 ```
 
 #### 重要な運用ルール
