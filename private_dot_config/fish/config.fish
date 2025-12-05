@@ -18,7 +18,7 @@ end
 end
 
 # * dotenv
-source $HOME/.config/dotenv.fish
+source $HOME/.config/fish/dotenv.fish
 
 if test -f ~/.env.global
     load_dotenv ~/.env.global
@@ -39,7 +39,7 @@ set -gx PATH "$HOME/.cargo/bin:$PATH"
 set -gx PATH "$HOME/go/bin:$PATH"
 
 # * tmux
-source $HOME/.config/tmux.fish
+source $HOME/.config/fish/tmux.fish
 
 # * alias
 # ? util command

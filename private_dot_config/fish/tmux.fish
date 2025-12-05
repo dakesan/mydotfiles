@@ -98,7 +98,7 @@ function tmux-help
     echo "  Prefix + 0-9        🔢 Direct window switch"
     echo "  Prefix + w          📋 Choose window"
     echo "  Prefix + s/Tab      📋 Choose session"
-    echo "  Prefix + )/(              ⏭️⏮️  Next/Previous session"
+    echo "  Prefix + )/( 	      ⏭️⏮️  Next/Previous session"
     echo "  Prefix + F1-F8      🔢 Direct session switch (0-7)"
     echo "  Prefix + Ctrl+s     ➕ Create new session with name"
     echo ""
