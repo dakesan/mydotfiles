@@ -26,13 +26,7 @@ return {
           conditionals = { "italic" },
         },
         color_overrides = {},
-        custom_highlights = function(colors)
-          return {
-            -- Fix invisible quotes in transparent background
-            ["@string"] = { fg = colors.green },
-            ["@punctuation.delimiter"] = { fg = colors.overlay2 },
-          }
-        end,
+        custom_highlights = {},
         integrations = {
           cmp = true,
           gitsigns = true,

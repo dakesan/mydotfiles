@@ -43,8 +43,16 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Obsidian.nvimの構文表示のためにconceallevelを設定
-vim.opt.conceallevel = 1
+-- デフォルトはconceallevel=0（すべて表示）
+vim.opt.conceallevel = 0
+
+-- Markdown/Obsidianファイルのみconceallevelを設定
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown" },
+  callback = function()
+    vim.opt_local.conceallevel = 1
+  end,
+})
 
 -- 基本設定
 vim.opt.number = true
