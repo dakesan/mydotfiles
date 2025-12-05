@@ -20,6 +20,9 @@ end
 # * dotenv
 source $HOME/.config/fish/dotenv.fish
 
+# * with: Interactive prefix shell
+source $HOME/.config/fish/with.fish
+
 if test -f ~/.env.global
     load_dotenv ~/.env.global
 end
