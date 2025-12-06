@@ -78,3 +78,11 @@ textlint --fix -c ~/.local/share/textlint/.textlintrc.json {file path}
   - 項目 1
   - 項目 2
 ```
+
+## How to start Bioinformatic analysis
+
+To start a new bioinformatic or lifescience analysis, use my custom project template.
+
+```bash
+gh repo create my-new-project --template dakesan/BItemplate --clone --public
+```
