@@ -1,4 +1,35 @@
 {
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(textlint:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(file:*)",
+      "Bash(tree:*)",
+      "Bash(du:*)",
+      "Bash(stat:*)",
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(chezmoi diff)",
+      "Bash(chezmoi stgatus)",
+      "Skill(skill-creator)",
+      "mcp__serena__get_*",
+      "mcp__serena__list_*",
+      "mcp__serena__find_*",
+      "mcp__serena__search_*"
+    ],
+    "deny": [],
+    "ask": []
+  },
   "statusLine": {
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
@@ -8,6 +39,6 @@
     "feature-dev@claude-code-plugins": true,
     "frontend-design@claude-code-plugins": true
   },
-  "alwaysThinkingEnabled": false,
+  "alwaysThinkingEnabled": true,
   "projects": {}
 }

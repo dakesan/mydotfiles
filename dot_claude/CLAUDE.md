@@ -84,5 +84,6 @@ textlint --fix -c ~/.local/share/textlint/.textlintrc.json {file path}
 To start a new bioinformatic or lifescience analysis, use my custom project template.
 
 ```bash
-gh repo create {project name} --template dakesan/BItemplate --clone --private
+gh repo create {project name} --template dakesan/BItemplate --private
+ghq get {dakesan/LogomixBio}/{project name}
 ```
