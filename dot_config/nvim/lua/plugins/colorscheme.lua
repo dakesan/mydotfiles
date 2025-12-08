@@ -26,7 +26,13 @@ return {
           conditionals = { "italic" },
         },
         color_overrides = {},
-        custom_highlights = {},
+        custom_highlights = function(colors)
+          return {
+            -- Line number colors (cyan for visibility on transparent background)
+            LineNr = { fg = "#56b6c2" },           -- Non-current line numbers
+            CursorLineNr = { fg = "#00ffff", bold = true },  -- Current line number (brighter cyan)
+          }
+        end,
         integrations = {
           cmp = true,
           gitsigns = true,
