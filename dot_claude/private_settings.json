@@ -22,10 +22,15 @@
       "Bash(chezmoi diff)",
       "Bash(chezmoi stgatus)",
       "Skill(skill-creator)",
+      "Skill(xlsx)",
+      "Skill(docx)",
+      "Skill(pdf)",
+      "Skill(pptx)",
       "mcp__serena__get_*",
       "mcp__serena__list_*",
       "mcp__serena__find_*",
-      "mcp__serena__search_*"
+      "mcp__serena__search_*",
+      "chrome-devtools*"
     ],
     "deny": [],
     "ask": []

@@ -2,7 +2,7 @@
 neovim = 'asdf:https://github.com/richin13/asdf-neovim.git'
 
 [tools]
-node = "lts"
+node = "24.11.1"
 bun = "latest"
 python = "3.12"
 neovim = "0.11.3"
