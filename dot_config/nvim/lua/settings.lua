@@ -2,6 +2,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Disable OSC 52 clipboard (use native clipboard provider)
+vim.o.clipboard = 'unnamedplus'
+vim.g.clipboard = false
+
 -- Markdown最適化: HTMLとその依存関係の読み込みを防ぐ
 vim.g.markdown_recommended_style = 0  -- デフォルトのスタイル設定を無効化
 vim.g.markdown_enable_insert_mode_mappings = 0  -- 挿入モードマッピングを無効化
@@ -60,7 +64,6 @@ vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
 vim.opt.autoread = true
--- vim.opt.clipboard:append('unnamedplus')
 vim.opt.signcolumn = 'auto'  -- サインがある時だけサインカラムを表示
 vim.opt.list = false      -- 不可視文字を非表示
 
