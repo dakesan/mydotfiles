@@ -31,8 +31,7 @@
       "mcp__serena__find_*",
       "mcp__serena__search_*",
       "mcp__chrome-devtools*",
-      "Bash(uv run python -m markitdown:*)",
-      "Bash(ghq get:*)"
+      "Bash(uv run python -m markitdown:*)"
     ],
     "deny": [],
     "ask": []
@@ -44,7 +43,8 @@
   },
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": true,
-    "frontend-design@claude-code-plugins": true
+    "frontend-design@claude-code-plugins": true,
+    "claude-mem@thedotmack": true
   },
   "alwaysThinkingEnabled": true,
   "projects": {}
