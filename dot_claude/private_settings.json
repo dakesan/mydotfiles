@@ -30,8 +30,8 @@
       "mcp__serena__list_*",
       "mcp__serena__find_*",
       "mcp__serena__search_*",
-      "chrome-devtools*",
-      "Bash(uv run python -m markitdown:*"
+      "mcp__chrome-devtools*",
+      "Bash(uv run python -m markitdown:*)"
     ],
     "deny": [],
     "ask": []
