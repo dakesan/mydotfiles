@@ -322,4 +322,24 @@ return {
       { '<leader>ol', '<cmd>ObsidianLinks<cr>', desc = 'Obsidian Links' },
     },
   },
+
+  -- Image paste from clipboard
+  {
+    "HakonHarnes/img-clip.nvim",
+    event = "VeryLazy",
+    opts = {
+      default = {
+        -- Save images in the same directory as the markdown file
+        dir_path = function()
+          return vim.fn.expand("%:p:h")
+        end,
+        file_name = "%Y%m%d%H%M%S",
+        extension = "png",
+        use_absolute_path = false,
+      }
+    },
+    keys = {
+      { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from clipboard" }
+    }
+  },
 }
