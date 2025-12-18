@@ -75,6 +75,7 @@ set -g theme_hostname always
 # * Claude Code
 set -gx PATH "$HOME/.claude/local:$PATH"
 set -g DISABLE_AUTOUPDATER 1
+alias claude="claude --settings ~/.claude/settings.json"
 alias clauder="claude -c"
 
 set -g ENABLE_BACKGROUND_TASKS 1
