@@ -1,0 +1,49 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": false
+  },
+  "vim_mode": true,
+  "terminal": {
+    "font_size": 15.0,
+    "font_family": "HackGen Console NF"
+  },
+  "base_keymap": "VSCode",
+  "agent": {
+    "enabled": true,
+    "button": true,
+    "model_parameters": []
+  },
+  "relative_line_numbers": true,
+  "gutter": {
+    "line_numbers": true
+  },
+  "current_line_highlight": "all",
+  "buffer_font_fallbacks": [
+    "Courier New",
+    "monospace"
+  ],
+  "buffer_font_family": "Mint Mono 35",
+  "file_types": {
+    "ansi": [
+      "*.log"
+    ]
+  },
+  "show_edit_predictions": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 13.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  "soft_wrap": "editor_width"
+}
