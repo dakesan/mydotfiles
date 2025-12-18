@@ -20,6 +20,8 @@
       "Glob",
       "Grep",
       "Fetch",
+      "WebSearch",
+      "WebFetch",
       "Bash(chezmoi diff)",
       "Bash(chezmoi stgatus)",
       "Skill(skill-creator)",

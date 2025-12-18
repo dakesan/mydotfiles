@@ -14,7 +14,8 @@
   "vim_mode": true,
   "terminal": {
     "font_size": 15.0,
-    "font_family": "HackGen Console NF"
+    "font_family": "HackGen Console NF",
+    "dock": "right"
   },
   "base_keymap": "VSCode",
   "agent": {
@@ -22,7 +23,7 @@
     "button": true,
     "model_parameters": []
   },
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "gutter": {
     "line_numbers": true
   },
