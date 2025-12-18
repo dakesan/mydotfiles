@@ -19,6 +19,7 @@
       "Read",
       "Glob",
       "Grep",
+      "Fetch",
       "Bash(chezmoi diff)",
       "Bash(chezmoi stgatus)",
       "Skill(skill-creator)",
