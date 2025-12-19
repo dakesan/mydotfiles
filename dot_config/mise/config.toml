@@ -10,6 +10,7 @@ uv = "0.9.14"
 chezmoi = "2.68.0"
 ghq = "latest"
 typst = "latest"
+pandoc = "latest"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@openai/codex" = "latest"

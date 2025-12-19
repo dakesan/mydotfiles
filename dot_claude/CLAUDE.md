@@ -87,3 +87,7 @@ To start a new bioinformatic or lifescience analysis, use my custom project temp
 gh repo create {project name} --template dakesan/BItemplate --private
 ghq get {dakesan/LogomixBio}/{project name}
 ```
+
+## Author
+
+User's name is Hiroyuki Odake. (in short, Hiro or @dakesan)
