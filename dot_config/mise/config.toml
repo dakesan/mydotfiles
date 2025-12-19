@@ -9,6 +9,7 @@ neovim = "0.11.3"
 uv = "0.9.14"
 chezmoi = "2.68.0"
 ghq = "latest"
+typst = "latest"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@openai/codex" = "latest"
