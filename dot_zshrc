@@ -3,8 +3,18 @@ if [ "$ZSHRC_PROFILE" != "" ]; then
   zmodload zsh/zprof && zprof > /dev/null
 fi
 
-#* custom functions
-source $HOME/dotfiles/.zsh/.zshfunc
+#* Path manipulation functions
+function path_prepend() {
+    if [ -d "$1" ]; then
+        export PATH="$1:$PATH"
+    fi
+}
+
+function path_append() {
+    if [ -d "$1" ]; then
+        export PATH="$PATH:$1"
+    fi
+}
 
 #* dotenv loader
 # Load KEY=VALUE lines from a .env-style file
@@ -150,24 +160,7 @@ function is_ubuntu() {
 
 is_ubuntu
 
-# if hostname contains "DESKTOP" -> my home desktop
-# else if contains "hpc" -> hpc cluster machine
-# else -> WTH?
-if [[ "$HOST" =~ "^DESKTOP-DLL*" ]]; then
-  source ~/dotfiles/.zsh/.zshhome
-  source $HOME/dotfiles/.zsh/hpcfunctions.zsh
-  useproxy
-elif [[ "$HOST" =~ "^hpc*" ]]; then
-  source ~/dotfiles/.zsh/.zshwork
-  source $HOME/dotfiles/proxy/proxy_adress.zsh
-  source $HOME/dotfiles/.zsh/hpcfunctions.zsh
-elif [[ "$HOST" =~ "^ip*" ]]; then
-  source ~/dotfiles/.zsh/.zshaws
-elif [[ "$HOST" =~ "^hodake*" ]]; then
-  source ~/dotfiles/.zsh/.zshhome
-else
-  source ~/dotfiles/.zsh/.zshhome;
-fi
+# Host-specific configuration removed (using chezmoi for configuration management)
 
 #* Path configuration
 # Claude bin should be at the front for priority (matching fish config)
@@ -475,10 +468,9 @@ alias yolor='claude code --resume'
 alias clauder='claude -c'
 
 #* Other tools
-alias conda='micromamba'
-alias mamba='micromamba'
-alias act='mamba activate'
-alias dact='mamba deactivate'
+# Note: conda/mamba configured via mamba initialize section below
+alias act='micromamba activate'
+alias dact='micromamba deactivate'
 
 # git path
 function gitroot(){
@@ -618,7 +610,9 @@ fi
 # ⚠️ NOTE: This setting can NOT be changed at runtime.
 
 #* sheldon
-eval "$(sheldon source)"
+if command -v sheldon &> /dev/null; then
+    eval "$(sheldon source)"
+fi
 
 #* zinit
 ### Added by Zinit's installer
@@ -675,8 +669,9 @@ if [ -d "$HOME/.npm-global" ]; then
 fi
 
 #* AWS CLI autocompletion
+# AWS CLI completion is configured via aws_completer environment variable
 if command -v aws_completer &> /dev/null; then
-    complete -C "$(which aws_completer)" aws
+    export AWS_COMPLETER="$(which aws_completer)"
 fi
 
 #* pnpm
