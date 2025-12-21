@@ -62,5 +62,6 @@
     "context7@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "projects": {}
+  "projects": {},
+  "promptSuggestionEnabled": false
 }
