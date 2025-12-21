@@ -722,56 +722,15 @@ setopt autocd
 autoload -Uz compinit
 compinit
 
-#* Conda/Mamba initialization
-init_conda() {
-    local conda_paths=(
-        "$HOME/micromamba"
-        "$HOME/mambaforge"
-        "$HOME/.local/share/miniconda3"
-        "$HOME/miniconda3"
-        "$HOME/.pyenv/versions/miniconda3-latest"
-        "/opt/miniconda3"
-        "/opt/conda"
-    )
-    
-    for conda_path in $conda_paths; do
-        if [ -d "$conda_path" ]; then
-            if [ -f "$conda_path/etc/profile.d/conda.sh" ]; then
-                . "$conda_path/etc/profile.d/conda.sh"
-            elif [ -f "$conda_path/etc/profile.d/mamba.sh" ]; then
-                . "$conda_path/etc/profile.d/mamba.sh"
-            fi
-            
-            if [ -f "$conda_path/bin/conda" ]; then
-                eval "$("$conda_path/bin/conda" shell.zsh hook)"
-            fi
-            break
-        fi
-    done
-}
-
-init_conda
-
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 
-#* miniforge3 initialization
-if [ -f "$HOME/miniforge3/bin/conda" ]; then
-    eval "$("$HOME/miniforge3/bin/conda" shell.zsh hook)"
-fi
+#* miniforge3 initialization (suppress compdef warnings from older mamba versions)
+export MAMBA_ROOT_PREFIX="$HOME/miniforge3"
 
 if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
-    source "$HOME/miniforge3/etc/profile.d/mamba.sh"
+    source "$HOME/miniforge3/etc/profile.d/mamba.sh" 2>&1 | grep -v "command not found: compdef" || true
 fi
 
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba shell init' !!
-export MAMBA_EXE='/opt/homebrew/opt/micromamba/bin/mamba';
-export MAMBA_ROOT_PREFIX='/Users/oodakemac/mamba';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+if [ -f "$HOME/miniforge3/bin/conda" ]; then
+    eval "$("$HOME/miniforge3/bin/conda" shell.zsh hook)" 2>&1 | grep -v "command not found: compdef" || true
 fi
-unset __mamba_setup
-# <<< mamba initialize <<<
