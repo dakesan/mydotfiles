@@ -42,6 +42,7 @@
     "deny": [],
     "ask": []
   },
+  "model": "haiku",
   "statusLine": {
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
@@ -50,7 +51,15 @@
   "enabledPlugins": {
     "feature-dev@claude-code-plugins": true,
     "frontend-design@claude-code-plugins": true,
-    "claude-mem@thedotmack": true
+    "claude-mem@thedotmack": true,
+    "research-project@bioinformatics-research": true,
+    "lab-notebook@bioinformatics-research": true,
+    "hypothesis-driven@bioinformatics-research": true,
+    "experiment-report@bioinformatics-research": true,
+    "inbox-processor@bioinformatics-research": true,
+    "security-guidance@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
   "projects": {}

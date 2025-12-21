@@ -44,6 +44,86 @@ function load_dotenv() {
     done < "$file"
 }
 
+#* with: Interactive prefix shell
+function with() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: with <program> [args...]"
+        echo "Examples:"
+        echo "  with git"
+        echo "  with java Primes"
+        return 1
+    fi
+
+    local -a base subs pfx
+    base=("$@")
+    subs=()
+    local last_cmd=""
+
+    while true; do
+        pfx=("${base[@]}" "${subs[@]}")
+        local pfx_str="${(j: :)pfx}"
+        local prompt="%F{green}${pfx_str}%F{magenta}>%f "
+        local line raw sub cmd_str
+
+        if ! read -r "line?${prompt}"; then
+            echo
+            break
+        fi
+
+        line="${line#"${line%%[![:space:]]*}"}"
+        line="${line%"${line##*[![:space:]]}"}"
+
+        if [[ "$line" == ":q" || "$line" == ":exit" ]]; then
+            break
+        fi
+
+        if [[ -z "$line" ]]; then
+            if [[ -n "$last_cmd" ]]; then
+                eval "$last_cmd"
+            fi
+            continue
+        fi
+
+        if [[ "$line" == :* ]]; then
+            raw="${line#:}"
+            last_cmd="$raw"
+            eval "$raw"
+            continue
+        fi
+
+        if [[ "$line" == +* ]]; then
+            sub="${line#+}"
+            if [[ -n "$sub" ]]; then
+                subs+=("$sub")
+            fi
+            continue
+        fi
+
+        if [[ "$line" == '!'* ]]; then
+            sub="${line#!}"
+            if [[ -n "$sub" ]]; then
+                if (( ${#subs[@]} > 0 )); then
+                    subs[-1]="$sub"
+                else
+                    subs=("$sub")
+                fi
+            fi
+            continue
+        fi
+
+        if [[ "$line" == "-" ]]; then
+            if (( ${#subs[@]} > 0 )); then
+                subs=("${subs[@]:0:-1}")
+            fi
+            continue
+        fi
+
+        cmd_str="${pfx_str} ${line}"
+        last_cmd="$cmd_str"
+        eval "$cmd_str"
+    done
+}
+
 # Load global .env if exists
 if [ -f ~/.env.global ]; then
     load_dotenv ~/.env.global
@@ -92,6 +172,7 @@ fi
 #* Path configuration
 # Claude bin should be at the front for priority (matching fish config)
 path_prepend "$HOME/.config/claude/bin"
+path_prepend "$HOME/.claude/local"
 
 path_prepend "$HOME/.local/share/mise/shims"
 path_append "$HOME/.local/bin"
@@ -102,12 +183,12 @@ path_append "$HOME/go/bin"
 path_append "$HOME/.local/share/pypoetry/venv/bin"
 path_append "$HOME/.fly/bin"
 path_append "$HOME/.deno/bin"
-path_append "/usr/local/cuda-12.4/bin"
 
 #* Util command
 alias pwdc='pwd | tr -d "\n" | pbcopy'
 alias pi="pip install"
 alias ai="sudo apt install"
+alias cm='chezmoi'
 
 #* axel
 alias Axel="axel -n 10 --insecure"
@@ -125,11 +206,15 @@ alias zelij=zellij
 # disable showing conda environment on prompt
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 # posh theme
-eval "$(oh-my-posh init zsh --config $poshpath)"
-# eval "$(starship init zsh)"
+# eval "$(oh-my-posh init zsh --config $poshpath)"
+# Starship
+eval "$(starship init zsh)"
 #* zoxide
-eval "$(zoxide init zsh)"
-alias z="pushd ./ && z"
+eval "$(zoxide init zsh --cmd z)"
+function z() {
+    pushd . > /dev/null
+    __zoxide_z "$@"
+}
 alias ..="cd .."
 alias ...="cd ../.."
 
@@ -199,14 +284,14 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 alias gp='git pull'
 alias gP='git push'
 alias ga='git add .'
-alias gc='git commit -m'
-alias gs='git status -sb'
+alias gc='git checkout'
+alias gs='git status'
 alias gb='git branch'
-alias gl='git log --oneline --graph --decorate'
-alias gC='git checkout'
+alias gl='git clone'
+alias gC='git commit -m'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias gr='git restore'
+alias gr='gitreverse'
 alias grs='git restore --staged'
 alias gR='git reset'
 alias gRh='git reset --hard'
@@ -382,9 +467,12 @@ function tmux-window-list() {
 }
 
 #* Claude
+export DISABLE_AUTOUPDATER=1
+export ENABLE_BACKGROUND_TASKS=1
+alias claude="claude --settings ~/.claude/settings.json"
 alias yolo='claude code -A -w -n'
 alias yolor='claude code --resume'
-alias clauder='claude code --resume'
+alias clauder='claude -c'
 
 #* Other tools
 alias conda='micromamba'
@@ -409,20 +497,13 @@ function html2pdf() {
 
 # Fast move with progress bar
 function fmv() {
-    if [ $# -ne 2 ]; then
-        echo "Usage: fmv <source> <destination>"
-        return 1
-    fi
     tar c "$1" | pv | tar x -C "$2"
 }
 
 # Save image from clipboard (Windows PowerShell)
 function saveimg() {
-    if [ $# -ne 1 ]; then
-        echo "Usage: saveimg <filename>"
-        return 1
-    fi
     powershell.exe "(Get-Clipboard -Format Image).Save(\"$1\")"
+    return 1
 }
 
 # AWS EC2 instance list in table format
@@ -432,11 +513,7 @@ function ec2table() {
 
 # Count bases in FASTQ file
 function count-fastq() {
-    if [ $# -eq 0 ]; then
-        echo "Usage: count-fastq <fastq.gz>"
-        return 1
-    fi
-    zcat "$1" | awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'
+    zcat "$@" | awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'
 }
 
 # Yazi with automatic cd
@@ -450,30 +527,24 @@ function yy() {
 }
 
 function gitmain() {
-  git config --global user.email "naitomeaFunLIve@gmail.com"
-  git config --global user.name "oodakehideto"
-  echo "git email : naitomeaFunLIve@gmail.com"
-  echo "git name  : oodakehideto"
+  git config --global user.name "dakesan"
+  git config --global user.email "dakesan@user.noreply.github.com"
 }
 
 function gitsub() {
-  git config --global user.email "hideto.odake@openlogi.com"
-  git config --global user.name "hodake-openlogi"
-  echo "git email : hideto.odake@openlogi.com"
-  echo "git name  : hodake-openlogi"
+  git config --global user.name "snitch0"
+  git config --global user.email "snitch@excel2rlang.com"
 }
 
 function gitreverse() {
-  if [ -z "$1" ]; then
-    echo "Usage: gitreverse <commit-hash>"
-    return 1
-  fi
-  git diff "$1"^ "$1" | git apply
+  git reset --soft HEAD\^
 }
 
 function gitpub() {
-  local comment="$@"
-  git add . && git commit -m "$comment" && git push
+  if [ -z "$SSH_AUTH_SOCK" ] || [ ! -S "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" >/dev/null 2>&1
+    ssh-add ~/.ssh/github >/dev/null 2>&1
+  fi
 }
 
 #* WSL git wrapper
@@ -490,7 +561,7 @@ function git() {
     if isWinDir; then
         git.exe "$@"
     else
-        command git "$@"
+        /usr/bin/git "$@"
     fi
 }
 
@@ -507,18 +578,13 @@ function gitpub-ssh() {
 # alias sl="sqlite3"
 
 #* eza (modern ls replacement)
-if command -v eza &> /dev/null; then
-    alias ls='eza --icons'
-    alias ll='eza -lh --icons'
-    alias la='eza -a --icons'
-    alias lla='eza -lha --icons'
-    alias lt='eza --tree --level=2 --icons'
-    alias lta='eza --tree --level=2 -a --icons'
-else
-    alias ll='ls -lh'
-    alias la='ls -a'
-    alias lla='ls -lha'
-fi
+alias ls='/bin/ls'
+alias la='eza -ag --icons'
+alias ll='eza -aal -g --git --icons'
+alias lt='eza -T -g -L 3 -a -I "node_modules|.git|.cache" --icons'
+alias lta='lt -l --git'
+alias exa='eza'
+alias lla='ls -lha'
 
 #* fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -529,10 +595,10 @@ if command -v uv &> /dev/null; then
 fi
 
 #* mise shell completion and activation
-if command -v mise &> /dev/null; then
-    eval "$(mise activate zsh)"
-elif [ -f "$HOME/.local/bin/mise" ]; then
+if [ -x "$HOME/.local/bin/mise" ]; then
     eval "$("$HOME/.local/bin/mise" activate zsh)"
+elif command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
 fi
 
 # zstyle ':autocomplete:*' insert-unambiguous yes
@@ -601,8 +667,6 @@ eval "$(sheldon source)"
 
 #* Environment variables
 export FLYCTL_INSTALL="$HOME/.fly"
-export BNB_CUDA_VERSION=124
-export LD_LIBRARY_PATH="/usr/local/cuda-12.4/lib64:$LD_LIBRARY_PATH"
 export TERM=xterm-256color
 
 #* npm global packages

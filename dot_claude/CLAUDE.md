@@ -19,6 +19,12 @@
 ・DRY（Don't Repeat Yourself）：同じコードを繰り返さない
 ・KISS（Keep It Simple Stupid）：シンプルに保つ
 
+### Git Push のタイミング
+
+- コミット作成後、**必ずユーザーに確認を取ってから git push を実行すること**
+- 自動的に push してはいけない
+- ユーザーが push を承認するまで待つこと
+
 ## Technical Specifications
 
 ### Python
