@@ -1,22 +1,12 @@
-# * OS detection
-function is_ubuntu
-    if test (uname) = "Linux"; and test -f /etc/lsb-release
-        # cuda
-        set -gx PATH "/usr/local/cuda-12.8/bin:$PATH"
-        set -x BNB_CUDA_CERSION 128
-        set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
-
-end
-    end
-end
-
-# miniforge3
+# * miniforge3
 if test -f $HOME/miniforge3/bin/conda
     eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
 end
 
 if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
     source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+end
+
 # * dotenv
 source $HOME/.config/fish/dotenv.fish
 
@@ -26,8 +16,6 @@ source $HOME/.config/fish/with.fish
 if test -f ~/.env.global
     load_dotenv ~/.env.global
 end
-
-is_ubuntu
 
 # * Path configuration (optimized)
 set -gx PATH "$HOME/.local/share/mise/shims:$PATH"
@@ -102,7 +90,7 @@ end
 
 function gitsub
   git config --global user.name "snitch0"
-  git config --global user.email snitch@excel2rlang.com
+  git config --global user.email "snitch@excel2rlang.com"
 end
 
 function gitreverse
