@@ -6,17 +6,17 @@ function is_ubuntu
         set -x BNB_CUDA_CERSION 128
         set -gx LD_LIBRARY_PATH "/usr/local/cuda-12.8/lib64"
 
-        # miniforge3
-        if test -f $HOME/miniforge3/bin/conda
-            eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
-        end
-
-        if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
-            source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
 end
     end
 end
 
+# miniforge3
+if test -f $HOME/miniforge3/bin/conda
+    eval $HOME/miniforge3/bin/conda "shell.fish" "hook" $argv | source
+end
+
+if test -f "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
+    source "$HOME/miniforge3/etc/fish/conf.d/mamba.fish"
 # * dotenv
 source $HOME/.config/fish/dotenv.fish
 
@@ -244,10 +244,3 @@ end
 
 # Added by Antigravity
 fish_add_path /Users/oodakemac/.antigravity/antigravity/bin
-
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba shell init' !!
-set -gx MAMBA_EXE "/opt/homebrew/opt/micromamba/bin/mamba"
-set -gx MAMBA_ROOT_PREFIX "/Users/oodakemac/mamba"
-$MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
-# <<< mamba initialize <<<
