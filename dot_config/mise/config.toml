@@ -39,5 +39,14 @@ gh = "latest"
 "cargo:dua-cli" = { version = "latest", os = ["linux"] }
 lazygit = { version = "latest", os = ["linux"] }  # mise native support
 
+[tasks.configure]
+description = "Configure the project"
+run = "mkdir -p $BUILD_DIR && cd $BUILD_DIR && cmake -G Ninja .."
+
+[tasks.build]
+description = "Build the project"
+alias = "b"
+run = "cd $BUILD_DIR && ninja"
+
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
