@@ -4,6 +4,7 @@
     "allow": [
       "Bash(textlint:*)",
       "Bash(git add:*)",
+      "Bash(git diff:*)",
       "Bash(git commit:*)",
       "Bash(git push)",
       "Bash(ls:*)",
@@ -16,6 +17,8 @@
       "Bash(tree:*)",
       "Bash(du:*)",
       "Bash(stat:*)",
+      "Bash(jq:*)",
+      "Bash(xargs jq:*)",
       "Read",
       "Glob",
       "Grep",
