@@ -66,3 +66,5 @@ init_conda
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+alias claude-mem='bun "/Users/oodakemac/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'

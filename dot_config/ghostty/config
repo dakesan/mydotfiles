@@ -50,7 +50,6 @@ keybind = cmd+c=text:\x1b
 keybind = cmd+c=copy_to_clipboard
 keybind = cmd+v=paste_from_clipboard
 keybind = shift+enter=text:\x1b\r
-mouse-shift-capture = true
 macos-titlebar-style = tabs
 auto-update = download
 auto-update-channel = stable

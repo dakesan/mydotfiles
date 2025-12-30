@@ -746,3 +746,5 @@ if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
     . "$HOME/miniforge3/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
+
+alias claude-mem='bun "/Users/oodakemac/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'

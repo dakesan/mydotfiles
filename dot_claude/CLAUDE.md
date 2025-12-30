@@ -32,6 +32,7 @@
 -   Code should be modular, with execution code acting as a wrapper.
 -   Use the `typer` library to create CLI commands.
 
+
 ## 日本語ドキュメントのフォーマット
 
 ### textlint による自動フォーマット
