@@ -180,5 +180,6 @@
   },
   "alwaysThinkingEnabled": true,
   "promptSuggestionEnabled": false,
-  "projects": {}
+  "projects": {},
+  "outputStyle": "explanatory"
 }
