@@ -93,3 +93,16 @@ vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHol
     end
   end,
 })
+
+-- 保存前にディレクトリがなければ作成
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function(event)
+    local file = event.match
+    local dir = vim.fn.fnamemodify(file, ":p:h")
+
+    if vim.fn.isdirectory(dir) == 0 then
+      vim.fn.mkdir(dir, "p")
+    end
+  end,
+})

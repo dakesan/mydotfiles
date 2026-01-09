@@ -16,6 +16,8 @@ pandoc = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@google/gemini-cli" = "latest"
 
+"github:prefix-dev/pixi" = "latest"
+
 fzf = "latest"
 ripgrep = "latest"
 fd = "latest"
@@ -50,3 +52,4 @@ run = "cd $BUILD_DIR && ninja"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
+experimental = true

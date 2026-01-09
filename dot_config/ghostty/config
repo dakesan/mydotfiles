@@ -55,3 +55,4 @@ auto-update = download
 auto-update-channel = stable
 macos-icon = holographic
 macos-icon-frame = plastic
+window-save-state = always
