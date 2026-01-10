@@ -29,7 +29,7 @@
   local grey=$sub
   local cyan=$teal
   local magenta=$mauve
-  
+
   # Custom colors
   local skyblue='#87CEEB'  # Sky blue
   local orange='#FFA500'   # Orange
@@ -153,33 +153,52 @@
   typeset -g POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON=':⇡'
   typeset -g POWERLEVEL9K_VCS_{COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=1
 
-  # Custom Git formatter to make text bold while keeping icons normal
-  # Based on p10k-robbyrussell.zsh but with bold text
+  # Disable default formatting and use custom formatter (fast, gitstatus-based)
+  typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
+
+  # ついでに「カウントの抑制」を無効化（将来デフォ形式に戻しても数が出るように）
+  # ※自前フォーマットなら必須ではないけど、参考設定にもある定番
+  typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
+
+  # Formatter: iconは通常、テキスト(ブランチ名+数字)だけ太字
   function _p10k_vcs_bold_formatter() {
     emulate -L zsh
+
+    # gitstatus が取れていない/ロード中などで P9K_CONTENT が来るケースは、そのまま太字表示
     if [[ -n $P9K_CONTENT ]]; then
-      # If P9K_CONTENT is not empty, it's either "loading" or from vcs_info
-      # Wrap text parts in bold but keep icons normal
-      local content="$P9K_CONTENT"
-      # Try to separate icon from text (icon is usually before first space)
-      if [[ "$content" =~ '^([^ ]+)[ ](.+)$' ]]; then
-        # Has icon and text separated by space
-        typeset -g _p10k_vcs_format="${match[1]} %B${match[2]}%b"
-      else
-        # No space found, wrap everything in bold
-        typeset -g _p10k_vcs_format="%B${content}%b"
-      fi
-    else
-      # Use VCS_STATUS_* parameters for gitstatus plugin
-      local icon=$'\uf418'
-      local branch="${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_COMMIT[1,8]}}"
-      local git_status=""  # Changed from 'status' to avoid conflict with zsh's read-only 'status' variable
-      (( VCS_STATUS_NUM_CONFLICTED || VCS_STATUS_NUM_STAGED ||
-         VCS_STATUS_NUM_UNSTAGED   || VCS_STATUS_NUM_UNTRACKED )) && git_status=" *"
-      # Make branch name and status bold, keep icon normal
-      typeset -g _p10k_vcs_format="${icon} %B${branch}${git_status}%b"
+      typeset -g _p10k_vcs_format="%B${P9K_CONTENT}%b"
+      return
     fi
+
+    # --- gitstatus variables (fast) ---
+    # VCS_STATUS_* は gitstatus が提供する公式の状態変数群 :contentReference[oaicite:2]{index=2}
+    local icon=$'\uf418'  # あなたのアイコン（そのまま）
+    local branch="${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_COMMIT[1,8]}}"
+
+    local c_conf=${VCS_STATUS_NUM_CONFLICTED:-0}
+    local c_stg=${VCS_STATUS_NUM_STAGED:-0}
+    local c_unstg=${VCS_STATUS_NUM_UNSTAGED:-0}
+    local c_untrk=${VCS_STATUS_NUM_UNTRACKED:-0}
+
+    local ahead=${VCS_STATUS_COMMITS_AHEAD:-0}
+    local behind=${VCS_STATUS_COMMITS_BEHIND:-0}
+
+    # 表示（0は出さない）
+    local s=""
+    (( c_conf  )) && s+=" !${c_conf}"    # conflicted
+    (( c_stg   )) && s+=" +${c_stg}"     # staged
+    (( c_unstg )) && s+=" ~${c_unstg}"   # unstaged
+    (( c_untrk )) && s+=" ?${c_untrk}"   # untracked
+    (( behind  )) && s+=" ⇣${behind}"    # behind
+    (( ahead   )) && s+=" ⇡${ahead}"     # ahead
+
+    # アイコンは通常、ブランチ名と数字だけ太字
+    typeset -g _p10k_vcs_format="${icon} %B${branch}${s}%b"
   }
+
+  # Install our own Git status formatter. この形が p10k でよく使われる定番 :contentReference[oaicite:3]{index=3}
+  typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((_p10k_vcs_bold_formatter))+${_p10k_vcs_format}}'
+  typeset -g POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((_p10k_vcs_bold_formatter))+${_p10k_vcs_format}}'
   functions -M _p10k_vcs_bold_formatter 2>/dev/null || true
 
   # Disable default formatting and use custom formatter

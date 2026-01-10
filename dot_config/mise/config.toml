@@ -40,6 +40,7 @@ gh = "latest"
 "cargo:procs" = { version = "latest" }
 "cargo:dua-cli" = { version = "latest" }
 "cargo:keifu" = { version = "latest" }
+"cargo:sheldon" = "latest"
 lazygit = { version = "latest", os = ["linux"] }  # mise native support
 
 [tasks.configure]
