@@ -1,6 +1,21 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #* zsh speed checker
 if [ "$ZSHRC_PROFILE" != "" ]; then
   zmodload zsh/zprof && zprof > /dev/null
+fi
+
+#* compinit (MUST be initialized early for compdef to work)
+# Initialize completion system before any plugins that might use compdef
+# Use -C flag to skip security check for faster startup
+if ! type compdef >/dev/null 2>&1; then
+    autoload -Uz compinit
+    compinit -C
 fi
 
 #* Path manipulation functions
@@ -198,10 +213,13 @@ alias zelij=zellij
 #* Prompt
 # disable showing conda environment on prompt
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-# posh theme
-# eval "$(oh-my-posh init zsh --config $poshpath)"
-# Starship
-eval "$(starship init zsh)"
+# Powerlevel10k is loaded via sheldon
+# Set Powerlevel10k config file location to ~/.config/powerlevel10k/p10k.zsh
+export POWERLEVEL9K_CONFIG_FILE="$HOME/.config/powerlevel10k/p10k.zsh"
+# Load Powerlevel10k configuration if it exists
+[[ ! -f "$POWERLEVEL9K_CONFIG_FILE" ]] || source "$POWERLEVEL9K_CONFIG_FILE"
+# Starship is disabled (replaced by Powerlevel10k)
+# eval "$(starship init zsh)"
 #* zoxide
 eval "$(zoxide init zsh --cmd z)"
 function z() {
@@ -611,7 +629,17 @@ fi
 
 #* sheldon
 if command -v sheldon &> /dev/null; then
+    # Source sheldon plugins
+    # compdef is now available for plugins to use
     eval "$(sheldon source)"
+    
+    # Configure zsh-history-substring-search key bindings (fish-like)
+    # Bind up and down arrow keys for history search
+    # Note: These functions are provided by zsh-history-substring-search plugin
+    bindkey '^[[A' history-substring-search-up 2>/dev/null
+    bindkey '^[[B' history-substring-search-down 2>/dev/null
+    bindkey '^P' history-substring-search-up 2>/dev/null
+    bindkey '^N' history-substring-search-down 2>/dev/null
 fi
 
 #* zinit
@@ -686,6 +714,11 @@ if [ -d "$HOME/.bun" ]; then
     path_append "$BUN_INSTALL/bin"
 fi
 
+#* Antigravity
+if [ -d "$HOME/.antigravity/antigravity/bin" ]; then
+    path_append "$HOME/.antigravity/antigravity/bin"
+fi
+
 #* ghcup-env
 if [ -f "$HOME/.ghcup/env" ]; then
     source "$HOME/.ghcup/env"
@@ -719,8 +752,6 @@ fi
 # fi
 #
 setopt autocd
-autoload -Uz compinit
-compinit
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 

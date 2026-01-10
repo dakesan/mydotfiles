@@ -179,7 +179,10 @@
     "slack@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "dnawork-skills@cc-dnawork-plugin": true,
-    "marimo-skills@cc-marimo": true
+    "marimo-skills@cc-marimo": true,
+    "frontend-design@claude-plugins-official": true,
+    "serena@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true
   },
   "outputStyle": "explanatory",
   "language": "Japanese",

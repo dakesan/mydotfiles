@@ -36,9 +36,10 @@ gh = "latest"
 "ubi:Byron/dua-cli" = { version = "latest", os = ["macos"], exe = "dua" }
 
 # Linux: Use cargo to build from source
-"cargo:bottom" = { version = "latest", os = ["linux"] }  # btm
-"cargo:procs" = { version = "latest", os = ["linux"] }
-"cargo:dua-cli" = { version = "latest", os = ["linux"] }
+"cargo:bottom" = { version = "latest" }
+"cargo:procs" = { version = "latest" }
+"cargo:dua-cli" = { version = "latest" }
+"cargo:keifu" = { version = "latest" }
 lazygit = { version = "latest", os = ["linux"] }  # mise native support
 
 [tasks.configure]

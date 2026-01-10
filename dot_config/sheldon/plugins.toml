@@ -1,0 +1,27 @@
+# Sheldon plugins configuration for zsh
+# This configuration provides similar functionality to fish shell
+
+shell = "zsh"
+
+[plugins]
+
+# Powerlevel10k - Fast and highly customizable prompt theme
+powerlevel10k = { github = "romkatv/powerlevel10k", use = ["powerlevel10k.zsh-theme"] }
+
+# zsh-completions - Additional completion definitions (load first)
+zsh-completions = { github = "zsh-users/zsh-completions" }
+
+# zsh-autosuggestions - Fish-like autosuggestions (gray suggestions)
+zsh-autosuggestions = { github = "zsh-users/zsh-autosuggestions", use = ["zsh-autosuggestions.zsh"] }
+
+# zsh-history-substring-search - Fish-like history search (up/down arrows)
+zsh-history-substring-search = { github = "zsh-users/zsh-history-substring-search", use = ["zsh-history-substring-search.zsh"] }
+
+# zsh-autocomplete - Fish-like autocomplete (interactive completion)
+zsh-autocomplete = { github = "marlonrichert/zsh-autocomplete", use = ["zsh-autocomplete.plugin.zsh"] }
+
+# fzf-tab - Enhanced tab completion with fzf
+fzf-tab = { github = "Aloxaf/fzf-tab", use = ["fzf-tab.plugin.zsh"] }
+
+# zsh-syntax-highlighting - Fish-like syntax highlighting (MUST be last)
+zsh-syntax-highlighting = { github = "zsh-users/zsh-syntax-highlighting", use = ["zsh-syntax-highlighting.zsh"] }
