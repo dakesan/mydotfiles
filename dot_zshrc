@@ -162,14 +162,6 @@ function is_ubuntu() {
         export BNB_CUDA_VERSION=128
         export LD_LIBRARY_PATH="/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH"
 
-        # miniforge3
-        if [ -f "$HOME/miniforge3/bin/conda" ]; then
-            eval "$("$HOME/miniforge3/bin/conda" shell.zsh hook)"
-        fi
-
-        if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
-            source "$HOME/miniforge3/etc/profile.d/mamba.sh"
-        fi
     fi
 }
 
@@ -772,10 +764,6 @@ else
     fi
 fi
 unset __conda_setup
-
-if [ -f "$HOME/miniforge3/etc/profile.d/mamba.sh" ]; then
-    . "$HOME/miniforge3/etc/profile.d/mamba.sh"
-fi
 # <<< conda initialize <<<
 
 alias claude-mem='bun "/Users/oodakemac/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
